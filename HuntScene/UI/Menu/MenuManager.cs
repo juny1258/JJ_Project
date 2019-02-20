@@ -33,6 +33,28 @@ public class MenuManager : MonoBehaviour
         UIAudio = GetComponent<AudioSource>();
     }
 
+    public void OpenTab(int i1, int i2)
+    {
+        PlaySound();
+        DataController.Instance.isMenuOpen = true;
+        MenuBackground.SetActive(true);
+        
+        foreach (var tab in Tab)
+        {
+            tab.SetActive(false);
+        }
+
+        foreach (var menu in Menu)
+        {
+            menu.SetActive(false);
+        }
+        
+        Menu[i1].SetActive(true);
+        
+        Tab[i2].SetActive(true);
+        SelectTab(i2);
+    } 
+
     public void Open(int i)
     {
         PlaySound();

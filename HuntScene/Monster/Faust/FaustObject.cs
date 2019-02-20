@@ -322,7 +322,7 @@ public class FaustObject : MonoBehaviour
 
     private void EndGame()
     {
-        for (int i = 0; i < 500; i++)
+        for (int i = 0; i < 20; i++)
         {
             if (damageReceived < 1000000)
             {
@@ -330,7 +330,7 @@ public class FaustObject : MonoBehaviour
                 break;
             }
 
-            if (damageReceived > 1000000 * Math.Pow(2, i))
+            if (damageReceived > 1000000 * Math.Pow(3, i))
             {
                 rewardLevel++;
             }

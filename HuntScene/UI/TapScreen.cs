@@ -77,7 +77,15 @@ public class TapScreen : MonoBehaviour
                 SpawnPoint.z = 0;
                 Instantiate(SkillObjects[DataController.Instance.skillIndex], SpawnPoint2, Quaternion.identity);
                 skill.transform.SetParent(Stones);
-                AttackAnimation2.Play("Attack" + DataController.Instance.costumeIndex, 0, 0);
+
+                if (DataController.Instance.skinIndex == 0)
+                {
+                    AttackAnimation2.Play("Attack" + DataController.Instance.costumeIndex, 0, 0);   
+                }
+                else
+                {
+                    AttackAnimation2.Play("SkinAttack" + DataController.Instance.skinIndex, 0, 0);
+                }
             }
 
             if (!DataController.Instance.isAnger)
@@ -114,7 +122,14 @@ public class TapScreen : MonoBehaviour
                 DataController.Instance.isAnger = true;
             }
 
-            AttackAnimation.Play("Attack" + DataController.Instance.costumeIndex, 0, 0);
+            if (DataController.Instance.skinIndex == 0)
+            {
+                AttackAnimation.Play("Attack" + DataController.Instance.costumeIndex, 0, 0);   
+            }
+            else
+            {
+                AttackAnimation.Play("SkinAttack" + DataController.Instance.skinIndex, 0, 0);
+            }
         }
     }
 

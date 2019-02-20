@@ -10,8 +10,11 @@ public class FlyingReward : MonoBehaviour
 
 	private void OnMouseUp()
 	{
-		RewardPanel.SetActive(true);
-		MoveAnimation.Play("Idle", 0, 0);
-		Time.timeScale = 0;
+		if (!DataController.Instance.isMenuOpen)
+		{
+			RewardPanel.SetActive(true);
+			MoveAnimation.Play("Idle", 0, 0);
+			Time.timeScale = 0;	
+		}
 	}
 }

@@ -4,6 +4,19 @@ using UnityEngine;
 
 public class OpenMenu : MonoBehaviour
 {
+	public void OpenTab(int index)
+	{
+		if (DataController.Instance.isFight)
+		{
+			NotificationManager.Instance.SetNotification("사냥중에는 메뉴를 열 수 없습니다.");
+		}
+		else
+		{
+			MenuManager.Instance.OpenTab(3, index);
+		}
+		
+	}
+	
 	public void MenuOpen(int index)
 	{
 		if (DataController.Instance.isFight)

@@ -18,7 +18,11 @@ public class RebirthAnimation : MonoBehaviour
 
     public Transform Stones;
 
-    private float rewardRebirthStone = 100;
+    private float[] rewardRebirthStone =
+    {
+        450, 700, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000,
+        9000, 10000, 11500, 13000
+    };
 
     private float delay = 0.5f;
 
@@ -81,10 +85,11 @@ public class RebirthAnimation : MonoBehaviour
         // TODO 환생 시 데이터 초기화 및 UI 세팅
 
         DataController.Instance.rebirthStone +=
-            (float) (rewardRebirthStone * Math.Pow(5, DataController.Instance.rebirthLevel - 1))
-            * (DataController.Instance.collectionRebirthRising + DataController.Instance.advancedRebirthPer);
-        
-        DataController.Instance.rebirthLevel = 0;
+            rewardRebirthStone[DataController.Instance.rebirthLevel - 1] * 
+            (DataController.Instance.collectionRebirthRising + 
+             DataController.Instance.advancedRebirthPer);
+
+        DataController.Instance.nowRebirthLevel++;
 
         foreach (var light in Lights)
         {

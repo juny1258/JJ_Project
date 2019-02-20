@@ -59,43 +59,43 @@ public class AdvancedItemButton : MonoBehaviour
                     {
                         case 0:
                             DataController.Instance.advancedDamage += 0.05f;
-                            ItemImage.sprite = Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                            ItemImage.sprite = Resources.Load("UI/AdvancedItem/relic" + randInt, typeof(Sprite)) as Sprite;
                             ItemInfoText.text = "공격력 + 5%\n" + "공격력 + 5%";
                             break;
                         case 1:
                             DataController.Instance.advancedFaustDamage += 0.05f;
-                            ItemImage.sprite = Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                            ItemImage.sprite = Resources.Load("UI/AdvancedItem/relic" + randInt, typeof(Sprite)) as Sprite;
                             ItemInfoText.text = "공격력 + 5%\n" + "파우스트 공격력 + 5%";
                             break;
                         case 2:
                             DataController.Instance.advancedHp += 0.04f;
-                            ItemImage.sprite = Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                            ItemImage.sprite = Resources.Load("UI/AdvancedItem/relic" + randInt, typeof(Sprite)) as Sprite;
                             ItemInfoText.text = "공격력 + 5%\n" + "체력 + 4%";
                             break;
                         case 3:
                             DataController.Instance.advancedAutoTap -= 0.06f;
-                            ItemImage.sprite = Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                            ItemImage.sprite = Resources.Load("UI/AdvancedItem/relic" + randInt, typeof(Sprite)) as Sprite;
                             ItemInfoText.text = "공격력 + 5%\n" + "자동클릭 시간 감소 + 0.3%";
                             break;
                         case 4:
                             DataController.Instance.advancedCriticalPer += 1f;
-                            ItemImage.sprite = Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                            ItemImage.sprite = Resources.Load("UI/AdvancedItem/relic" + randInt, typeof(Sprite)) as Sprite;
                             ItemInfoText.text = "공격력 + 5%\n" + "크리티컬 확률 + 1%";
                             break;
                         case 5:
                             DataController.Instance.advancedCriticalRising += 0.05f;
-                            ItemImage.sprite = Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                            ItemImage.sprite = Resources.Load("UI/AdvancedItem/relic" + randInt, typeof(Sprite)) as Sprite;
                             ItemInfoText.text = "공격력 + 5%\n" + "크리티컬 데미지 + 5%";
                             break;
                         case 6:
                             DataController.Instance.advancedRebirthPer += 0.02f;
-                            ItemImage.sprite = Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                            ItemImage.sprite = Resources.Load("UI/AdvancedItem/relic" + randInt, typeof(Sprite)) as Sprite;
                             ItemInfoText.text = "공격력 + 5%\n" + "환생석 획득량 + 2%";
                             break;
                         case 7:
                             DataController.Instance.advancedAngerDamage += 0.03f;
 
-                            ItemImage.sprite = Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                            ItemImage.sprite = Resources.Load("UI/AdvancedItem/relic" + randInt, typeof(Sprite)) as Sprite;
                             ItemInfoText.text = "공격력 + 5%\n" + "분노 데미지 + 3%";
                             break;
                     }

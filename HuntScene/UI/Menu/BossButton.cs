@@ -28,14 +28,18 @@ public class BossButton : MonoBehaviour {
 	
 	public void StartGame()
 	{
-		if (PlayerPrefs.GetFloat("BossCoolTime_" + index, 0) <= 0)
+		if (!DataController.Instance.isFight)
 		{
-			MoveSceneAnimator.Play("MoveScene", 0, 0);
-			Invoke("StartHunt", 0.5f);
-		}
-		else
-		{
-			NotificationManager.Instance.SetNotification("지금은 입장할 수 없습니다.");
+			if (PlayerPrefs.GetFloat("BossCoolTime_" + index, 0) <= 0)
+			{
+				DataController.Instance.isFight = true;
+				MoveSceneAnimator.Play("MoveScene", 0, 0);
+				Invoke("StartHunt", 0.5f);
+			}
+			else
+			{
+				NotificationManager.Instance.SetNotification("지금은 입장할 수 없습니다.");
+			}
 		}
 	}
 	
@@ -44,7 +48,6 @@ public class BossButton : MonoBehaviour {
 		DataController.Instance.bossLevel = index;
 		RockObject.SetActive(false);
 		BossSpwan.SetActive(true);
-		DataController.Instance.isFight = true;
 		MenuManager.Instance.Close();
 	}
 

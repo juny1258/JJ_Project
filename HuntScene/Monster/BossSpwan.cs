@@ -17,18 +17,18 @@ public class BossSpwan : MonoBehaviour
 
     private int index;
 
-    private float startHP = 500000;
+    private float startHP = 250000;
 
-    public static float gold = 1500000;
+    public static float gold = 500000;
 
     public static float[] ruby =
     {
-        8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30
+        3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25
     };
 
     public static float[] sapphire =
     {
-        4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+        2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
     };
 
     private void OnEnable()
@@ -89,8 +89,6 @@ public class BossSpwan : MonoBehaviour
             if (DataController.Instance.finalBossLevel == DataController.Instance.bossLevel)
             {
                 DataController.Instance.finalBossLevel = DataController.Instance.bossLevel + 1;
-
-                DataController.Instance.finalClearBoss = DataController.Instance.bossLevel + 1;
 
                 if (DataController.Instance.bossLevel == DataController.Instance.masterCostumeIndex)
                 {

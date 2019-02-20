@@ -90,17 +90,17 @@ public class TimeManager : MonoBehaviour
                                                                   DataController.Instance.collectionGoldRising) +
                             "G 획득!!";
 
-                        if ( DataController.Instance.skipCoupon < 1)
+                        if ( DataController.Instance.skipCoupon == 0)
                         {
                             DataController.Instance.couponTime = 1800;
                             DataController.Instance.skipCoupon += 3;
                         }
-                        else if (DataController.Instance.skipCoupon < 2)
+                        else if (DataController.Instance.skipCoupon == 1)
                         {
                             DataController.Instance.couponTime = 1800;
                             DataController.Instance.skipCoupon += 2;
                         }
-                        else if (DataController.Instance.skipCoupon < 3)
+                        else if (DataController.Instance.skipCoupon == 2)
                         {
                             DataController.Instance.couponTime = 1800;
                             DataController.Instance.skipCoupon += 1;
@@ -124,7 +124,7 @@ public class TimeManager : MonoBehaviour
                                                                   DataController.Instance.collectionGoldRising) +
                             "G 획득!!";
 
-                        if (rewardTime < 1800)
+                        if (rewardTime < 1800 && DataController.Instance.couponTime < 3)
                         {
                             DataController.Instance.couponTime -= rewardTime;
                         }
@@ -172,17 +172,17 @@ public class TimeManager : MonoBehaviour
                                                                   DataController.Instance.collectionGoldRising) +
                             "G 획득!!";
                         
-                        if ( DataController.Instance.skipCoupon < 1)
+                        if ( DataController.Instance.skipCoupon == 0)
                         {
                             DataController.Instance.couponTime = 1800;
                             DataController.Instance.skipCoupon += 3;
                         }
-                        else if (DataController.Instance.skipCoupon < 2)
+                        else if (DataController.Instance.skipCoupon == 1)
                         {
                             DataController.Instance.couponTime = 1800;
                             DataController.Instance.skipCoupon += 2;
                         }
-                        else if (DataController.Instance.skipCoupon < 3)
+                        else if (DataController.Instance.skipCoupon == 2)
                         {
                             DataController.Instance.couponTime = 1800;
                             DataController.Instance.skipCoupon += 1;
@@ -206,7 +206,7 @@ public class TimeManager : MonoBehaviour
                                                                   DataController.Instance.collectionGoldRising) +
                             "G 획득!!";
                         
-                        if (compensationTime < 1800)
+                        if (compensationTime < 1800 && DataController.Instance.couponTime < 3)
                         {
                             DataController.Instance.couponTime -= compensationTime;
                         }
@@ -319,6 +319,8 @@ public class TimeManager : MonoBehaviour
                     "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
 
                 AttendancePanel.SetActive(PlayerPrefs.GetInt("FirstOpenGame", 0) != 0);
+
+                DataController.Instance.faustCount = 10;
             }
             else
             {
@@ -338,6 +340,7 @@ public class TimeManager : MonoBehaviour
                             "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
                     
                         AttendancePanel.SetActive(PlayerPrefs.GetInt("FirstOpenGame", 0) != 0);
+                        DataController.Instance.faustCount = 10;
                     }
                     else
                     {
@@ -351,6 +354,7 @@ public class TimeManager : MonoBehaviour
                             "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
                     
                         AttendancePanel.SetActive(PlayerPrefs.GetInt("FirstOpenGame", 0) != 0);
+                        DataController.Instance.faustCount = 10;
                     }
                 }
                 else if (serverTime - DataController.Instance.lastAttendance == 0)
@@ -370,6 +374,7 @@ public class TimeManager : MonoBehaviour
                         "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
                     
                     AttendancePanel.SetActive(PlayerPrefs.GetInt("FirstOpenGame", 0) != 0);
+                    DataController.Instance.faustCount = 10;
                 }
             }
 

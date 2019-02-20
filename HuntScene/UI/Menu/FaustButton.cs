@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FaustButton : MonoBehaviour
 {
@@ -14,11 +15,27 @@ public class FaustButton : MonoBehaviour
 
 	public GameObject BossBackground;
 	public GameObject NomalBackground;
-	
+
+	private void OnEnable()
+	{
+		GetComponentInChildren<Text>().text = "도전하기(" + DataController.Instance.faustCount + "/10)";
+	}
+
 	public void StartGame()
 	{
-		MoveSceneAnimator.Play("MoveScene", 0, 0);
-		Invoke("FightFaust", 0.5f);
+		if (!DataController.Instance.isFight)
+		{
+			if (DataController.Instance.faustCount > 0)
+			{
+				DataController.Instance.isFight = true;
+				MoveSceneAnimator.Play("MoveScene", 0, 0);
+				Invoke("FightFaust", 0.5f);
+			}
+			else
+			{
+				NotificationManager.Instance.SetNotification("도전 횟수가 부족합니다.");
+			}	
+		}
 	}
 	
 	private void FightFaust()
@@ -29,7 +46,7 @@ public class FaustButton : MonoBehaviour
 		BackgroundSound.Play();
 		RockObject.SetActive(false);
 		FaustObject.SetActive(true);
-		DataController.Instance.isFight = true;
+		DataController.Instance.faustCount--;
 		MenuManager.Instance.Close();
 	}
 }

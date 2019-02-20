@@ -10,11 +10,15 @@ public class RebirthOK : MonoBehaviour
 
     public Text RewardText;
 
-    private int rewardRebirthStone = 100;
+    private float[] rewardRebirthStone =
+    {
+        450, 700, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000,
+        9000, 10000, 11500, 13000
+    };
 
     private void OnEnable()
     {
-        RewardText.text = "+ " + (float) (rewardRebirthStone * Math.Pow(5, DataController.Instance.rebirthLevel - 1))
+        RewardText.text = "+ " + rewardRebirthStone[DataController.Instance.rebirthLevel-1]
                           * (DataController.Instance.collectionRebirthRising +
                              DataController.Instance.advancedRebirthPer);
     }

@@ -38,7 +38,7 @@ public class OpenGoldRisingPanel : MonoBehaviour
 
     private void Update()
     {
-        if (DataController.Instance.useGoldBuff == 2)
+        if (DataController.Instance.useGoldBuff == 1.5f && !DataController.Instance.isMenuOpen)
         {
             DataController.Instance.goldBuffTime -= Time.deltaTime;
             var min = (int) DataController.Instance.goldBuffTime / 60;

@@ -11,7 +11,7 @@ public class RebirthButton : MonoBehaviour
     {
         if (!DataController.Instance.isFight)
         {
-            if (DataController.Instance.rebirthLevel > 0)
+            if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel > 0)
             {
                 RebirthPanel.SetActive(true);
             }

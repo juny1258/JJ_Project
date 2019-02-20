@@ -22,8 +22,8 @@ public class UIManager : MonoBehaviour
 
     public Image PlayerStateImage;
 
-    public Animator Player;
-    public Animator ShadowPlayer;
+    public Transform Panels;
+    public GameObject MenuPanel;
 
     public Animator FlyingRewardAnimation;
 
@@ -47,21 +47,35 @@ public class UIManager : MonoBehaviour
             Invoke("StopAutoClick", 180 + 30 * DataController.Instance.autoClickLevel);
         };
 
-        // 코스튬 교체
-        PlayerStateImage.sprite =
-            Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
-                typeof(Sprite)) as Sprite;
-        Player.Play("Attack" + DataController.Instance.costumeIndex, 0, 1f);
-        ShadowPlayer.Play("Attack" + DataController.Instance.costumeIndex, 0, 1f);
+        // 실행 시 현재 코스튬 적용
+        if (DataController.Instance.skinIndex == 0)
+        {
+            PlayerStateImage.sprite =
+                Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
+                    typeof(Sprite)) as Sprite;   
+        }
+        else
+        {
+            PlayerStateImage.sprite =
+                Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
+                    typeof(Sprite)) as Sprite;
+        }
 
         EventManager.SelectCostumeEvent += () =>
         {
             // 코스튬 교체 이벤트
-            PlayerStateImage.sprite =
-                Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
-                    typeof(Sprite)) as Sprite;
-            Player.Play("Attack" + DataController.Instance.costumeIndex, 0, 1f);
-            ShadowPlayer.Play("Attack" + DataController.Instance.costumeIndex, 0, 1f);
+            if (DataController.Instance.skinIndex == 0)
+            {
+                PlayerStateImage.sprite =
+                    Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
+                        typeof(Sprite)) as Sprite;   
+            }
+            else
+            {
+                PlayerStateImage.sprite =
+                    Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
+                        typeof(Sprite)) as Sprite;
+            }
         };
         
         InvokeRepeating("FlyRewardPlay", 60, 180);
@@ -134,6 +148,25 @@ public class UIManager : MonoBehaviour
             {
                 PlayerPrefs.SetFloat("BossCoolTime_" + i,
                     PlayerPrefs.GetFloat("BossCoolTime_" + i, 0) - Time.deltaTime);
+            }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            var i = 0;
+            foreach (Transform panel in Panels)
+            {
+                if (!panel.gameObject.active)
+                {
+                    i++;
+                    if (i == 14)
+                    {
+                        if (!MenuPanel.active)
+                        {
+                            Application.Quit();
+                        }
+                    }
+                }
             }
         }
     }

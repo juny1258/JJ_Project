@@ -24,18 +24,18 @@ public class MonsterSpwan : MonoBehaviour
 
     private bool isBossSpwan;
 
-    private float startHP = 10000;
+    private float startHP = 5000;
 
-    public static float gold = 300000;
+    public static float gold = 100000;
 
     public static float[] ruby =
     {
-        5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+        2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
     };
 
     public static float[] sapphire =
     {
-        3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10
+        1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10
     };
 
     private bool isMonsterActive;
@@ -76,7 +76,7 @@ public class MonsterSpwan : MonoBehaviour
     {
         if (isMonsterActive && DataController.Instance.Monsters.childCount == 0 && initMonsters == 8)
         {
-            if (DataController.Instance.nowStage < 5)
+            if (DataController.Instance.nowStage < 3)
             {
                 DataController.Instance.nowStage++;
                 initMonsters = 0;
@@ -113,8 +113,6 @@ public class MonsterSpwan : MonoBehaviour
                 // 마지막 사냥터 클리어 성공
                 
                 DataController.Instance.finalHuntLevel = DataController.Instance.huntLevel + 1;
-
-                DataController.Instance.finalClearHunt = DataController.Instance.huntLevel + 1;
                 
                 print(DataController.Instance.huntLevel + ", " + DataController.Instance.masterSkillIndex);
 
@@ -189,15 +187,15 @@ public class MonsterSpwan : MonoBehaviour
             yield return new WaitForSeconds(0.8f);
         }
 
-        if (DataController.Instance.nowStage == 5)
+        if (DataController.Instance.nowStage == 3)
         {
             var monster = Instantiate(BigMonsters[DataController.Instance.huntLevel],
                 new Vector3(transform.position.x + 2.5f, transform.position.y, randPositionZ * 0.00001f),
                 Quaternion.identity);
 
             monster.GetComponent<MonsterManager>().SetMonsterAvility(
-                (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel) * 4),
-                (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel)) / 2);
+                (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel) * 3),
+                (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel)) / 1.5f);
 
             monster.transform.SetParent(DataController.Instance.Monsters);
         }
@@ -222,7 +220,7 @@ public class MonsterSpwan : MonoBehaviour
 
     public void StartHunt()
     {
-        if (DataController.Instance.nowStage > 5)
+        if (DataController.Instance.nowStage > 3)
         {
             EndHunt(true);
         }

@@ -18,7 +18,7 @@ public class UseGoldBuff : MonoBehaviour {
 
     private void OnEnable()
     {
-        InfoText.text = 180 + 30 * DataController.Instance.goldBuffLevel + "초 동안 결계석 획득량 2배";
+        InfoText.text = 180 + 30 * DataController.Instance.goldBuffLevel + "초 동안 결계석 획득량 1.5배";
         if (index == 0)
         {
             PotionCountText.text = DataController.Instance.goldBuffPotion.ToString();   
@@ -47,7 +47,7 @@ public class UseGoldBuff : MonoBehaviour {
     {
         // 자동공격 시작
         DataController.Instance.goldBuffTime = 180 + 30 * DataController.Instance.goldBuffLevel;
-        DataController.Instance.useGoldBuff = 2;
+        DataController.Instance.useGoldBuff = 1.5f;
 
         // 물약 사용 횟수 증가
         DataController.Instance.goldBuffIndex++;

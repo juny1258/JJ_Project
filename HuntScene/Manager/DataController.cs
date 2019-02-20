@@ -77,7 +77,7 @@ public class DataController : MonoBehaviour
 
     public float goldBuffTime;
     
-    public int useGoldBuff = 1;
+    public float useGoldBuff = 1;
     
     public int goldBuffIndex
     {
@@ -94,6 +94,13 @@ public class DataController : MonoBehaviour
     
     // 튜토리얼 진행 여부
     public bool isTutorial;
+    
+    // 파우스트 도전 가능 횟수
+    public int faustCount
+    {
+        get { return PlayerPrefs.GetInt("FaustCount", 0); }
+        set { PlayerPrefs.SetInt("FaustCount", value); }
+    }
     
     // 업적
 
@@ -146,18 +153,6 @@ public class DataController : MonoBehaviour
     {
         get { return PlayerPrefs.GetInt("AdvancedItemBoxLevel", 0); }
         set { PlayerPrefs.SetInt("AdvancedItemBoxLevel", value); }
-    }
-
-    public int finalClearHunt
-    {
-        get { return PlayerPrefs.GetInt("FinalClearHunt", 0); }
-        set { PlayerPrefs.SetInt("FinalClearHunt", value); }
-    }
-
-    public int finalClearBoss
-    {
-        get { return PlayerPrefs.GetInt("FinalClearBoss", 0); }
-        set { PlayerPrefs.SetInt("FinalClearBoss", value); }
     }
 
     public bool isFight;
@@ -291,6 +286,12 @@ public class DataController : MonoBehaviour
     {
         get { return PlayerPrefs.GetInt("RebirthLevel", 0); }
         set { PlayerPrefs.SetInt("RebirthLevel", value); }
+    }
+
+    public int nowRebirthLevel
+    {
+        get { return PlayerPrefs.GetInt("NowRebirthLevel", 0); }
+        set { PlayerPrefs.SetInt("NowRebirthLevel", value); }
     }
 
     // 메피의 능력치
@@ -598,6 +599,12 @@ public class DataController : MonoBehaviour
     {
         get { return PlayerPrefs.GetInt("SkillIndex", 0); }
         set { PlayerPrefs.SetInt("SkillIndex", value); }
+    }
+
+    public int skinIndex
+    {
+        get { return PlayerPrefs.GetInt("SkinIndex", 0); }
+        set { PlayerPrefs.SetInt("SkinIndex", value); }
     }
     
     public int masterCostumeIndex
