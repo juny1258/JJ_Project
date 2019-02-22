@@ -111,28 +111,32 @@ public class GetItemButton : MonoBehaviour
 
                 DataController.Instance.collectionDamage += 0.03f;
                 PlayerPrefs.SetInt("CollectionItem_" + randInt, PlayerPrefs.GetInt("CollectionItem_" + randInt) + 1);
-                
-                if (DataController.Instance.relicCount == 0)
+
+                if (Social.localUser.authenticated)
                 {
-                    Social.ReportProgress(GPGSIds.achievement_relic_acquisition, 100f, isSuccess =>
+                    if (DataController.Instance.relicCount == 0)
                     {
-                        if (isSuccess)
+                        Social.ReportProgress(GPGSIds.achievement_relic_acquisition, 100f, isSuccess =>
                         {
-                            DataController.Instance.ruby += 50;
-                            NotificationManager.Instance.SetNotification2("[업적 달성] 루비 50개 획득!!");
+                            if (isSuccess)
+                            {
+                                DataController.Instance.ruby += 50;
+                                NotificationManager.Instance.SetNotification2("[업적 달성] 루비 50개 획득!!");
+                            }
+                        });
+                    }
+
+                    Social.ReportScore(DataController.Instance.relicCount, GPGSIds.leaderboard_5, success =>
+                    {
+                        if (success)
+                        {
+                            print("Success");
                         }
-                    });   
+                    });
                 }
 
+
                 DataController.Instance.relicCount++;
-                
-                Social.ReportScore(DataController.Instance.relicCount, GPGSIds.leaderboard_5, success =>
-                {
-                    if (success)
-                    {
-                        print("Success");
-                    }
-                });
 
                 DataController.Instance.UpdateDamage();
                 DataController.Instance.UpdateCritical();
@@ -152,7 +156,7 @@ public class GetItemButton : MonoBehaviour
             NotificationManager.Instance.SetNotification("루비가 부족합니다.");
         }
     }
-    
+
     public void OnPurchaseItem2()
     {
         if (DataController.Instance.sapphire >= 100)
@@ -254,7 +258,7 @@ public class GetItemButton : MonoBehaviour
 
                 DataController.Instance.collectionDamage += 0.03f;
                 PlayerPrefs.SetInt("CollectionItem_" + randInt, PlayerPrefs.GetInt("CollectionItem_" + randInt) + 1);
-                
+
                 if (DataController.Instance.relicCount == 0)
                 {
                     Social.ReportProgress(GPGSIds.achievement_relic_acquisition, 100f, isSuccess =>
@@ -264,11 +268,11 @@ public class GetItemButton : MonoBehaviour
                             DataController.Instance.ruby += 50;
                             NotificationManager.Instance.SetNotification2("[업적 달성] 루비 50개 획득!!");
                         }
-                    });   
+                    });
                 }
 
                 DataController.Instance.relicCount++;
-                
+
                 Social.ReportScore(DataController.Instance.relicCount, GPGSIds.leaderboard_5, success =>
                 {
                     if (success)

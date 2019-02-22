@@ -143,7 +143,7 @@ public class BestRank : MonoBehaviour
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("데이터 없음");
+                    NotificationManager.Instance.SetNotification("인터넷 연결을 확인해주세요.");
                 }
             });
 

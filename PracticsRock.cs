@@ -37,9 +37,6 @@ public class PracticsRock : MonoBehaviour
 
     private void OnEnable()
     {
-        DataController.Instance.nowRebirthLevel = 10;
-        DataController.Instance.rebirthLevel = 10;
-        
         GoldPosition = new Vector3(4.8f, -1.45f, 0);
         TextPosition = new Vector3(5.7f, 1f, 0);
 

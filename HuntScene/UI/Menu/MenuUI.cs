@@ -13,6 +13,9 @@ public class MenuUI : MonoBehaviour
     public Text DevilStoneView;
     public Text RebirthStoneView;
     public Text SkipCouponView;
+    
+    public Slider HpSlider;
+    public Text HpText;
 
     public Transform Panels;
     public GameObject RankPanel;
@@ -38,6 +41,11 @@ public class MenuUI : MonoBehaviour
         DevilStoneView.text = Math.Round(DataController.Instance.devilStone, 0).ToString();
         RebirthStoneView.text = Math.Round(DataController.Instance.rebirthStone, 0).ToString();
         SkipCouponView.text = Math.Round(DataController.Instance.skipCoupon, 0).ToString();
+        
+        HpSlider.maxValue = DataController.Instance.GetPlayerHP();
+        HpSlider.value = DataController.Instance.nowPlayerHP;
+        HpText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.GetPlayerHP()) + "/" +
+                      DataController.Instance.FormatGoldTwo(DataController.Instance.nowPlayerHP);
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {

@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     public int BossIndex;
 
     public Image PlayerStateImage;
+    public Image PlayerStateImage1;
 
     public Transform Panels;
     public GameObject MenuPanel;
@@ -53,11 +54,19 @@ public class UIManager : MonoBehaviour
         {
             PlayerStateImage.sprite =
                 Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
-                    typeof(Sprite)) as Sprite;   
+                    typeof(Sprite)) as Sprite;  
+            
+            PlayerStateImage1.sprite =
+                Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
+                    typeof(Sprite)) as Sprite;  
         }
         else
         {
             PlayerStateImage.sprite =
+                Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
+                    typeof(Sprite)) as Sprite;
+            
+            PlayerStateImage1.sprite =
                 Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
                     typeof(Sprite)) as Sprite;
         }
@@ -69,11 +78,19 @@ public class UIManager : MonoBehaviour
             {
                 PlayerStateImage.sprite =
                     Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
-                        typeof(Sprite)) as Sprite;   
+                        typeof(Sprite)) as Sprite;  
+                
+                PlayerStateImage1.sprite =
+                    Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
+                        typeof(Sprite)) as Sprite; 
             }
             else
             {
                 PlayerStateImage.sprite =
+                    Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
+                        typeof(Sprite)) as Sprite;
+                
+                PlayerStateImage1.sprite =
                     Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
                         typeof(Sprite)) as Sprite;
             }

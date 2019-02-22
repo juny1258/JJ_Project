@@ -10,15 +10,6 @@ public class RecordTime : MonoBehaviour {
 	// Use this for initialization
 	void Start()
 	{
-		PlayGamesPlatform.Activate();
-		Social.localUser.Authenticate(isSuccess =>
-		{
-			if (!isSuccess)
-			{
-				NotificationManager.Instance.SetNotification("구글 플레이 게임 서비스 로그인 실패");
-			}
-		});
-
 		InvokeRepeating("RecordPlayTime", 30f, 30f);
 	}
 

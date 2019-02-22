@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
 {
     private Slider HpSlider;
     private Text HpText;
-    private Text MonsterNameText;
 
     private Vector3 TextPosition;
 
@@ -19,15 +18,15 @@ public class Player : MonoBehaviour
         {
             CombatTextManager.Instance.CreateText(TextPosition, DataController.Instance.FormatGoldTwo(damage),
                 false);
-            
+
             Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
         };
-        
+
         EventManager.BossAttackEvent += damage =>
         {
             CombatTextManager.Instance.CreateText(TextPosition, DataController.Instance.FormatGoldTwo(damage),
                 true);
-            
+
             Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
         };
     }
@@ -46,7 +45,7 @@ public class Player : MonoBehaviour
         // TODO 스킨 입혔을 때 스킨으로 표시해주는 것
         if (DataController.Instance.skinIndex == 0)
         {
-            GetComponent<Animator>().Play("Attack" + DataController.Instance.costumeIndex, 0, 1);   
+            GetComponent<Animator>().Play("Attack" + DataController.Instance.costumeIndex, 0, 1);
         }
         else
         {
