@@ -15,6 +15,7 @@ public class MenuUI : MonoBehaviour
     public Text SkipCouponView;
 
     public Transform Panels;
+    public GameObject RankPanel;
 
     private void OnEnable()
     {
@@ -46,7 +47,7 @@ public class MenuUI : MonoBehaviour
                 if (!panel.gameObject.active)
                 {
                     i++;
-                    if (i == Panels.childCount)
+                    if (i == Panels.childCount && !RankPanel.active)
                     {
                         gameObject.SetActive(false);
                     }

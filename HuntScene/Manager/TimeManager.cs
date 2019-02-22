@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using Firebase;
+using Firebase.Database;
+using Firebase.Unity.Editor;
+using GooglePlayGames;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +27,17 @@ public class TimeManager : MonoBehaviour
     {
         50, 80, 120, 150, 200, 250, 300
     };
+    
+    private DatabaseReference reference;
+    private DatabaseReference userReference;
+
+    private void Awake()
+    {
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://devilhunter-b89af.firebaseio.com/");
+        // 엉
+        userReference = FirebaseDatabase.DefaultInstance.RootReference.Child("Rank");
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
+    }
 
     void Start()
     {
@@ -41,6 +56,32 @@ public class TimeManager : MonoBehaviour
         }
 
         print("시간 -> sec : " + DataController.Instance.lastPlayTime);
+        var user = new UserRankData
+        {
+            costumeIndex = DataController.Instance.costumeIndex,
+            skinIndex =  DataController.Instance.skinIndex
+        };
+        
+        var json = JsonUtility.ToJson(user);
+        
+        print(PlayGamesPlatform.Instance.localUser.id);
+        
+        print(json);
+
+        if (PlayGamesPlatform.Instance.localUser.id != "")
+        {
+            userReference.Child(PlayGamesPlatform.Instance.localUser.id).SetRawJsonValueAsync(json).ContinueWith(task =>
+            {
+                if (task.IsCompleted)
+                {
+                    NotificationManager.Instance.SetNotification("저장 성공");
+                }
+            });
+        }
+        else
+        {
+            print("엉");
+        }
     }
 
     public IEnumerator OfflineCompensation()

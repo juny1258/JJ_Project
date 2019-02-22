@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
 
     public Transform Panels;
     public GameObject MenuPanel;
+    public GameObject RankPanel;
 
     public Animator FlyingRewardAnimation;
 
@@ -159,9 +160,9 @@ public class UIManager : MonoBehaviour
                 if (!panel.gameObject.active)
                 {
                     i++;
-                    if (i == 14)
+                    if (i == Panels.childCount)
                     {
-                        if (!MenuPanel.active)
+                        if (!MenuPanel.active && !RankPanel.active)
                         {
                             Application.Quit();
                         }
