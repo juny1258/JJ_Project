@@ -113,11 +113,6 @@ public class RebirthAnimation : MonoBehaviour
             DataController.Instance.firstRebirth = 1;
             Social.ReportProgress(GPGSIds.achievement_rebirth_success, 100f, isSuccess =>
             {
-                if (isSuccess)
-                {
-                    DataController.Instance.ruby += 50;
-                    NotificationManager.Instance.SetNotification2("[업적 달성] 루비 50개 획득!!");
-                }
             });
         }
         

@@ -38,9 +38,18 @@ public class BossSpwan : MonoBehaviour
         var monster = Instantiate(BossMonsters[DataController.Instance.bossLevel],
             new Vector3(transform.position.x, transform.position.y, randPositionZ * 0.00001f), Quaternion.identity);
 
-        monster.GetComponent<MonsterManager>().SetMonsterAvility(
-            (float) (startHP * Math.Pow(5, DataController.Instance.bossLevel)),
-            (float) (startHP * Math.Pow(5, DataController.Instance.bossLevel) / 10));
+        if (DataController.Instance.finalBossLevel < 2)
+        {
+            monster.GetComponent<MonsterManager>().SetMonsterAvility(
+                (float) (startHP * Math.Pow(5, DataController.Instance.bossLevel)),
+                (float) (startHP * Math.Pow(5, DataController.Instance.bossLevel) / 10));
+        }
+        else
+        {
+            monster.GetComponent<MonsterManager>().SetMonsterAvility(
+                (float) (startHP * Math.Pow(5, DataController.Instance.finalBossLevel-1)),
+                (float) (startHP * Math.Pow(5, DataController.Instance.finalBossLevel-1) / 10));
+        }
 
         monster.transform.SetParent(DataController.Instance.Monsters);
 
@@ -83,24 +92,28 @@ public class BossSpwan : MonoBehaviour
     {
         if (isClear)
         {
-            RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(6, DataController.Instance.bossLevel)),
-                ruby[DataController.Instance.bossLevel], sapphire[DataController.Instance.bossLevel]);
+            if (DataController.Instance.finalBossLevel < 2)
+            {
+                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(6, DataController.Instance.bossLevel)),
+                    ruby[DataController.Instance.bossLevel], sapphire[DataController.Instance.bossLevel]);
+            }
+            else
+            {
+                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(6, DataController.Instance.bossLevel)),
+                    ruby[DataController.Instance.finalBossLevel-1], sapphire[DataController.Instance.finalBossLevel-1]);
+            }
 
             if (DataController.Instance.finalBossLevel == DataController.Instance.bossLevel)
             {
                 DataController.Instance.finalBossLevel = DataController.Instance.bossLevel + 1;
 
-                if (DataController.Instance.bossLevel == DataController.Instance.masterCostumeIndex)
+                if (PlayerPrefs.GetFloat("FirstBossClear", 0) == 0)
                 {
+                    PlayerPrefs.SetFloat("FirstBossClear", 1);
                     if (DataController.Instance.bossLevel == 0)
                     {
                         Social.ReportProgress(GPGSIds.achievement_get_costume, 100f, isSuccess =>
                         {
-                            if (isSuccess)
-                            {
-                                DataController.Instance.ruby += 50;
-                                NotificationManager.Instance.SetNotification2("[업적 달성] 루비 50개 획득!!");
-                            }
                         });
                     }
                     

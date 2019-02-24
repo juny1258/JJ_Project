@@ -24,6 +24,12 @@ public class HuntButton : MonoBehaviour
 
         rubyText.text = "x" + global::MonsterSpwan.ruby[index];
         sapphireText.text = "x" + global::MonsterSpwan.sapphire[index];
+
+        if (DataController.Instance.finalHuntLevel > index)
+        {
+            rubyText.text = "x" + global::MonsterSpwan.ruby[DataController.Instance.finalHuntLevel-1];
+            sapphireText.text = "x" + global::MonsterSpwan.sapphire[DataController.Instance.finalHuntLevel-1];
+        }
     }
 
     public void StartGame()
@@ -60,11 +66,20 @@ public class HuntButton : MonoBehaviour
                 if (DataController.Instance.skipCoupon >= 1)
                 {
                     DataController.Instance.skipCoupon -= 1;
-                    RewardManager.Instance.ShowRewardPanel(
-                        (float) (global::MonsterSpwan.gold * Math.Pow(6f, DataController.Instance.huntLevel)),
-                        global::MonsterSpwan.ruby[index],
-                        global::MonsterSpwan.sapphire[index]);
+                    
+                    if (DataController.Instance.finalHuntLevel < 2)
+                    {
+                        RewardManager.Instance.ShowRewardPanel((float) (global::MonsterSpwan.gold * Math.Pow(6f, index)),
+                            global::MonsterSpwan.ruby[index], global::MonsterSpwan.sapphire[index]);
+                    }
+                    else
+                    {
+                        RewardManager.Instance.ShowRewardPanel((float) (global::MonsterSpwan.gold * Math.Pow(6f, index)),
+                            global::MonsterSpwan.ruby[DataController.Instance.finalHuntLevel-1], global::MonsterSpwan.sapphire[DataController.Instance.finalHuntLevel-1]);
+                    }
+                    
                     PlayerPrefs.SetFloat("HuntCoolTime_" + DataController.Instance.huntLevel, 300);
+                    
                     NotClearPanel.SetActive(index > DataController.Instance.finalHuntLevel);
                 }
                 else

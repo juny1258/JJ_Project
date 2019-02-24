@@ -81,4 +81,81 @@ public class InApp : MonoBehaviour
                 break;
         }
     }
+    
+    public void PurchasePotion(int i)
+    {
+        switch (i)
+        {
+            case 0:
+                if (DataController.Instance.ruby >= 800)
+                {
+                    DataController.Instance.goldBuffPotion += 5;
+                    NotificationManager.Instance.SetNotification2("결계 무력화 5개 획득!!");    
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                }
+                break;
+            case 1:
+                if (DataController.Instance.ruby >= 4000)
+                {
+                    DataController.Instance.goldBuffPotion += 30;
+                    NotificationManager.Instance.SetNotification2("결계 무력화 30개 획득!!");
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                }
+                break;
+            case 2:
+                if (DataController.Instance.ruby >= 800)
+                {
+                    DataController.Instance.autoClickPotion += 5;
+                    NotificationManager.Instance.SetNotification2("정령의 가호 5개 획득!!");
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                }
+                break;
+            case 3:
+                if (DataController.Instance.ruby >= 800)
+                {
+                    DataController.Instance.autoClickPotion += 30;
+                    NotificationManager.Instance.SetNotification2("정령의 가호 30개 획득!!");
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                }
+                break;
+        }
+    }
+    
+    public void PurchaseDevilPakageItem(int i)
+    {
+        switch (i)
+        {
+            case 0:
+                DataController.Instance.ruby += 2000;
+                DataController.Instance.sapphire += 1000;
+                DataController.Instance.devilStone += 1000;
+                NotificationManager.Instance.SetNotification2("악마 패키지1 구매완료!!");
+                break;
+            case 1:
+                DataController.Instance.ruby += 7000;
+                DataController.Instance.sapphire += 3500;
+                DataController.Instance.devilStone += 3500;
+                NotificationManager.Instance.SetNotification2("악마 패키지1 구매완료!!");
+                break;
+            case 2:
+                DataController.Instance.ruby += 20000;
+                DataController.Instance.sapphire += 10000;
+                DataController.Instance.devilStone += 10000;
+                NotificationManager.Instance.SetNotification2("악마 패키지1 구매완료!!");
+                break;
+        }
+    }
+    
 }

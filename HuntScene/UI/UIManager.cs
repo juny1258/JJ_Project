@@ -96,6 +96,31 @@ public class UIManager : MonoBehaviour
             }
         };
         
+        EventManager.SelectSkinEvent += () =>
+        {
+            // 코스튬 교체 이벤트
+            if (DataController.Instance.skinIndex == 0)
+            {
+                PlayerStateImage.sprite =
+                    Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
+                        typeof(Sprite)) as Sprite;  
+                
+                PlayerStateImage1.sprite =
+                    Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
+                        typeof(Sprite)) as Sprite; 
+            }
+            else
+            {
+                PlayerStateImage.sprite =
+                    Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
+                        typeof(Sprite)) as Sprite;
+                
+                PlayerStateImage1.sprite =
+                    Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
+                        typeof(Sprite)) as Sprite;
+            }
+        };
+        
         InvokeRepeating("FlyRewardPlay", 60, 180);
     }
 

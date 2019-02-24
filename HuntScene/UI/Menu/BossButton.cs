@@ -24,6 +24,12 @@ public class BossButton : MonoBehaviour {
 		
 		rubyText.text = "x" + global::BossSpwan.ruby[index];
 		sapphireText.text = "x" + global::BossSpwan.sapphire[index];
+
+		if (DataController.Instance.finalBossLevel > index)
+		{
+			rubyText.text = "x" + global::BossSpwan.ruby[DataController.Instance.finalBossLevel-1];
+			sapphireText.text = "x" + global::BossSpwan.sapphire[DataController.Instance.finalBossLevel-1];
+		}
 	}
 	
 	public void StartGame()
@@ -60,10 +66,18 @@ public class BossButton : MonoBehaviour {
 				if (DataController.Instance.skipCoupon >= 1)
 				{
 					DataController.Instance.skipCoupon -= 1;
-					RewardManager.Instance.ShowRewardPanel(
-						(float) (global::BossSpwan.gold * Math.Pow(6f, index)),
-						global::BossSpwan.ruby[index],
-						global::BossSpwan.sapphire[index]);
+					
+					if (DataController.Instance.finalBossLevel < 2)
+					{
+						RewardManager.Instance.ShowRewardPanel((float) (global::BossSpwan.gold * Math.Pow(6, index)),
+							global::BossSpwan.ruby[index], global::BossSpwan.sapphire[index]);
+					}
+					else
+					{
+						RewardManager.Instance.ShowRewardPanel((float) (global::BossSpwan.gold * Math.Pow(6, index)),
+							global::BossSpwan.ruby[DataController.Instance.finalBossLevel-1], global::BossSpwan.sapphire[DataController.Instance.finalBossLevel-1]);
+					}
+					
 					PlayerPrefs.SetFloat("BossCoolTime_" + index, 300);
 					NotClearPanel.SetActive(index > DataController.Instance.finalBossLevel);
 				}

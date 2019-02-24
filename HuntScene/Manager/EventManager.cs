@@ -42,6 +42,8 @@ public class EventManager : MonoBehaviour {
 	public static event Event SelectAttackEvent;
 
 	public static event Event SelectCostumeEvent;
+	
+	public static event Event SelectSkinEvent;
 
 	public static event Event EndGameEvnet;
 	
@@ -60,6 +62,10 @@ public class EventManager : MonoBehaviour {
 	public static event Event RebirthEvent;
 
 	public static event Event AutoClickEvent;
+	
+	public static event Event StartAutoClickEvent;
+	
+	public static event Event StartGoldRidingEvent;
 	
 
 	public void MonsterAttack(float damage)
@@ -107,6 +113,14 @@ public class EventManager : MonoBehaviour {
 		if (SelectCostumeEvent != null)
 		{
 			SelectCostumeEvent();
+		}
+	}
+	
+	public void SelectSkin()
+	{
+		if (SelectSkinEvent != null)
+		{
+			SelectSkinEvent();
 		}
 	}
 	
@@ -179,6 +193,22 @@ public class EventManager : MonoBehaviour {
 		if (AutoClickEvent != null)
 		{
 			AutoClickEvent();
+		}
+	}
+	
+	public void StartAutoClick()
+	{
+		if (StartAutoClickEvent != null)
+		{
+			StartAutoClickEvent();
+		}
+	}
+	
+	public void StartGoldRising()
+	{
+		if (StartGoldRidingEvent != null)
+		{
+			StartGoldRidingEvent();
 		}
 	}
 }

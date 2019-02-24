@@ -25,6 +25,8 @@ public class UseAutoClick : MonoBehaviour
         
         AutoExpSlider.value = DataController.Instance.autoClickIndex;
         IndexText.text = DataController.Instance.autoClickIndex + "/10";
+        
+        EventManager.StartAutoClickEvent += Reward;
     }
 
     public void UseItem()
@@ -39,10 +41,15 @@ public class UseAutoClick : MonoBehaviour
     {
         // 광고 보고 오토클릭
         print("광고");
+        AdMob.Instance.ShowAutoClickAd();
+    }
+
+    private void Reward()
+    {
         StartAutoClick();
     }
 
-    public void StartAutoClick()
+    private void StartAutoClick()
     {
         // 자동공격 시작
         DataController.Instance.autoClickTime = 180 + 30 * DataController.Instance.autoClickLevel;
@@ -60,5 +67,10 @@ public class UseAutoClick : MonoBehaviour
         // 자동공격 이벤트 호출 (UIManager에서 정령의 축복 이펙트 시작)
         EventManager.Instance.AutoClick();
         AutoClickPanel.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StartAutoClickEvent -= Reward;
     }
 }

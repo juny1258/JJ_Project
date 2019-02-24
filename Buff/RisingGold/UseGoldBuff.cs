@@ -26,6 +26,8 @@ public class UseGoldBuff : MonoBehaviour {
         
         AutoExpSlider.value = DataController.Instance.goldBuffIndex;
         IndexText.text = DataController.Instance.goldBuffIndex + "/10";
+
+        EventManager.StartGoldRidingEvent += Reward;
     }
 
     public void UseItem()
@@ -40,6 +42,11 @@ public class UseGoldBuff : MonoBehaviour {
     {
         // 광고 보고 오토클릭
         print("광고");
+        AdMob.Instance.ShowGoldRisingAd();
+    }
+
+    private void Reward()
+    {
         StartAutoClick();
     }
 
@@ -67,5 +74,10 @@ public class UseGoldBuff : MonoBehaviour {
     {
         DataController.Instance.useGoldBuff = 1;
         SealStoneGlow.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StartGoldRidingEvent -= Reward;
     }
 }

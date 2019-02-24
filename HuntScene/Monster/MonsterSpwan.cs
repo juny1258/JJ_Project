@@ -105,8 +105,16 @@ public class MonsterSpwan : MonoBehaviour
         if (isClear)
         {
             // 클리어 했을 때
-            RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(6f, DataController.Instance.huntLevel)),
-                ruby[DataController.Instance.huntLevel], sapphire[DataController.Instance.huntLevel]);
+            if (DataController.Instance.finalHuntLevel < 2)
+            {
+                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(6f, DataController.Instance.huntLevel)),
+                    ruby[DataController.Instance.huntLevel], sapphire[DataController.Instance.huntLevel]);
+            }
+            else
+            {
+                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(6f, DataController.Instance.huntLevel)),
+                    ruby[DataController.Instance.finalHuntLevel-1], sapphire[DataController.Instance.finalHuntLevel-1]);
+            }
 
             if (DataController.Instance.finalHuntLevel == DataController.Instance.huntLevel)
             {
@@ -116,17 +124,14 @@ public class MonsterSpwan : MonoBehaviour
                 
                 print(DataController.Instance.huntLevel + ", " + DataController.Instance.masterSkillIndex);
 
-                if (DataController.Instance.huntLevel == DataController.Instance.masterSkillIndex)
+                if (PlayerPrefs.GetFloat("FirstHuntClear", 0) == 0)
                 {
+                    PlayerPrefs.SetFloat("FirstHuntClear", 1);
                     if (DataController.Instance.huntLevel == 0)
                     {
                         Social.ReportProgress(GPGSIds.achievement_get_projectile, 100f, isSuccess =>
                         {
-                            if (isSuccess)
-                            {
-                                DataController.Instance.ruby += 50;
-                                NotificationManager.Instance.SetNotification2("[업적 달성] 루비 50개 획득!!");
-                            }
+                            
                         });
                     }
                     
@@ -169,9 +174,18 @@ public class MonsterSpwan : MonoBehaviour
             var monster = Instantiate(Monsters[DataController.Instance.huntLevel],
                 new Vector3(transform.position.x, transform.position.y, randPositionZ * 0.00001f), Quaternion.identity);
 
-            monster.GetComponent<MonsterManager>().SetMonsterAvility(
-                (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel)),
-                (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel) / 10));
+            if (DataController.Instance.finalHuntLevel < 2)
+            {
+                monster.GetComponent<MonsterManager>().SetMonsterAvility(
+                    (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel)),
+                    (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel) / 10));   
+            }
+            else
+            {
+                monster.GetComponent<MonsterManager>().SetMonsterAvility(
+                    (float) (startHP * Math.Pow(5, DataController.Instance.finalHuntLevel-1)),
+                    (float) (startHP * Math.Pow(5, DataController.Instance.finalHuntLevel-1) / 10));   
+            }
 
             monster.transform.SetParent(DataController.Instance.Monsters);
             isMonsterActive = true;
@@ -193,9 +207,18 @@ public class MonsterSpwan : MonoBehaviour
                 new Vector3(transform.position.x + 2.5f, transform.position.y, randPositionZ * 0.00001f),
                 Quaternion.identity);
 
-            monster.GetComponent<MonsterManager>().SetMonsterAvility(
-                (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel) * 3),
-                (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel)) / 1.5f);
+            if (DataController.Instance.finalHuntLevel < 2)
+            {
+                monster.GetComponent<MonsterManager>().SetMonsterAvility(
+                    (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel) * 3),
+                    (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel)) / 1.5f);
+            }
+            else
+            {
+                monster.GetComponent<MonsterManager>().SetMonsterAvility(
+                    (float) (startHP * Math.Pow(5, DataController.Instance.finalHuntLevel-1) * 3),
+                    (float) (startHP * Math.Pow(5, DataController.Instance.finalHuntLevel-1)) / 1.5f);
+            }
 
             monster.transform.SetParent(DataController.Instance.Monsters);
         }

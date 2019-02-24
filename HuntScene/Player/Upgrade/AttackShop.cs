@@ -11,17 +11,17 @@ public class AttackShop : MonoBehaviour
     public GameObject NotClearPanel;
 
     public int index;
-    
-    private int[] plusDamage = {0, 20, 40, 60, 80};
+
+    private int[] plusDamage = {0, 20, 40, 60, 80, 100, 150, 200, 250, 300, 350, 400, 500};
 
     private void Start()
     {
         EventManager.SelectAttackEvent += () =>
         {
             DamageText.text = "공격력 + " + plusDamage[index] + "%";
-            
+
             SelectPanel.SetActive(DataController.Instance.skillIndex == index);
-            
+
             NotClearPanel.SetActive(DataController.Instance.masterSkillIndex < index);
         };
     }
@@ -29,7 +29,7 @@ public class AttackShop : MonoBehaviour
     private void OnEnable()
     {
         DamageText.text = "공격력 + " + plusDamage[index] + "%";
-        
+
         SelectPanel.SetActive(DataController.Instance.skillIndex == index);
 
         NotClearPanel.SetActive(DataController.Instance.masterSkillIndex < index);
@@ -37,10 +37,8 @@ public class AttackShop : MonoBehaviour
 
     public void SelectItem()
     {
-        
         DataController.Instance.skillIndex = index;
-        
-        
+
         EventManager.Instance.SelectAttack();
     }
 }

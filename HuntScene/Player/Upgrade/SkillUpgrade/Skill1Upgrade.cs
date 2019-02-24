@@ -30,6 +30,13 @@ public class Skill1Upgrade : MonoBehaviour
 			{
 				DataController.Instance.sapphire -= cost;
 
+				if (DataController.Instance.skill_1 == 0)
+				{
+					Social.ReportProgress(GPGSIds.achievement_purchase_skill, 100f, isSuccess =>
+					{
+					});
+				}
+				
 				DataController.Instance.skill_1++;
 				DataController.Instance.skill_1_damage += 0.1f;
 			

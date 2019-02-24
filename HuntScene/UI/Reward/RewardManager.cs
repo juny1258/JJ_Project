@@ -157,11 +157,6 @@ public class RewardManager : MonoBehaviour
             {
                 Social.ReportProgress(GPGSIds.achievement_relic_acquisition, 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        DataController.Instance.ruby += 50;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 50개 획득!!");
-                    }
                 });
             }
 

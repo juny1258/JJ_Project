@@ -23,7 +23,7 @@ public class SkillObject : MonoBehaviour
                        DataController.Instance.devilCritical + DataController.Instance.collectionCriticalPer +
                        DataController.Instance.advancedCriticalPer) * 10)
         {
-            transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            transform.localScale = new Vector3(transform.localScale.x * 1.5f, transform.localScale.y * 1.5f, 1);
             tag = "CriticalAttack";
         }
     }

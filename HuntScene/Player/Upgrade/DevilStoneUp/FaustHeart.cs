@@ -6,34 +6,49 @@ using UnityEngine.UI;
 public class FaustHeart : MonoBehaviour
 {
 
-	public GameObject DevilStoneImage;
-	public GameObject PriceText;
 	public Text UpgradeInfo;
 
-	public GameObject NowDamageText;
-	public GameObject PurchaseCompleteText;
+	public Text InfoText;
 	
 	private void OnEnable()
 	{
-		
+		UpdateUI();
+	}
+
+	public void PurchaseItem()
+	{
+		if (DataController.Instance.legendDevilStone == 0)
+		{
+			if (DataController.Instance.devilStone >= 10000)
+			{
+				DataController.Instance.devilStone -= 10000;
+
+				DataController.Instance.legendDevilStone = 1;
+				
+				DataController.Instance.UpdateDamage();
+				DataController.Instance.UpdateCritical();
+			
+				UpdateUI();
+			}
+			else
+			{
+				NotificationManager.Instance.SetNotification("데빌스톤이 부족합니다.");
+			}	
+		}
 	}
 
 	private void UpdateUI()
 	{
 		if (DataController.Instance.legendDevilStone == 0)
 		{
-			DevilStoneImage.SetActive(true);
-			PriceText.SetActive(true);
-			NowDamageText.SetActive(false);
-			PurchaseCompleteText.SetActive(false);
+			InfoText.text = "환생레벨 비례 공격력 증가\n0% -> " + DataController.Instance.rebirthLevel +
+			                " x 300 = " + DataController.Instance.rebirthLevel * 300 + "%";
 			UpgradeInfo.text = "구매하기";
 		}
 		else
 		{
-			DevilStoneImage.SetActive(false);
-			PriceText.SetActive(false);
-			NowDamageText.SetActive(true);
-			PurchaseCompleteText.SetActive(true);
+			InfoText.text = "환생레벨 비례 공격력 증가\n" + DataController.Instance.rebirthLevel +
+			                " x 300 = " + DataController.Instance.rebirthLevel * 300 + "%";
 			UpgradeInfo.text = "구매완료";
 		}
 	}

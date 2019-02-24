@@ -42,7 +42,13 @@ public class Player : MonoBehaviour
 
         TextPosition = transform.position;
         TextPosition.y += 1.8f;
-        // TODO 스킨 입혔을 때 스킨으로 표시해주는 것
+        
+        EventManager.SelectCostumeEvent += SetCostume;
+        EventManager.SelectSkinEvent += SetCostume;
+    }
+
+    private void SetCostume()
+    {
         if (DataController.Instance.skinIndex == 0)
         {
             GetComponent<Animator>().Play("Attack" + DataController.Instance.costumeIndex, 0, 1);
@@ -51,6 +57,12 @@ public class Player : MonoBehaviour
         {
             GetComponent<Animator>().Play("SkinAttack" + DataController.Instance.skinIndex, 0, 1);
         }
+    }
+
+    private void OnDisable()
+    {
+        EventManager.SelectCostumeEvent -= SetCostume;
+        EventManager.SelectSkinEvent -= SetCostume;
     }
 
     private void Update()

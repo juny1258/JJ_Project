@@ -54,8 +54,7 @@ public class TimeManager : MonoBehaviour
         {
             DataController.Instance.lastPlayTime = 0;
         }
-
-        print("시간 -> sec : " + DataController.Instance.lastPlayTime);
+        
         var user = new UserRankData
         {
             costumeIndex = DataController.Instance.costumeIndex,
@@ -63,10 +62,6 @@ public class TimeManager : MonoBehaviour
         };
         
         var json = JsonUtility.ToJson(user);
-        
-        print(PlayGamesPlatform.Instance.localUser.id);
-        
-        print(json);
 
         if (PlayGamesPlatform.Instance.localUser.id != "")
         {
@@ -74,13 +69,13 @@ public class TimeManager : MonoBehaviour
             {
                 if (task.IsCompleted)
                 {
-                    NotificationManager.Instance.SetNotification("저장 성공");
+                    
                 }
             });
         }
         else
         {
-            print("엉");
+            
         }
     }
 

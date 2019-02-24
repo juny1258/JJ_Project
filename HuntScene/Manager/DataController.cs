@@ -761,6 +761,7 @@ public class DataController : MonoBehaviour
                                + damage * collectionDamage
                                + damage * devilDamage
                                + damage * advancedDamage
+                               + damage * legendDevilStone * rebirthLevel * 3
                            )
                            * (angerDamage + rubyAngerDamage + collectionAngerDamage + advancedAngerDamage);
         }
@@ -773,6 +774,7 @@ public class DataController : MonoBehaviour
                 + damage * collectionDamage
                 + damage * devilDamage
                 + damage * advancedDamage
+                + damage * legendDevilStone * rebirthLevel * 3
             );
         }
     }
@@ -1196,11 +1198,6 @@ public class DataController : MonoBehaviour
                 monsterKillLevel = 1;
                 Social.ReportProgress(achievmentIDs[monsterKillLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 50;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 50개 획득!!");
-                    }
                 });
             }
         }
@@ -1211,11 +1208,6 @@ public class DataController : MonoBehaviour
                 monsterKillLevel = 2;
                 Social.ReportProgress(achievmentIDs[monsterKillLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 100;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 100개 획득!!");
-                    }
                 });
             } 
         }
@@ -1226,11 +1218,6 @@ public class DataController : MonoBehaviour
                 monsterKillLevel = 3;
                 Social.ReportProgress(achievmentIDs[monsterKillLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 150;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 150개 획득!!");
-                    }
                 });
             }
         }
@@ -1241,11 +1228,6 @@ public class DataController : MonoBehaviour
                 monsterKillLevel = 4;
                 Social.ReportProgress(achievmentIDs[monsterKillLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 200;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 200개 획득!!");
-                    }
                 });
             }
         }
@@ -1256,11 +1238,6 @@ public class DataController : MonoBehaviour
                 monsterKillLevel = 5;
                 Social.ReportProgress(achievmentIDs[monsterKillLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 250;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 250개 획득!!");
-                    }
                 });
             }
         }
@@ -1271,11 +1248,6 @@ public class DataController : MonoBehaviour
                 monsterKillLevel = 6;
                 Social.ReportProgress(achievmentIDs[monsterKillLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 300;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 300개 획득!!");
-                    }
                 });
             }
         }
@@ -1286,11 +1258,6 @@ public class DataController : MonoBehaviour
                 monsterKillLevel = 7;
                 Social.ReportProgress(achievmentIDs[monsterKillLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 350;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 350개 획득!!");
-                    }
                 });
             }
         }
@@ -1301,11 +1268,6 @@ public class DataController : MonoBehaviour
                 monsterKillLevel = 8;
                 Social.ReportProgress(achievmentIDs[monsterKillLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 400;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 400개 획득!!");
-                    }
                 });
             }
         }
@@ -1316,11 +1278,6 @@ public class DataController : MonoBehaviour
                 monsterKillLevel = 9;
                 Social.ReportProgress(achievmentIDs[monsterKillLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 450;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 450개 획득!!");
-                    }
                 });
             }
         }
@@ -1345,11 +1302,6 @@ public class DataController : MonoBehaviour
                 highFaustDamageLevel = 1;
                 Social.ReportProgress(achievmentFaustIDs[highFaustDamageLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 50;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 50개 획득!!");
-                    }
                 });
             }
         }
@@ -1360,11 +1312,6 @@ public class DataController : MonoBehaviour
                 highFaustDamageLevel = 2;
                 Social.ReportProgress(achievmentFaustIDs[highFaustDamageLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 100;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 100개 획득!!");
-                    }
                 });
             } 
         }
@@ -1375,11 +1322,6 @@ public class DataController : MonoBehaviour
                 highFaustDamageLevel = 3;
                 Social.ReportProgress(achievmentFaustIDs[highFaustDamageLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 150;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 150개 획득!!");
-                    }
                 });
             }
         }
@@ -1390,11 +1332,6 @@ public class DataController : MonoBehaviour
                 highFaustDamageLevel = 4;
                 Social.ReportProgress(achievmentFaustIDs[highFaustDamageLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 200;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 200개 획득!!");
-                    }
                 });
             }
         }
@@ -1405,11 +1342,6 @@ public class DataController : MonoBehaviour
                 highFaustDamageLevel = 5;
                 Social.ReportProgress(achievmentFaustIDs[highFaustDamageLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 250;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 250개 획득!!");
-                    }
                 });
             }
         }
@@ -1420,11 +1352,6 @@ public class DataController : MonoBehaviour
                 highFaustDamageLevel = 6;
                 Social.ReportProgress(achievmentFaustIDs[highFaustDamageLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 300;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 300개 획득!!");
-                    }
                 });
             }
         }
@@ -1435,11 +1362,6 @@ public class DataController : MonoBehaviour
                 highFaustDamageLevel = 7;
                 Social.ReportProgress(achievmentFaustIDs[highFaustDamageLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 350;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 350개 획득!!");
-                    }
                 });
             }
         }
@@ -1450,11 +1372,6 @@ public class DataController : MonoBehaviour
                 highFaustDamageLevel = 8;
                 Social.ReportProgress(achievmentFaustIDs[highFaustDamageLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 400;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 400개 획득!!");
-                    }
                 });
             }
         }
@@ -1465,11 +1382,6 @@ public class DataController : MonoBehaviour
                 highFaustDamageLevel = 9;
                 Social.ReportProgress(achievmentFaustIDs[highFaustDamageLevel], 100f, isSuccess =>
                 {
-                    if (isSuccess)
-                    {
-                        ruby += 450;
-                        NotificationManager.Instance.SetNotification2("[업적 달성] 루비 450개 획득!!");
-                    }
                 });
             }
         }
