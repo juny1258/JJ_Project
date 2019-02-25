@@ -21,7 +21,7 @@ public class SkillObject : MonoBehaviour
         randInt = Random.Range(0, 1000);
         if (randInt < (DataController.Instance.criticalPercent + DataController.Instance.rubyCriticalPer +
                        DataController.Instance.devilCritical + DataController.Instance.collectionCriticalPer +
-                       DataController.Instance.advancedCriticalPer) * 10)
+                       DataController.Instance.advancedCriticalPer + DataController.Instance.skinCriticalPer) * 10)
         {
             transform.localScale = new Vector3(transform.localScale.x * 1.5f, transform.localScale.y * 1.5f, 1);
             tag = "CriticalAttack";

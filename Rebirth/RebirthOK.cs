@@ -29,4 +29,18 @@ public class RebirthOK : MonoBehaviour
 
         EventManager.Instance.RebirtButtonClick();
     }
+
+    public void AdvancedRebirthButton()
+    {
+        if (DataController.Instance.ruby >= 2000)
+        {
+            DataController.Instance.ruby -= 2000;
+            
+            RebirthPanel.SetActive(false);
+
+            DataController.Instance.isAdvancedRebirth = true;
+
+            EventManager.Instance.RebirtButtonClick();
+        }
+    }
 }

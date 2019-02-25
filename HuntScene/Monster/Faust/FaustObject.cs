@@ -330,15 +330,18 @@ public class FaustObject : MonoBehaviour
                 break;
             }
 
-            if (damageReceived > 1000000 * Math.Pow(3, i))
+            if (damageReceived > 1000000 * Math.Pow(2, i))
             {
                 rewardLevel++;
             }
         }
 
         DataController.Instance.highFaustDamage = damageReceived;
-        
-        DataController.Instance.FaustAchievement();
+
+        if (Social.localUser.authenticated)
+        {
+            DataController.Instance.FaustAchievement();
+        }
         
         if (Social.localUser.authenticated)
         {

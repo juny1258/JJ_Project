@@ -26,7 +26,7 @@ public class MonsterSpwan : MonoBehaviour
 
     private float startHP = 5000;
 
-    public static float gold = 100000;
+    public static float gold = 500000;
 
     public static float[] ruby =
     {
@@ -105,14 +105,14 @@ public class MonsterSpwan : MonoBehaviour
         if (isClear)
         {
             // 클리어 했을 때
-            if (DataController.Instance.finalHuntLevel < 2)
+            if (DataController.Instance.finalHuntLevel == DataController.Instance.huntLevel)
             {
-                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(6f, DataController.Instance.huntLevel)),
+                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(3f, DataController.Instance.huntLevel)),
                     ruby[DataController.Instance.huntLevel], sapphire[DataController.Instance.huntLevel]);
             }
             else
             {
-                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(6f, DataController.Instance.huntLevel)),
+                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(3f, DataController.Instance.huntLevel)),
                     ruby[DataController.Instance.finalHuntLevel-1], sapphire[DataController.Instance.finalHuntLevel-1]);
             }
 
@@ -124,21 +124,23 @@ public class MonsterSpwan : MonoBehaviour
                 
                 print(DataController.Instance.huntLevel + ", " + DataController.Instance.masterSkillIndex);
 
-                if (PlayerPrefs.GetFloat("FirstHuntClear", 0) == 0)
-                {
-                    PlayerPrefs.SetFloat("FirstHuntClear", 1);
-                    if (DataController.Instance.huntLevel == 0)
+                if (DataController.Instance.huntLevel == DataController.Instance.masterSkillIndex)
+                { 
+                    if (PlayerPrefs.GetFloat("FirstHuntClear", 0) == 0)
                     {
-                        Social.ReportProgress(GPGSIds.achievement_get_projectile, 100f, isSuccess =>
+                        if (Social.localUser.authenticated)
                         {
-                            
-                        });
+                            Social.ReportProgress(GPGSIds.achievement_get_projectile, 100f, isSuccess =>
+                            {
+                                PlayerPrefs.SetFloat("FirstHuntClear", 1);
+                            });
+                        }
                     }
                     
                     // 마지막 투사체 획득 시점에서 마지막 스테이지
                     print("엉");
                     BallImage.sprite =
-                        Resources.Load("Ball/energyBall" + (DataController.Instance.huntLevel + 1),
+                        Resources.Load("Ball1/ball" + (DataController.Instance.huntLevel + 1),
                             typeof(Sprite)) as Sprite;
                     AvilityText.text = "공격력 + " + 20 * (DataController.Instance.huntLevel + 1) + "%";
                     GetBallPanel.SetActive(true);
@@ -160,8 +162,11 @@ public class MonsterSpwan : MonoBehaviour
         {
             RewardManager.Instance.ShowRewardPanel(0, 0, 0);
         }
-        
-        DataController.Instance.MonsterKillSuccess();
+
+        if (Social.localUser.authenticated)
+        {
+            DataController.Instance.MonsterKillSuccess();
+        }
     }
 
     private IEnumerator SpwanMonster()
@@ -174,7 +179,7 @@ public class MonsterSpwan : MonoBehaviour
             var monster = Instantiate(Monsters[DataController.Instance.huntLevel],
                 new Vector3(transform.position.x, transform.position.y, randPositionZ * 0.00001f), Quaternion.identity);
 
-            if (DataController.Instance.finalHuntLevel < 2)
+            if (DataController.Instance.finalHuntLevel == DataController.Instance.huntLevel)
             {
                 monster.GetComponent<MonsterManager>().SetMonsterAvility(
                     (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel)),
@@ -207,7 +212,7 @@ public class MonsterSpwan : MonoBehaviour
                 new Vector3(transform.position.x + 2.5f, transform.position.y, randPositionZ * 0.00001f),
                 Quaternion.identity);
 
-            if (DataController.Instance.finalHuntLevel < 2)
+            if (DataController.Instance.finalHuntLevel == DataController.Instance.huntLevel)
             {
                 monster.GetComponent<MonsterManager>().SetMonsterAvility(
                     (float) (startHP * Math.Pow(5, DataController.Instance.huntLevel) * 3),

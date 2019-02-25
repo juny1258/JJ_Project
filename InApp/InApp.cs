@@ -120,7 +120,7 @@ public class InApp : MonoBehaviour
                 }
                 break;
             case 3:
-                if (DataController.Instance.ruby >= 800)
+                if (DataController.Instance.ruby >= 4000)
                 {
                     DataController.Instance.autoClickPotion += 30;
                     NotificationManager.Instance.SetNotification2("정령의 가호 30개 획득!!");
@@ -147,15 +147,23 @@ public class InApp : MonoBehaviour
                 DataController.Instance.ruby += 7000;
                 DataController.Instance.sapphire += 3500;
                 DataController.Instance.devilStone += 3500;
-                NotificationManager.Instance.SetNotification2("악마 패키지1 구매완료!!");
+                NotificationManager.Instance.SetNotification2("악마 패키지2 구매완료!!");
                 break;
             case 2:
                 DataController.Instance.ruby += 20000;
                 DataController.Instance.sapphire += 10000;
                 DataController.Instance.devilStone += 10000;
-                NotificationManager.Instance.SetNotification2("악마 패키지1 구매완료!!");
+                NotificationManager.Instance.SetNotification2("악마 패키지3 구매완료!!");
                 break;
         }
     }
-    
+
+    public void PurchasePotionPakage()
+    {
+        DataController.Instance.autoClickPotion += 20;
+        DataController.Instance.goldBuffPotion += 20;
+        DataController.Instance.ruby += 800;
+        
+        NotificationManager.Instance.SetNotification2("물약 패키지 구매완료!!");
+    }
 }

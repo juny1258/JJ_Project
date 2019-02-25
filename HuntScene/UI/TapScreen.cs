@@ -62,7 +62,6 @@ public class TapScreen : MonoBehaviour
     {
         if (isReady && !DataController.Instance.isMenuOpen)
         {
-            DataController.Instance.attackCount++;
             Audio.Play();
             isReady = false;
             SpawnPoint = AttackPosition.position;

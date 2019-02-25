@@ -43,7 +43,7 @@ public class PracticsRock : MonoBehaviour
         level = DataController.Instance.nowRebirthLevel;
         HpSlider.maxValue = rockHp * Mathf.Pow(upgradePower, DataController.Instance.nowRebirthLevel);
         HpSlider.value = rockHp * Mathf.Pow(upgradePower, DataController.Instance.nowRebirthLevel);
-        LevelText.text = (DataController.Instance.nowRebirthLevel+1).ToString();
+        LevelText.text = (DataController.Instance.nowRebirthLevel + 1).ToString();
 
         Glow.SetActive(DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel > 0);
 
@@ -96,7 +96,7 @@ public class PracticsRock : MonoBehaviour
                 level = DataController.Instance.nowRebirthLevel;
                 HpSlider.maxValue = rockHp * Mathf.Pow(upgradePower, DataController.Instance.nowRebirthLevel);
                 HpSlider.value = rockHp * Mathf.Pow(upgradePower, DataController.Instance.nowRebirthLevel);
-                LevelText.text = (DataController.Instance.nowRebirthLevel+1).ToString();
+                LevelText.text = (DataController.Instance.nowRebirthLevel + 1).ToString();
                 Glow.SetActive(DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel > 0);
             }
         }
@@ -126,8 +126,9 @@ public class PracticsRock : MonoBehaviour
                 DataController.Instance.goldQueue.Enqueue(DataController.Instance.masterDamage / getGoldPer *
                                                           DataController.Instance.collectionGoldRising *
                                                           DataController.Instance.useGoldBuff);
+                if (DataController.Instance.rebirthLevel < 14)
+                    HpSlider.value -= DataController.Instance.masterDamage;
 
-                HpSlider.value -= DataController.Instance.masterDamage;
                 break;
             }
             case "CriticalAttack":
@@ -143,8 +144,9 @@ public class PracticsRock : MonoBehaviour
                 DataController.Instance.goldQueue.Enqueue(DataController.Instance.masterCriticalDamage / getGoldPer *
                                                           DataController.Instance.collectionGoldRising *
                                                           DataController.Instance.useGoldBuff);
+                if (DataController.Instance.rebirthLevel < 14)
+                    HpSlider.value -= DataController.Instance.masterCriticalDamage;
 
-                HpSlider.value -= DataController.Instance.masterCriticalDamage;
                 break;
             }
             case "Bat":
@@ -179,8 +181,8 @@ public class PracticsRock : MonoBehaviour
 
             i++;
 
-
-            HpSlider.value -= criticalDamage;
+            if (DataController.Instance.rebirthLevel < 14)
+                HpSlider.value -= criticalDamage;
 
             yield return new WaitForSeconds(0.08f);
         }
@@ -205,8 +207,8 @@ public class PracticsRock : MonoBehaviour
             DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer *
                                                       DataController.Instance.collectionGoldRising *
                                                       DataController.Instance.useGoldBuff);
-
-            HpSlider.value -= criticalDamage;
+            if (DataController.Instance.rebirthLevel < 14)
+                HpSlider.value -= criticalDamage;
 
             i++;
 
@@ -233,8 +235,8 @@ public class PracticsRock : MonoBehaviour
             DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer *
                                                       DataController.Instance.collectionGoldRising *
                                                       DataController.Instance.useGoldBuff);
-
-            HpSlider.value -= criticalDamage;
+            if (DataController.Instance.rebirthLevel < 14)
+                HpSlider.value -= criticalDamage;
 
             i++;
 
@@ -261,8 +263,8 @@ public class PracticsRock : MonoBehaviour
             DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer *
                                                       DataController.Instance.collectionGoldRising *
                                                       DataController.Instance.useGoldBuff);
-
-            HpSlider.value -= criticalDamage;
+            if (DataController.Instance.rebirthLevel < 14)
+                HpSlider.value -= criticalDamage;
 
             i++;
 
@@ -289,8 +291,8 @@ public class PracticsRock : MonoBehaviour
             DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer *
                                                       DataController.Instance.collectionGoldRising *
                                                       DataController.Instance.useGoldBuff);
-
-            HpSlider.value -= criticalDamage;
+            if (DataController.Instance.rebirthLevel < 14)
+                HpSlider.value -= criticalDamage;
 
             i++;
 

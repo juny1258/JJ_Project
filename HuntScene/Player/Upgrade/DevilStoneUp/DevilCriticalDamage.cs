@@ -71,7 +71,7 @@ public class DevilCriticalDamage : MonoBehaviour, IPointerUpHandler, IPointerDow
             ProductName.text = "크리티컬 데미지[+" + (DataController.Instance.devilCriticalRisingLevel - 1) + "]";
             PriceText.text = "Max";
 
-            UpgradeInfo.text = Math.Round((DataController.Instance.devilCriticalRising - 1) * 100, 1) + "%";
+            UpgradeInfo.text = Math.Round(DataController.Instance.devilCriticalRising * 100, 1) + "%";
         }
     }
 

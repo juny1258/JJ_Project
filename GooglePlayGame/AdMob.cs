@@ -55,12 +55,14 @@ public class AdMob : MonoBehaviour
     /// <summary>
     /// ////////////////////////////////////////////////////////////////////////////////////////////////
     /// </summary>
+    ///
+    /// 
     private void RequestMenuClickAd()
     {
         string adUnitId = string.Empty;
 
 #if UNITY_ANDROID
-        adUnitId = "ca-app-pub-8345080599263513/9312843468";
+        adUnitId = "ca-app-pub-3940256099942544/6300978111";
 #elif UNITY_IOS
         adUnitId = ios_interstitialAdUnitId;
 #endif
@@ -78,7 +80,7 @@ public class AdMob : MonoBehaviour
         string adUnitId = string.Empty;
 
 #if UNITY_ANDROID
-        adUnitId = "ca-app-pub-8345080599263513/2032995530";
+        adUnitId = "ca-app-pub-3940256099942544/5224354917";
 #elif UNITY_IOS
         adUnitId = ios_interstitialAdUnitId;
 #endif
@@ -96,7 +98,7 @@ public class AdMob : MonoBehaviour
         string adUnitId = string.Empty;
 
 #if UNITY_ANDROID
-        adUnitId = "ca-app-pub-8345080599263513/6325168143";
+        adUnitId = "ca-app-pub-3940256099942544/5224354917";
 #elif UNITY_IOS
         adUnitId = ios_interstitialAdUnitId;
 #endif
@@ -114,7 +116,7 @@ public class AdMob : MonoBehaviour
         string adUnitId = string.Empty;
 
 #if UNITY_ANDROID
-        adUnitId = "ca-app-pub-8345080599263513/5942024764";
+        adUnitId = "ca-app-pub-3940256099942544/5224354917";
 #elif UNITY_IOS
         adUnitId = ios_interstitialAdUnitId;
 #endif
@@ -132,6 +134,8 @@ public class AdMob : MonoBehaviour
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="args"></param>
+    ///
+    /// 
     private void HandleOnMenuClickAdClosed(object sender, EventArgs args)
     {
         print("HandleOnInterstitialAdClosed event received.");
@@ -141,22 +145,31 @@ public class AdMob : MonoBehaviour
         RequestMenuClickAd();
     }
 
-    private void HandleOnCompensationAdAdReward(object sender, EventArgs args)
+    private static void HandleOnCompensationAdAdReward(object sender, EventArgs args)
     {
-        NotificationManager.Instance.SetNotification2("비접속 보상 획득!!");
-        DataController.Instance.gold += DataController.Instance.compensationGold;
+        if (PlayerPrefs.GetFloat("AdIndex", 0) == 0)
+        {
+            NotificationManager.Instance.SetNotification2("비접속 보상 획득!!");
+            DataController.Instance.gold += DataController.Instance.compensationGold;   
+        }
     }
 
-    private void HandleOnAutoClickAdAdReward(object sender, EventArgs args)
+    private static void HandleOnAutoClickAdAdReward(object sender, EventArgs args)
     {
         // 오토클릭
-        EventManager.Instance.StartAutoClick();
+        if (PlayerPrefs.GetFloat("AdIndex", 0) == 1)
+        {
+            EventManager.Instance.StartAutoClick();
+        }
     }
     
-    private void HandleOnGoldRisingAdAdReward(object sender, EventArgs args)
+    private static void HandleOnGoldRisingAdAdReward(object sender, EventArgs args)
     {
         // 골드 버프
-        EventManager.Instance.StartGoldRising();
+        if (PlayerPrefs.GetFloat("AdIndex", 0) == 2)
+        {
+            EventManager.Instance.StartGoldRising();
+        }
     }
 
     private void HandleOnCompensationAdAdClosed(object sender, EventArgs args)
@@ -186,7 +199,7 @@ public class AdMob : MonoBehaviour
         GoldRisingAd.OnAdClosed -= HandleOnGoldRisingAdAdClosed;
         GoldRisingAd.OnAdRewarded -= HandleOnGoldRisingAdAdReward;
 
-        RequestAutoClickAd();
+        RequestGoldRisingAd();
     }
     
 
@@ -213,7 +226,7 @@ public class AdMob : MonoBehaviour
     {
         if (PlayerPrefs.GetFloat("NoAds", 0) == 0)
         {
-            StartCoroutine(_coroutine);   
+            StartCoroutine(_coroutine);
         }
         else
         {

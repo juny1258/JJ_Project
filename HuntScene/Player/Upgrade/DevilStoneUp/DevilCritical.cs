@@ -62,16 +62,15 @@ public class DevilCritical : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
             ProductName.text = "크리티컬 확률[+" + (DataController.Instance.devilCriticalLevel - 1) + "]";
             PriceText.text = Math.Round(startCurrentCost * DataController.Instance.devilCriticalLevel, 1).ToString();
 
-            UpgradeInfo.text = Math.Round(DataController.Instance.devilCritical * 100, 1) + "% -> " +
-                               Math.Round((DataController.Instance.devilCritical
-                                           + 0.005f) * 100, 1) + "%";
+            UpgradeInfo.text = Math.Round(DataController.Instance.devilCritical, 1) + "% -> " +
+                               Math.Round(DataController.Instance.devilCritical + 0.5f, 1) + "%";
         }
         else
         {
             ProductName.text = "크리티컬 확률[+" + (DataController.Instance.devilCriticalLevel - 1) + "]";
             PriceText.text = "Max";
 
-            UpgradeInfo.text = Math.Round((DataController.Instance.devilCritical - 1) * 100, 1) + "%";
+            UpgradeInfo.text = Math.Round(DataController.Instance.devilCritical, 1) + "%";
         }
     }
 

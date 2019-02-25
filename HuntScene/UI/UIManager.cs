@@ -47,6 +47,15 @@ public class UIManager : MonoBehaviour
             // 오토클릭 상품 결제 시 버프 이펙트 띄우기
             AutoSkill.SetActive(DataController.Instance.useAutoClick);
             Invoke("StopAutoClick", 180 + 30 * DataController.Instance.autoClickLevel);
+            
+            // 물약 사용 횟수 증가
+            DataController.Instance.autoClickIndex++;
+            if (DataController.Instance.autoClickIndex == 10)
+            {
+                // 사용 횟수 10 달성 시 지속시간 증가
+                DataController.Instance.autoClickIndex = 0;
+                DataController.Instance.autoClickLevel++;
+            }
         };
 
         // 실행 시 현재 코스튬 적용

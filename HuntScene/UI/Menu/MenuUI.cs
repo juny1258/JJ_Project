@@ -23,7 +23,7 @@ public class MenuUI : MonoBehaviour
     private void OnEnable()
     {
         GoldView.text = DataController.Instance.FormatGoldTwo(DataController.Instance.gold) + " G";
-        RubyView.text = Math.Round(DataController.Instance.ruby, 0).ToString();
+        RubyView.text = DataController.Instance.FormatGoldTwo(DataController.Instance.ruby);
         SapphaireView.text = Math.Round(DataController.Instance.sapphire, 0).ToString();
         SapphaireView2.text = Math.Round(DataController.Instance.sapphire, 0).ToString();
         DevilStoneView.text = Math.Round(DataController.Instance.devilStone, 0).ToString();
@@ -35,7 +35,7 @@ public class MenuUI : MonoBehaviour
     void Update()
     {
         GoldView.text = DataController.Instance.FormatGoldTwo(DataController.Instance.gold) + " G";
-        RubyView.text = Math.Round(DataController.Instance.ruby, 0).ToString();
+        RubyView.text = DataController.Instance.FormatGoldTwo(DataController.Instance.ruby);
         SapphaireView.text = Math.Round(DataController.Instance.sapphire, 0).ToString();
         SapphaireView2.text = Math.Round(DataController.Instance.sapphire, 0).ToString();
         DevilStoneView.text = Math.Round(DataController.Instance.devilStone, 0).ToString();
@@ -57,7 +57,7 @@ public class MenuUI : MonoBehaviour
                     i++;
                     if (i == Panels.childCount && !RankPanel.active)
                     {
-                        gameObject.SetActive(false);
+                        MenuManager.Instance.Close();
                     }
                 }
             }

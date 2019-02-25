@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
         TextPosition = transform.position;
         TextPosition.y += 1.8f;
         
+        SetCostume();
+        
         EventManager.SelectCostumeEvent += SetCostume;
         EventManager.SelectSkinEvent += SetCostume;
     }

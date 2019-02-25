@@ -17,7 +17,7 @@ public class FaustRewardText : MonoBehaviour
         {
             var item = Instantiate(Item, new Vector3(0, 0, 0), Quaternion.identity);
             item.GetComponent<Text>().text =
-                "파우스트에게 준 데미지 " + GetThousandCommaText((float) (1000000f * Math.Pow(3, i))) +
+                "파우스트에게 준 데미지 " + GetThousandCommaText((float) (1000000f * Math.Pow(2, i))) +
                 " - 데빌스톤 " + (i + 1) + "개";
 
             if (i % 2 == 1)

@@ -34,33 +34,46 @@ public class DevilDamage : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     public void UpgradeButtonClick()
     {
-        if (DataController.Instance.devilStone >= startCurrentCost * DataController.Instance.devilDamageLevel)
+        if (DataController.Instance.devilDamageLevel <= 100)
         {
-            DataController.Instance.devilStone -= startCurrentCost * DataController.Instance.devilDamageLevel;
+            if (DataController.Instance.devilStone >= startCurrentCost * DataController.Instance.devilDamageLevel)
+            {
+                DataController.Instance.devilStone -= startCurrentCost * DataController.Instance.devilDamageLevel;
 
-            DataController.Instance.devilDamage += 0.03f * DataController.Instance.devilDamageLevel;
+                DataController.Instance.devilDamage += 0.03f * DataController.Instance.devilDamageLevel;
 
-            DataController.Instance.UpdateDamage();
-            DataController.Instance.UpdateCritical();
+                DataController.Instance.UpdateDamage();
+                DataController.Instance.UpdateCritical();
 
-            DataController.Instance.devilDamageLevel++;
+                DataController.Instance.devilDamageLevel++;
 
-            UpdateUI();
-        }
-        else
-        {
-            NotificationManager.Instance.SetNotification("데빌스톤이 부족합니다.");
+                UpdateUI();
+            }
+            else
+            {
+                NotificationManager.Instance.SetNotification("데빌스톤이 부족합니다.");
+            }
         }
     }
 
     private void UpdateUI()
     {
-        ProductName.text = "공격력[+" + (DataController.Instance.devilDamageLevel - 1) + "]";
-        PriceText.text = Math.Round(startCurrentCost * DataController.Instance.devilDamageLevel, 0).ToString();
+        if (DataController.Instance.devilDamageLevel <= 100)
+        {
+            ProductName.text = "공격력[+" + (DataController.Instance.devilDamageLevel - 1) + "]";
+            PriceText.text = Math.Round(startCurrentCost * DataController.Instance.devilDamageLevel, 0).ToString();
 
-        UpgradeInfo.text = Math.Round(DataController.Instance.devilDamage * 100, 0) + "% -> " +
-                           Math.Round((DataController.Instance.devilDamage
-                            + 0.05f * DataController.Instance.devilDamageLevel) * 100, 0) + "%";
+            UpgradeInfo.text = Math.Round(DataController.Instance.devilDamage * 100, 0) + "% -> " +
+                               Math.Round((DataController.Instance.devilDamage
+                                           + 0.03f * DataController.Instance.devilDamageLevel) * 100, 0) + "%";   
+        }
+        else
+        {
+            ProductName.text = "공격력[+" + (DataController.Instance.devilDamageLevel - 1) + "]";
+            PriceText.text = "MAX";
+
+            UpgradeInfo.text = Math.Round(DataController.Instance.devilDamage * 100, 0) + "%";
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)

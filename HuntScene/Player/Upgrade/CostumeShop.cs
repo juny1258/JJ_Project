@@ -12,7 +12,7 @@ public class CostumeShop : MonoBehaviour {
 
 	public int index;
     
-	private int[] plusHp = {0, 20, 40, 60, 80, 100, 150, 200, 300, 500};
+	private int[] plusHp = {0, 20, 40, 60, 80, 100, 120, 140, 160, 180};
 
 	private void Start()
 	{

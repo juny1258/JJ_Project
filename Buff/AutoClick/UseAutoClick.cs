@@ -41,6 +41,7 @@ public class UseAutoClick : MonoBehaviour
     {
         // 광고 보고 오토클릭
         print("광고");
+        PlayerPrefs.SetFloat("AdIndex", 1);
         AdMob.Instance.ShowAutoClickAd();
     }
 
@@ -54,15 +55,6 @@ public class UseAutoClick : MonoBehaviour
         // 자동공격 시작
         DataController.Instance.autoClickTime = 180 + 30 * DataController.Instance.autoClickLevel;
         DataController.Instance.useAutoClick = true;
-
-        // 물약 사용 횟수 증가
-        DataController.Instance.autoClickIndex++;
-        if (DataController.Instance.autoClickIndex == 10)
-        {
-            // 사용 횟수 10 달성 시 지속시간 증가
-            DataController.Instance.autoClickIndex = 0;
-            DataController.Instance.autoClickLevel++;
-        }
 
         // 자동공격 이벤트 호출 (UIManager에서 정령의 축복 이펙트 시작)
         EventManager.Instance.AutoClick();

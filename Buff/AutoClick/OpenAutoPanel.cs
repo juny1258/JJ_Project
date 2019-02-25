@@ -38,7 +38,7 @@ public class OpenAutoPanel : MonoBehaviour
 
 	private void Update()
 	{
-		if (DataController.Instance.useAutoClick && !DataController.Instance.isMenuOpen)
+		if (DataController.Instance.useAutoClick)
 		{
 			DataController.Instance.autoClickTime -= Time.deltaTime;
 			var min = (int)DataController.Instance.autoClickTime / 60;

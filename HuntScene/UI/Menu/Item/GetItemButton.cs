@@ -16,7 +16,7 @@ public class GetItemButton : MonoBehaviour
         {
             var random = new Random();
 
-            var randInt = random.Next(0, 17);
+            var randInt = random.Next(0, 16);
 
             if (PlayerPrefs.GetInt("CollectionItem_" + randInt, 0) < 20)
             {

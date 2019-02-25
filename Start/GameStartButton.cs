@@ -14,7 +14,7 @@ public class GameStartButton : MonoBehaviour
 
     public void StartButton()
     {
-        if (!Social.localUser.authenticated)
+        if (Social.localUser.authenticated)
         {
             LoadingPanel.SetActive(true);
 

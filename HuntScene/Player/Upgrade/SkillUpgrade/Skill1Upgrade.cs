@@ -32,9 +32,10 @@ public class Skill1Upgrade : MonoBehaviour
 
 				if (DataController.Instance.skill_1 == 0)
 				{
-					Social.ReportProgress(GPGSIds.achievement_purchase_skill, 100f, isSuccess =>
+					if (Social.localUser.authenticated)
 					{
-					});
+						Social.ReportProgress(GPGSIds.achievement_purchase_skill, 100f, isSuccess => { });
+					}
 				}
 				
 				DataController.Instance.skill_1++;

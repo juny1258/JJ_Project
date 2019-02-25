@@ -28,12 +28,12 @@ public class DataController : MonoBehaviour
 
         if (Debug.isDebugBuild)
         {
-//            PlayerPrefs.DeleteAll();
+            PlayerPrefs.DeleteAll();
 
-            gold = 99999999999f;
-            ruby = 500000;
-            sapphire = 20000;
-            devilStone = 20000;
+            gold = 9999999999999999999f;
+            ruby = 500000000;
+            sapphire = 2000000;
+            devilStone = 20000000;
             rebirthStone = 10000;
 
 //            couponTime = 1;
@@ -44,6 +44,9 @@ public class DataController : MonoBehaviour
         UpdateDamage();
         UpdateCritical();
     }
+    
+    // 고급 환생
+    public bool isAdvancedRebirth = false;
     
     // 오토클릭 데이터
     public int autoClickLevel
@@ -114,12 +117,6 @@ public class DataController : MonoBehaviour
     {
         get { return PlayerPrefs.GetInt("MonsterKillLevel", 0); }
         set { PlayerPrefs.SetInt("MonsterKillLevel", value); }
-    }
-    
-    public float attackCount
-    {
-        get { return PlayerPrefs.GetFloat("AttackCount", 0); }
-        set { PlayerPrefs.SetFloat("AttackCount", value); }
     }
 
     public int firstRebirth
@@ -749,6 +746,17 @@ public class DataController : MonoBehaviour
         set { PlayerPrefs.SetFloat("AdvancedAngerDamage", value); }
     }
 
+    public float skinDamage
+    {
+        get { return PlayerPrefs.GetFloat("SkinDamage", 0); }
+        set { PlayerPrefs.SetFloat("SkinDamage", value); }
+    }
+
+    public float skinCriticalPer
+    {
+        get { return PlayerPrefs.GetFloat("SkinCriticalPer", 0); }
+        set { PlayerPrefs.SetFloat("SkinCriticalPer", value); }
+    }
 
     public void UpdateDamage()
     {
@@ -761,7 +769,8 @@ public class DataController : MonoBehaviour
                                + damage * collectionDamage
                                + damage * devilDamage
                                + damage * advancedDamage
-                               + damage * legendDevilStone * rebirthLevel * 3
+                               + damage * legendDevilStone * nowRebirthLevel * 3
+                               + damage * skinDamage
                            )
                            * (angerDamage + rubyAngerDamage + collectionAngerDamage + advancedAngerDamage);
         }
@@ -774,7 +783,8 @@ public class DataController : MonoBehaviour
                 + damage * collectionDamage
                 + damage * devilDamage
                 + damage * advancedDamage
-                + damage * legendDevilStone * rebirthLevel * 3
+                + damage * legendDevilStone * nowRebirthLevel * 3
+                + damage * skinDamage
             );
         }
     }
@@ -1302,6 +1312,7 @@ public class DataController : MonoBehaviour
                 highFaustDamageLevel = 1;
                 Social.ReportProgress(achievmentFaustIDs[highFaustDamageLevel], 100f, isSuccess =>
                 {
+                    
                 });
             }
         }

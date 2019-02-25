@@ -11,14 +11,21 @@ public class RebirthButton : MonoBehaviour
     {
         if (!DataController.Instance.isFight)
         {
-            if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel > 0)
+            if (DataController.Instance.rebirthLevel < 14)
             {
-                RebirthPanel.SetActive(true);
+                if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel > 0)
+                {
+                    RebirthPanel.SetActive(true);
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification("아직 환생할 수 없습니다.");
+                }      
             }
             else
             {
-                NotificationManager.Instance.SetNotification("아직 환생할 수 없습니다.");
-            }   
+                NotificationManager.Instance.SetNotification("최고 레벨입니다.");
+            }
         }
     }
 }

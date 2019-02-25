@@ -42,6 +42,7 @@ public class UseGoldBuff : MonoBehaviour {
     {
         // 광고 보고 오토클릭
         print("광고");
+        PlayerPrefs.SetFloat("AdIndex", 2);
         AdMob.Instance.ShowGoldRisingAd();
     }
 
@@ -55,7 +56,9 @@ public class UseGoldBuff : MonoBehaviour {
         // 자동공격 시작
         DataController.Instance.goldBuffTime = 180 + 30 * DataController.Instance.goldBuffLevel;
         DataController.Instance.useGoldBuff = 1.5f;
-
+        
+        Invoke("StopGoldBuff", 180 + 30 * DataController.Instance.goldBuffLevel);
+        
         // 물약 사용 횟수 증가
         DataController.Instance.goldBuffIndex++;
         if (DataController.Instance.goldBuffIndex == 10)
@@ -65,7 +68,6 @@ public class UseGoldBuff : MonoBehaviour {
             DataController.Instance.goldBuffLevel++;
         }
         
-        Invoke("StopGoldBuff", 180 + 30 * DataController.Instance.goldBuffLevel);
         SealStoneGlow.SetActive(true);
         GoldBuffPanel.SetActive(false);
     }

@@ -67,14 +67,14 @@ public class HuntButton : MonoBehaviour
                 {
                     DataController.Instance.skipCoupon -= 1;
                     
-                    if (DataController.Instance.finalHuntLevel < 2)
+                    if (DataController.Instance.finalHuntLevel == DataController.Instance.huntLevel)
                     {
-                        RewardManager.Instance.ShowRewardPanel((float) (global::MonsterSpwan.gold * Math.Pow(6f, index)),
+                        RewardManager.Instance.ShowRewardPanel((float) (global::MonsterSpwan.gold * Math.Pow(3f, index)),
                             global::MonsterSpwan.ruby[index], global::MonsterSpwan.sapphire[index]);
                     }
                     else
                     {
-                        RewardManager.Instance.ShowRewardPanel((float) (global::MonsterSpwan.gold * Math.Pow(6f, index)),
+                        RewardManager.Instance.ShowRewardPanel((float) (global::MonsterSpwan.gold * Math.Pow(3f, index)),
                             global::MonsterSpwan.ruby[DataController.Instance.finalHuntLevel-1], global::MonsterSpwan.sapphire[DataController.Instance.finalHuntLevel-1]);
                     }
                     

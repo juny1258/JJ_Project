@@ -38,7 +38,7 @@ public class BossSpwan : MonoBehaviour
         var monster = Instantiate(BossMonsters[DataController.Instance.bossLevel],
             new Vector3(transform.position.x, transform.position.y, randPositionZ * 0.00001f), Quaternion.identity);
 
-        if (DataController.Instance.finalBossLevel < 2)
+        if (DataController.Instance.finalBossLevel == DataController.Instance.bossLevel)
         {
             monster.GetComponent<MonsterManager>().SetMonsterAvility(
                 (float) (startHP * Math.Pow(5, DataController.Instance.bossLevel)),
@@ -92,14 +92,14 @@ public class BossSpwan : MonoBehaviour
     {
         if (isClear)
         {
-            if (DataController.Instance.finalBossLevel < 2)
+            if (DataController.Instance.finalBossLevel == DataController.Instance.bossLevel)
             {
-                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(6, DataController.Instance.bossLevel)),
+                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(3, DataController.Instance.bossLevel)),
                     ruby[DataController.Instance.bossLevel], sapphire[DataController.Instance.bossLevel]);
             }
             else
             {
-                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(6, DataController.Instance.bossLevel)),
+                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(3, DataController.Instance.bossLevel)),
                     ruby[DataController.Instance.finalBossLevel-1], sapphire[DataController.Instance.finalBossLevel-1]);
             }
 
@@ -107,14 +107,15 @@ public class BossSpwan : MonoBehaviour
             {
                 DataController.Instance.finalBossLevel = DataController.Instance.bossLevel + 1;
 
-                if (PlayerPrefs.GetFloat("FirstBossClear", 0) == 0)
+                if (DataController.Instance.bossLevel == DataController.Instance.masterCostumeIndex)
                 {
-                    PlayerPrefs.SetFloat("FirstBossClear", 1);
-                    if (DataController.Instance.bossLevel == 0)
+                    if (PlayerPrefs.GetFloat("FirstBossClear", 0) == 0)
                     {
-                        Social.ReportProgress(GPGSIds.achievement_get_costume, 100f, isSuccess =>
+                        if (Social.localUser.authenticated)
                         {
-                        });
+                            Social.ReportProgress(GPGSIds.achievement_get_costume, 100f,
+                                isSuccess => { PlayerPrefs.SetFloat("FirstBossClear", 1); });
+                        }
                     }
                     
                     CostumeImage.sprite = Resources.Load(

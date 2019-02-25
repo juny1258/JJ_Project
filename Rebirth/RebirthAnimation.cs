@@ -90,6 +90,9 @@ public class RebirthAnimation : MonoBehaviour
              DataController.Instance.advancedRebirthPer);
 
         DataController.Instance.nowRebirthLevel++;
+        
+        DataController.Instance.UpdateDamage();
+        DataController.Instance.UpdateCritical();
 
         foreach (var light in Lights)
         {
@@ -98,8 +101,15 @@ public class RebirthAnimation : MonoBehaviour
 
         Background.color = new Color(0, 0, 0, 0);
         GetComponent<Animator>().enabled = true;
-        
-        DataController.Instance.RebirthAvilityReset();
+
+        if (DataController.Instance.isAdvancedRebirth)
+        {
+            DataController.Instance.isAdvancedRebirth = false;
+        }
+        else
+        {
+            DataController.Instance.RebirthAvilityReset();
+        }
         
         foreach (Transform stone in Stones)
         {
@@ -110,10 +120,13 @@ public class RebirthAnimation : MonoBehaviour
 
         if (DataController.Instance.firstRebirth == 0)
         {
-            DataController.Instance.firstRebirth = 1;
-            Social.ReportProgress(GPGSIds.achievement_rebirth_success, 100f, isSuccess =>
+            if (Social.localUser.authenticated)
             {
-            });
+                DataController.Instance.firstRebirth = 1;
+                Social.ReportProgress(GPGSIds.achievement_rebirth_success, 100f, isSuccess =>
+                {
+                });
+            }
         }
         
         EventManager.Instance.Rebirth();

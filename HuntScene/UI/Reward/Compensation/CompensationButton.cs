@@ -14,6 +14,7 @@ public class CompensationButton : MonoBehaviour
 
 	public void OnAdClick()
 	{
+		PlayerPrefs.SetFloat("AdIndex", 0);
 		AdMob.Instance.ShowCompensationAd();
 		CompensationPanel.SetActive(false);
 	}

@@ -111,19 +111,19 @@ public class TimeManager : MonoBehaviour
 
                     SetCoolTime(rewardTime);
 
-                    if (rewardTime >= 5000)
+                    if (rewardTime >= 5400)
                     {
-                        // 2시간 이상 경과
-                        DataController.Instance.gold += DataController.Instance.masterDamage * 5000 / 3.8f *
-                                                        DataController.Instance.collectionGoldRising;
+                        // 1시간 반 이상 경과
+                        DataController.Instance.gold += DataController.Instance.masterDamage * 5400 / 3.8f *
+                                                        DataController.Instance.collectionGoldRising / 5;
 
-                        DataController.Instance.compensationGold = DataController.Instance.masterDamage * 5000 / 3.8f *
-                                                                   DataController.Instance.collectionGoldRising;
+                        DataController.Instance.compensationGold = DataController.Instance.masterDamage * 5400 / 3.8f *
+                                                                   DataController.Instance.collectionGoldRising / 5;
 
                         CompensationPanel.SetActive(true);
                         CompensationText.text =
-                            DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage * 5000 / 3.8f *
-                                                                  DataController.Instance.collectionGoldRising) +
+                            DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage * 5400 / 3.8f *
+                                                                  DataController.Instance.collectionGoldRising / 5) +
                             "G 획득!!";
 
                         if ( DataController.Instance.skipCoupon == 0)
@@ -144,20 +144,20 @@ public class TimeManager : MonoBehaviour
                     }
                     else
                     {
-                        // 2시간 미만
+                        // 1시간 반 미만
 
                         DataController.Instance.gold += DataController.Instance.masterDamage * rewardTime / 3.8f *
-                                                        DataController.Instance.collectionGoldRising;
+                                                        DataController.Instance.collectionGoldRising / 5;
 
                         DataController.Instance.compensationGold =
                             DataController.Instance.masterDamage * rewardTime / 3.8f *
-                            DataController.Instance.collectionGoldRising;
+                            DataController.Instance.collectionGoldRising / 5;
 
                         CompensationPanel.SetActive(true);
                         CompensationText.text =
                             DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage * rewardTime /
                                                                   3.8f *
-                                                                  DataController.Instance.collectionGoldRising) +
+                                                                  DataController.Instance.collectionGoldRising / 5) +
                             "G 획득!!";
 
                         if (rewardTime < 1800 && DataController.Instance.couponTime < 3)
@@ -192,20 +192,20 @@ public class TimeManager : MonoBehaviour
                     SetCoolTime(compensationTime);
 
                     // 당일 재접속
-                    if (compensationTime >= 5000)
+                    if (compensationTime >= 5400)
                     {
-                        // 2시간 이상 경과
+                        // 1시간 반 이상 경과
 
-                        DataController.Instance.gold += DataController.Instance.masterDamage * 5000 / 3.8f *
-                                                        DataController.Instance.collectionGoldRising;
+                        DataController.Instance.gold += DataController.Instance.masterDamage * 5400 / 3.8f *
+                                                        DataController.Instance.collectionGoldRising / 5;
 
-                        DataController.Instance.compensationGold = DataController.Instance.masterDamage * 5000 / 3.8f *
-                                                                   DataController.Instance.collectionGoldRising;
+                        DataController.Instance.compensationGold = DataController.Instance.masterDamage * 5400 / 3.8f *
+                                                                   DataController.Instance.collectionGoldRising / 5;
 
                         CompensationPanel.SetActive(true);
                         CompensationText.text =
-                            DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage * 5000 / 3.8f *
-                                                                  DataController.Instance.collectionGoldRising) +
+                            DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage * 5400 / 3.8f *
+                                                                  DataController.Instance.collectionGoldRising / 5) +
                             "G 획득!!";
                         
                         if ( DataController.Instance.skipCoupon == 0)
@@ -226,20 +226,20 @@ public class TimeManager : MonoBehaviour
                     }
                     else
                     {
-                        // 2시간 미만 경과
+                        // 1시간 반 미만 경과
 
                         DataController.Instance.gold += DataController.Instance.masterDamage * compensationTime / 3.8f *
-                                                        DataController.Instance.collectionGoldRising;
+                                                        DataController.Instance.collectionGoldRising / 5;
 
                         DataController.Instance.compensationGold =
                             DataController.Instance.masterDamage * compensationTime / 3.8f *
-                            DataController.Instance.collectionGoldRising;
+                            DataController.Instance.collectionGoldRising / 5;
 
                         CompensationPanel.SetActive(true);
                         CompensationText.text =
                             DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage *
                                                                   compensationTime / 3.8f *
-                                                                  DataController.Instance.collectionGoldRising) +
+                                                                  DataController.Instance.collectionGoldRising / 5) +
                             "G 획득!!";
                         
                         if (compensationTime < 1800 && DataController.Instance.couponTime < 3)
