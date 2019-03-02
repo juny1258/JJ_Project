@@ -69,12 +69,12 @@ public class BossButton : MonoBehaviour {
 					
 					if (DataController.Instance.finalBossLevel == DataController.Instance.bossLevel)
 					{
-						RewardManager.Instance.ShowRewardPanel((float) (global::BossSpwan.gold * Math.Pow(3f, index)),
+						RewardManager.Instance.ShowRewardPanel(
 							global::BossSpwan.ruby[index], global::BossSpwan.sapphire[index]);
 					}
 					else
 					{
-						RewardManager.Instance.ShowRewardPanel((float) (global::BossSpwan.gold * Math.Pow(3f, index)),
+						RewardManager.Instance.ShowRewardPanel(
 							global::BossSpwan.ruby[DataController.Instance.finalBossLevel-1], global::BossSpwan.sapphire[DataController.Instance.finalBossLevel-1]);
 					}
 					

@@ -39,7 +39,7 @@ public class RecordTime : MonoBehaviour {
 				}
 			});
 			
-			Social.ReportScore((long) DataController.Instance.masterCriticalDamage, GPGSIds.leaderboard_4, success =>
+			Social.ReportScore((long) DataController.Instance.masterCriticalDamage, GPGSIds.leaderboard_7, success =>
 			{
 				if (success)
 				{

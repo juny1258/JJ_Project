@@ -14,21 +14,32 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        EventManager.MonsterAttackEvent += damage =>
-        {
-            CombatTextManager.Instance.CreateText(TextPosition, DataController.Instance.FormatGoldTwo(damage),
-                false);
+        EventManager.MonsterAttackEvent += MonsterAttack;
 
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
-        };
+        EventManager.BossAttackEvent += BossAttack;
+    }
 
-        EventManager.BossAttackEvent += damage =>
-        {
-            CombatTextManager.Instance.CreateText(TextPosition, DataController.Instance.FormatGoldTwo(damage),
-                true);
+    private void OnDestroy()
+    {
+        EventManager.MonsterAttackEvent -= MonsterAttack;
 
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
-        };
+        EventManager.BossAttackEvent -= BossAttack;
+    }
+
+    private void MonsterAttack(float damage)
+    {
+        CombatTextManager.Instance.CreateText(TextPosition, DataController.Instance.FormatGoldTwo(damage),
+            false);
+
+        Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+    }
+    
+    private void BossAttack(float damage)
+    {
+        CombatTextManager.Instance.CreateText(TextPosition, DataController.Instance.FormatGoldTwo(damage),
+            true);
+
+        Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
     }
 
     private void OnEnable()
@@ -71,7 +82,7 @@ public class Player : MonoBehaviour
     {
         HpSlider.maxValue = DataController.Instance.GetPlayerHP();
         HpSlider.value = DataController.Instance.nowPlayerHP;
-        HpText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.GetPlayerHP()) + "/" +
-                      DataController.Instance.FormatGoldTwo(DataController.Instance.nowPlayerHP);
+        HpText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.nowPlayerHP) + "/" +
+                      DataController.Instance.FormatGoldTwo(DataController.Instance.GetPlayerHP());
     }
 }

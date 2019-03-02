@@ -347,7 +347,7 @@ public class FaustObject : MonoBehaviour
         {
             // login success
             float highScore = damageReceived;
-            string leaderBoardId = GPGSIds.leaderboard;
+            string leaderBoardId = GPGSIds.leaderboard_7;
 
             Social.ReportScore((long) highScore, leaderBoardId, success =>
             {

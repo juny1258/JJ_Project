@@ -17,10 +17,7 @@ public class ReceiveFlyingReward : MonoBehaviour
 
 	public void OnRewardButton()
 	{
-		// TODO 유니티 보상형 광고 넣은 후 보상 지급
-		
 		ShowRewardedAd();
-
 	}
 
 	public void OnCloseButton()

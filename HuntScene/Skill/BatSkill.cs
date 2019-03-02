@@ -14,7 +14,17 @@ public class BatSkill : MonoBehaviour
     {
         NotPurchasePanel.SetActive(DataController.Instance.skill_1 == 0);
         
-        EventManager.UpgradeSkillEvent += () => { NotPurchasePanel.SetActive(DataController.Instance.skill_1 == 0); };
+        EventManager.UpgradeSkillEvent += UpSkill;
+    }
+
+    private void UpSkill()
+    {
+        NotPurchasePanel.SetActive(DataController.Instance.skill_1 == 0);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.UpgradeSkillEvent -= UpSkill;
     }
 
     public void PlaySkill()
@@ -23,6 +33,7 @@ public class BatSkill : MonoBehaviour
         {
             DataController.Instance.skill_1_cooltime = 180 - 9 * (DataController.Instance.collectionCoolTime / 5);
             Instantiate(BatSkillObject, new Vector3(-4.65f, -2.37f, 0), Quaternion.identity);
+            EventManager.Instance.PlaySkill();
         }
     }
 

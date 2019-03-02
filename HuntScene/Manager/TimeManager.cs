@@ -28,7 +28,6 @@ public class TimeManager : MonoBehaviour
         50, 80, 120, 150, 200, 250, 300
     };
     
-    private DatabaseReference reference;
     private DatabaseReference userReference;
 
     private void Awake()
@@ -36,14 +35,20 @@ public class TimeManager : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://devilhunter-b89af.firebaseio.com/");
         // 엉
         userReference = FirebaseDatabase.DefaultInstance.RootReference.Child("Rank");
-        reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
     void Start()
     {
         Debug.Log("==> TimeManager script is Ready.");
-        StartCoroutine("AttendanceChack");
-        StartCoroutine("OfflineCompensation");
+        if (PlayerPrefs.GetFloat("StartGame", 0) == 0)
+        {
+            StartCoroutine("AttendanceChack");
+            StartCoroutine("OfflineCompensation");
+        }
+        else
+        {
+            InvokeRepeating("RecordTime", 5, 5);
+        }
     }
 
     // 시간 기록
@@ -69,13 +74,8 @@ public class TimeManager : MonoBehaviour
             {
                 if (task.IsCompleted)
                 {
-                    
                 }
             });
-        }
-        else
-        {
-            
         }
     }
 
@@ -160,7 +160,7 @@ public class TimeManager : MonoBehaviour
                                                                   DataController.Instance.collectionGoldRising / 5) +
                             "G 획득!!";
 
-                        if (rewardTime < 1800 && DataController.Instance.couponTime < 3)
+                        if (rewardTime < 1800 && DataController.Instance.skipCoupon < 3)
                         {
                             DataController.Instance.couponTime -= rewardTime;
                         }
@@ -242,7 +242,7 @@ public class TimeManager : MonoBehaviour
                                                                   DataController.Instance.collectionGoldRising / 5) +
                             "G 획득!!";
                         
-                        if (compensationTime < 1800 && DataController.Instance.couponTime < 3)
+                        if (compensationTime < 1800 && DataController.Instance.skipCoupon < 3)
                         {
                             DataController.Instance.couponTime -= compensationTime;
                         }
@@ -289,6 +289,7 @@ public class TimeManager : MonoBehaviour
 
     public void SetCoolTime(float time)
     {
+        time = 180;
         DataController.Instance.skill_1_cooltime -= time;
         DataController.Instance.skill_2_cooltime -= time;
         DataController.Instance.skill_3_cooltime -= time;

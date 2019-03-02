@@ -14,7 +14,17 @@ public class TonadoSkill : MonoBehaviour
     {
         NotPurchasePanel.SetActive(DataController.Instance.skill_2 == 0);
         
-        EventManager.UpgradeSkillEvent += () => { NotPurchasePanel.SetActive(DataController.Instance.skill_2 == 0); };
+        EventManager.UpgradeSkillEvent += UpSkill;
+    }
+
+    private void UpSkill()
+    {
+        NotPurchasePanel.SetActive(DataController.Instance.skill_2 == 0);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.UpgradeSkillEvent -= UpSkill;
     }
 
     public void PlaySkill_2()
@@ -24,6 +34,7 @@ public class TonadoSkill : MonoBehaviour
             Instantiate(SkillObject, new Vector3(0, 0, 0), Quaternion.identity);
             EventManager.Instance.UseSkill(2);
             DataController.Instance.skill_2_cooltime = 180 - 9 * (DataController.Instance.collectionCoolTime / 5);
+            EventManager.Instance.PlaySkill();
         }
     }
 

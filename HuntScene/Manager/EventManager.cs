@@ -67,7 +67,47 @@ public class EventManager : MonoBehaviour {
 	
 	public static event Event StartGoldRidingEvent;
 	
+	public static event Event PlaySkillEvent;
+	
+	public static event Event StartPvpEvent;
+	
+	public static event EventWithInt EndPvpEvent;
 
+	public static event Event PlaySkillSoundEvent;
+	public static event Event PlaySkillSoundEvent2;
+	
+	public void PlaySkillSound()
+	{
+		if (PlaySkillSoundEvent != null)
+		{
+			PlaySkillSoundEvent();
+		}
+	}
+	
+	public void PlaySkillSound2()
+	{
+		if (PlaySkillSoundEvent2 != null)
+		{
+			PlaySkillSoundEvent2();
+		}
+	}
+	
+	public void StartPvp()
+	{
+		if (StartPvpEvent != null)
+		{
+			StartPvpEvent();
+		}
+	}
+
+	public void EndPvp(int index)
+	{
+		if (EndPvpEvent != null)
+		{
+			EndPvpEvent(index);
+		}
+	}
+	
 	public void MonsterAttack(float damage)
 	{
 		if (MonsterAttackEvent != null)
@@ -209,6 +249,14 @@ public class EventManager : MonoBehaviour {
 		if (StartGoldRidingEvent != null)
 		{
 			StartGoldRidingEvent();
+		}
+	}
+	
+	public void PlaySkill()
+	{
+		if (PlaySkillEvent != null)
+		{
+			PlaySkillEvent();
 		}
 	}
 }

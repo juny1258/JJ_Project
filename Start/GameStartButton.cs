@@ -16,9 +16,8 @@ public class GameStartButton : MonoBehaviour
     {
         if (Social.localUser.authenticated)
         {
+            PlayerPrefs.SetFloat("StartGame", 0);
             LoadingPanel.SetActive(true);
-
-            SceneManager.LoadScene(1);
         }
         else
         {

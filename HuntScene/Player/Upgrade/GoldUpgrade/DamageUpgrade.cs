@@ -33,27 +33,37 @@ public class DamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     public void UpgradeButtonClick()
     {
-        if (DataController.Instance.gold >= DataController.Instance.damageCost)
+        if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel == 0)
         {
-            DataController.Instance.gold -= DataController.Instance.damageCost;
+            if (DataController.Instance.damageLevel <= 2000)
+            {
+                if (DataController.Instance.gold >= DataController.Instance.damageCost)
+                {
+                    DataController.Instance.gold -= DataController.Instance.damageCost;
 
-            DataController.Instance.damage += damageByUpgrade;
+                    DataController.Instance.damage += damageByUpgrade;
 
-            DataController.Instance.damageAddCost += (int) ((DataController.Instance.damageLevel) * 10);
-            DataController.Instance.damageCost += DataController.Instance.damageAddCost;
+                    DataController.Instance.damageAddCost += (int) ((DataController.Instance.damageLevel) * 10);
+                    DataController.Instance.damageCost += DataController.Instance.damageAddCost;
 
-            DataController.Instance.UpdateDamage();
-            DataController.Instance.UpdateCritical();
+                    DataController.Instance.UpdateDamage();
+                    DataController.Instance.UpdateCritical();
 
-            DataController.Instance.damageLevel++;
+                    DataController.Instance.damageLevel++;
 
-            UpdateUpgrade();
+                    UpdateUpgrade();
 
-            UpdateUI();
+                    UpdateUI();
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
+                }
+            }   
         }
         else
         {
-            NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
+            NotificationManager.Instance.SetNotification("악의 기운에 가로막혀 강화할 수 없습니다.");
         }
     }
 
@@ -64,11 +74,21 @@ public class DamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     private void UpdateUI()
     {
-        ProductName.text = "공격력[+" + (DataController.Instance.damageLevel - 1) + "]";
-        PriceText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.damageCost);
+        if (DataController.Instance.damageLevel <= 2000)
+        {
+            ProductName.text = "공격력[+" + (DataController.Instance.damageLevel - 1) + "]";
+            PriceText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.damageCost);
 
-        UpgradeInfo.text = DataController.Instance.FormatGoldTwo(DataController.Instance.damage) + "\n-> " +
-                           DataController.Instance.FormatGoldTwo(DataController.Instance.damage + damageByUpgrade);
+            UpgradeInfo.text = DataController.Instance.FormatGoldTwo(DataController.Instance.damage) + "\n-> " +
+                               DataController.Instance.FormatGoldTwo(DataController.Instance.damage + damageByUpgrade);
+        }
+        else
+        {
+            ProductName.text = "공격력[+" + (DataController.Instance.damageLevel - 1) + "]";
+            PriceText.text = "MAX";
+
+            UpgradeInfo.text = DataController.Instance.FormatGoldTwo(DataController.Instance.damage);
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)

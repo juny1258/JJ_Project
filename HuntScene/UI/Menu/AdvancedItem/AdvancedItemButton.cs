@@ -123,7 +123,7 @@ public class AdvancedItemButton : MonoBehaviour
             }
             else
             {
-                NotificationManager.Instance.SetNotification("환생석이 부족합니다.");
+                NotificationManager.Instance.SetNotification("힘의 원천이 부족합니다.");
             }
         }
     }

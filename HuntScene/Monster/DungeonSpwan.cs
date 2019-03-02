@@ -65,7 +65,7 @@ public class DungeonSpwan : MonoBehaviour
     {
         if (isClear)
         {
-            RewardManager.Instance.ShowRewardPanel(gold[DataController.Instance.dungeonLevel],
+            RewardManager.Instance.ShowRewardPanel(
                 ruby[DataController.Instance.dungeonLevel], sapphire[DataController.Instance.dungeonLevel]);
 
             if (DataController.Instance.finalDungeonLevel == DataController.Instance.dungeonLevel)
@@ -75,7 +75,7 @@ public class DungeonSpwan : MonoBehaviour
         }
         else
         {
-            RewardManager.Instance.ShowRewardPanel(0, 0, 0);
+            RewardManager.Instance.ShowRewardPanel(0, 0);
         }
     }
 

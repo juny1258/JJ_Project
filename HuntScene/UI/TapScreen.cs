@@ -68,14 +68,42 @@ public class TapScreen : MonoBehaviour
             SpawnPoint.y += Random.Range(0, 0.2f);
             SpawnPoint.z = 0;
             var skill = Instantiate(SkillObjects[DataController.Instance.skillIndex], SpawnPoint, Quaternion.identity);
+            
+            skill.GetComponent<Rigidbody>().AddForce(Vector3.right * 500f);
+            var randInt = Random.Range(-50, 50);
+            skill.GetComponent<Rigidbody>().AddForce(new Vector3(0, randInt, 0));
+            
+            randInt = Random.Range(0, 1000);
+            if (randInt < (DataController.Instance.criticalPercent + DataController.Instance.rubyCriticalPer +
+                           DataController.Instance.devilCritical + DataController.Instance.collectionCriticalPer +
+                           DataController.Instance.advancedCriticalPer + DataController.Instance.skinCriticalPer) * 10)
+            {
+                skill.transform.localScale = new Vector3(transform.localScale.x * 1.5f, transform.localScale.y * 1.5f, 1);
+                skill.tag = "CriticalAttack";
+            }
+            
             skill.transform.SetParent(Stones);
             if (DataController.Instance.isShadowSkill)
             {
                 SpawnPoint2 = AttackPosition2.position;
                 SpawnPoint.y += Random.Range(0, 0.2f);
                 SpawnPoint.z = 0;
-                Instantiate(SkillObjects[DataController.Instance.skillIndex], SpawnPoint2, Quaternion.identity);
-                skill.transform.SetParent(Stones);
+                var skill1 = Instantiate(SkillObjects[DataController.Instance.skillIndex], SpawnPoint2, Quaternion.identity);
+                
+                skill1.GetComponent<Rigidbody>().AddForce(Vector3.right * 500f);
+                var randInt1 = Random.Range(-50, 50);
+                skill1.GetComponent<Rigidbody>().AddForce(new Vector3(0, randInt1, 0));
+            
+                randInt1 = Random.Range(0, 1000);
+                if (randInt1 < (DataController.Instance.criticalPercent + DataController.Instance.rubyCriticalPer +
+                               DataController.Instance.devilCritical + DataController.Instance.collectionCriticalPer +
+                               DataController.Instance.advancedCriticalPer + DataController.Instance.skinCriticalPer) * 10)
+                {
+                    skill1.transform.localScale = new Vector3(transform.localScale.x * 1.5f, transform.localScale.y * 1.5f, 1);
+                    skill1.tag = "CriticalAttack";
+                }
+                
+                skill1.transform.SetParent(Stones);
 
                 if (DataController.Instance.skinIndex == 0)
                 {

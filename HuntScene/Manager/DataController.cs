@@ -28,8 +28,6 @@ public class DataController : MonoBehaviour
 
         if (Debug.isDebugBuild)
         {
-            PlayerPrefs.DeleteAll();
-
             gold = 9999999999999999999f;
             ruby = 500000000;
             sapphire = 2000000;
@@ -44,6 +42,19 @@ public class DataController : MonoBehaviour
         UpdateDamage();
         UpdateCritical();
     }
+    
+    // PVP
+    public string playerID
+    {
+        get { return PlayerPrefs.GetString("PlayerID", ""); }
+        set { PlayerPrefs.SetString("PlayerID", value); }
+    }
+    
+    public PvpData PlayerData;
+
+    public PvpData AIData;
+
+    public bool isPvpReady;
     
     // 고급 환생
     public bool isAdvancedRebirth = false;
@@ -787,15 +798,26 @@ public class DataController : MonoBehaviour
                 + damage * skinDamage
             );
         }
+
+        enqueueGold = masterDamage / 3.8f *
+                      collectionGoldRising *
+                      useGoldBuff;
     }
 
     public float masterCriticalDamage;
+
+    public float enqueueGold;
+    public float enqueueCriticalGold;
 
     public void UpdateCritical()
     {
         masterCriticalDamage = masterDamage *
                                (criticalRising + rubyCriticalRising + devilCriticalRising + collectionCriticalDamage +
                                 advancedCriticalRising);
+        
+        enqueueCriticalGold = masterCriticalDamage / 3.8f *
+                              collectionGoldRising *
+                              useGoldBuff;
     }
 
     public float playerHP

@@ -35,7 +35,7 @@ public class RubyHpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
             {
                 DataController.Instance.ruby -= (DataController.Instance.rubyRisingHPLevel + 1) * 10;
 
-                DataController.Instance.rubyRisingHP += (DataController.Instance.rubyRisingHPLevel + 1) * 0.01f;
+                DataController.Instance.rubyRisingHP += (DataController.Instance.rubyRisingHPLevel + 1) * 0.006f;
 
                 DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
 
@@ -63,7 +63,7 @@ public class RubyHpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
                                "% -> " +
                                Math.Truncate(
                                    (DataController.Instance.rubyRisingHP +
-                                    (DataController.Instance.rubyRisingHPLevel + 1) * 0.02f) * 100) +
+                                    (DataController.Instance.rubyRisingHPLevel + 1) * 0.006f) * 100) +
                                "%";
         }
         else

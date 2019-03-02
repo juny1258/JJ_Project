@@ -41,96 +41,71 @@ public class UIManager : MonoBehaviour
             
             StartInfoPanel.SetActive(true);
         }
+        
+        SetCostume();
 
-        EventManager.AutoClickEvent += () =>
-        {
-            // 오토클릭 상품 결제 시 버프 이펙트 띄우기
-            AutoSkill.SetActive(DataController.Instance.useAutoClick);
-            Invoke("StopAutoClick", 180 + 30 * DataController.Instance.autoClickLevel);
+        EventManager.AutoClickEvent += SetAutoClick;
+
+        EventManager.SelectCostumeEvent += SetCostume;
+
+        EventManager.SelectSkinEvent += SetCostume;
+
+        EventManager.PlaySkillEvent += ShowSkillCoolTime;
+        
+        InvokeRepeating("FlyRewardPlay", 60, 180);
+        
+        InvokeRepeating("ShowSkillCoolTime", 0, 0.2f);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.AutoClickEvent -= SetAutoClick;
+
+        EventManager.SelectCostumeEvent -= SetCostume;
+
+        EventManager.SelectSkinEvent -= SetCostume;
+
+        EventManager.PlaySkillEvent -= ShowSkillCoolTime;
+    }
+
+    private void SetAutoClick()
+    {
+        // 오토클릭 상품 결제 시 버프 이펙트 띄우기
+        AutoSkill.SetActive(DataController.Instance.useAutoClick);
+        Invoke("StopAutoClick", 180 + 30 * DataController.Instance.autoClickLevel);
             
-            // 물약 사용 횟수 증가
-            DataController.Instance.autoClickIndex++;
-            if (DataController.Instance.autoClickIndex == 10)
-            {
-                // 사용 횟수 10 달성 시 지속시간 증가
-                DataController.Instance.autoClickIndex = 0;
-                DataController.Instance.autoClickLevel++;
-            }
-        };
+        // 물약 사용 횟수 증가
+        DataController.Instance.autoClickIndex++;
+        if (DataController.Instance.autoClickIndex == 10)
+        {
+            // 사용 횟수 10 달성 시 지속시간 증가
+            DataController.Instance.autoClickIndex = 0;
+            DataController.Instance.autoClickLevel++;
+        }
+    }
 
-        // 실행 시 현재 코스튬 적용
+    private void SetCostume()
+    {
         if (DataController.Instance.skinIndex == 0)
         {
             PlayerStateImage.sprite =
                 Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
                     typeof(Sprite)) as Sprite;  
-            
+                
             PlayerStateImage1.sprite =
                 Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
-                    typeof(Sprite)) as Sprite;  
+                    typeof(Sprite)) as Sprite; 
         }
         else
         {
             PlayerStateImage.sprite =
                 Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
                     typeof(Sprite)) as Sprite;
-            
+                
             PlayerStateImage1.sprite =
                 Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
                     typeof(Sprite)) as Sprite;
         }
-
-        EventManager.SelectCostumeEvent += () =>
-        {
-            // 코스튬 교체 이벤트
-            if (DataController.Instance.skinIndex == 0)
-            {
-                PlayerStateImage.sprite =
-                    Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
-                        typeof(Sprite)) as Sprite;  
-                
-                PlayerStateImage1.sprite =
-                    Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
-                        typeof(Sprite)) as Sprite; 
-            }
-            else
-            {
-                PlayerStateImage.sprite =
-                    Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
-                        typeof(Sprite)) as Sprite;
-                
-                PlayerStateImage1.sprite =
-                    Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
-                        typeof(Sprite)) as Sprite;
-            }
-        };
-        
-        EventManager.SelectSkinEvent += () =>
-        {
-            // 코스튬 교체 이벤트
-            if (DataController.Instance.skinIndex == 0)
-            {
-                PlayerStateImage.sprite =
-                    Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
-                        typeof(Sprite)) as Sprite;  
-                
-                PlayerStateImage1.sprite =
-                    Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
-                        typeof(Sprite)) as Sprite; 
-            }
-            else
-            {
-                PlayerStateImage.sprite =
-                    Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
-                        typeof(Sprite)) as Sprite;
-                
-                PlayerStateImage1.sprite =
-                    Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
-                        typeof(Sprite)) as Sprite;
-            }
-        };
-        
-        InvokeRepeating("FlyRewardPlay", 60, 180);
     }
 
     private void StopAutoClick()
@@ -139,41 +114,44 @@ public class UIManager : MonoBehaviour
         DataController.Instance.useAutoClick = false;
     }
 
+    public void ShowSkillCoolTime()
+    {
+        if (DataController.Instance.skill_1_cooltime > 0)
+        {
+            Skill1.fillAmount = DataController.Instance.skill_1_cooltime * 0.0056f;
+        }
+
+        if (DataController.Instance.skill_2_cooltime > 0)
+        {
+            Skill2.fillAmount = DataController.Instance.skill_2_cooltime * 0.0056f;
+        }
+
+        if (DataController.Instance.skill_3_cooltime > 0)
+        {
+            Skill3.fillAmount = DataController.Instance.skill_3_cooltime * 0.0056f;
+        }
+
+        if (DataController.Instance.skill_4_cooltime > 0)
+        {
+            Skill4.fillAmount = DataController.Instance.skill_4_cooltime * 0.0056f;
+        }
+
+        if (DataController.Instance.skill_5_cooltime > 0)
+        {
+            Skill5.fillAmount = DataController.Instance.skill_5_cooltime * 0.0056f;
+        }
+
+        if (DataController.Instance.skill_6_cooltime > 0)
+        {
+            Skill6.fillAmount = DataController.Instance.skill_6_cooltime * 0.0056f;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         GoldView.text = DataController.Instance.FormatGoldTwo(DataController.Instance.gold) + " G";
         RubyView.text = DataController.Instance.FormatGoldTwo(DataController.Instance.ruby);
-
-        if (DataController.Instance.skill_1_cooltime > 0)
-        {
-            Skill1.fillAmount = DataController.Instance.skill_1_cooltime * 0.0055555556f;
-        }
-
-        if (DataController.Instance.skill_2_cooltime > 0)
-        {
-            Skill2.fillAmount = DataController.Instance.skill_2_cooltime * 0.0055555556f;
-        }
-
-        if (DataController.Instance.skill_3_cooltime > 0)
-        {
-            Skill3.fillAmount = DataController.Instance.skill_3_cooltime * 0.0055555556f;
-        }
-
-        if (DataController.Instance.skill_4_cooltime > 0)
-        {
-            Skill4.fillAmount = DataController.Instance.skill_4_cooltime * 0.0055555556f;
-        }
-
-        if (DataController.Instance.skill_5_cooltime > 0)
-        {
-            Skill5.fillAmount = DataController.Instance.skill_5_cooltime * 0.0055555556f;
-        }
-
-        if (DataController.Instance.skill_6_cooltime > 0)
-        {
-            Skill6.fillAmount = DataController.Instance.skill_6_cooltime * 0.0055555556f;
-        }
 
         if (DataController.Instance.skipCoupon < 3)
         {

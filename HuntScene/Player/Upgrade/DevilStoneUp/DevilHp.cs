@@ -34,32 +34,45 @@ public class DevilHp : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
 	public void UpgradeButtonClick()
 	{
-		if (DataController.Instance.devilStone >= startCurrentCost * DataController.Instance.devilHpLevel)
+		if (DataController.Instance.devilHpLevel <= 100)
 		{
-			DataController.Instance.devilStone -= startCurrentCost * DataController.Instance.devilHpLevel;
+			if (DataController.Instance.devilStone >= startCurrentCost * DataController.Instance.devilHpLevel)
+			{
+				DataController.Instance.devilStone -= startCurrentCost * DataController.Instance.devilHpLevel;
 
-			DataController.Instance.devilHp += 0.02f * DataController.Instance.devilHpLevel;
+				DataController.Instance.devilHp += 0.01f * DataController.Instance.devilHpLevel;
 
-			DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
+				DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
 
-			DataController.Instance.devilHpLevel++;
+				DataController.Instance.devilHpLevel++;
 
-			UpdateUI();
-		}
-		else
-		{
-			NotificationManager.Instance.SetNotification("데빌스톤이 부족합니다.");
+				UpdateUI();
+			}
+			else
+			{
+				NotificationManager.Instance.SetNotification("데빌스톤이 부족합니다.");
+			}
 		}
 	}
 
 	private void UpdateUI()
 	{
-		ProductName.text = "체력[+" + (DataController.Instance.devilHpLevel - 1) + "]";
-		PriceText.text = Math.Round(startCurrentCost * DataController.Instance.devilHpLevel, 0).ToString();
+		if (DataController.Instance.devilHpLevel <= 100)
+		{
+			ProductName.text = "체력[+" + (DataController.Instance.devilHpLevel - 1) + "]";
+			PriceText.text = Math.Round(startCurrentCost * DataController.Instance.devilHpLevel, 0).ToString();
 
-		UpgradeInfo.text = Math.Round((DataController.Instance.devilHp - 1) * 100, 0) + "% -> " +
-		                   Math.Round((DataController.Instance.devilHp - 1
-		                               + 0.02f * DataController.Instance.devilHpLevel) * 100, 0) + "%";
+			UpgradeInfo.text = Math.Round((DataController.Instance.devilHp - 1) * 100, 0) + "% -> " +
+			                   Math.Round((DataController.Instance.devilHp - 1
+			                               + 0.01f * DataController.Instance.devilHpLevel) * 100, 0) + "%";
+		}
+		else
+		{
+			ProductName.text = "체력[+" + (DataController.Instance.devilHpLevel - 1) + "]";
+			PriceText.text = "MAX";
+
+			UpgradeInfo.text = Math.Round((DataController.Instance.devilHp - 1) * 100, 0) + "%";
+		}
 	}
 
 	public void OnPointerUp(PointerEventData eventData)

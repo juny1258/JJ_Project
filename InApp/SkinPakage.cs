@@ -14,7 +14,7 @@ public class SkinPakage : MonoBehaviour {
 
 	public void PurchasdSkinPakage()
 	{
-		DataController.Instance.ruby += 20000;
+		DataController.Instance.ruby += 30000;
 		DataController.Instance.skinDamage += 5;
 		DataController.Instance.skinCriticalPer += 10;
 		

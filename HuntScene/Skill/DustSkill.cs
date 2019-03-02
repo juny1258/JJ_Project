@@ -4,41 +4,40 @@ using UnityEngine;
 
 public class DustSkill : MonoBehaviour
 {
+    public GameObject[] DustObjects;
 
-	public GameObject[] DustObjects;
+    // Use this for initialization
+    void Start()
+    {
+        StartCoroutine(PlaySkill());
+    }
 
-	// Use this for initialization
-	void Start ()
-	{
-		StartCoroutine(PlaySkill());
-	}
+    private IEnumerator PlaySkill()
+    {
+        int i = 0;
+        while (i < 7)
+        {
+            DustObjects[i].SetActive(true);
+            i++;
 
-	private IEnumerator PlaySkill()
-	{
-		int i = 0;
-		while (i < 7)
-		{
-			DustObjects[i].SetActive(true);
-			i++;
-			
-			yield return new WaitForSeconds(0.2f);
-		}
-		
-		Invoke("DeleteObject", 3f);
-	}
+            yield return new WaitForSeconds(0.2f);
+        }
 
-	private void DeleteObject()
-	{
-		Destroy(gameObject);
-	}
+        Invoke("DeleteObject", 3f);
+    }
 
-	private void OnDestroy()
-	{
-		StopAllCoroutines();
-	}
+    private void DeleteObject()
+    {
+        Destroy(gameObject);
+    }
 
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
 }

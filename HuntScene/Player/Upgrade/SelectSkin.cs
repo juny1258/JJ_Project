@@ -10,10 +10,17 @@ public class SelectSkin : MonoBehaviour {
 
 	private void Start()
 	{
-		EventManager.SelectSkinEvent += () =>
-		{
-			SelectPanel.SetActive(DataController.Instance.skinIndex == index);
-		};
+		EventManager.SelectSkinEvent += Select;
+	}
+
+	private void OnDestroy()
+	{
+		EventManager.SelectSkinEvent -= Select;
+	}
+
+	private void Select()
+	{
+		SelectPanel.SetActive(DataController.Instance.skinIndex == index);
 	}
 
 	private void OnEnable()

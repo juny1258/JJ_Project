@@ -28,12 +28,24 @@ public class RewardManager : MonoBehaviour
     public Text TotalDamageText;
     public Text GetDevilStoneText;
 
-    public void ShowRewardPanel(float gold, float ruby, float sapphire)
+    public void ShowRewardPanel(float ruby, float sapphire)
     {
         foreach (Transform item in ItemGridView)
         {
             Destroy(item.gameObject);
         }
+
+        var gold = (DataController.Instance.damage
+                    + DataController.Instance.damage * DataController.Instance.rubyRisingDamage
+                    + DataController.Instance.damage * DataController.Instance.masterSkillIndex * 0.2f
+                    + DataController.Instance.damage * DataController.Instance.collectionDamage
+                    + DataController.Instance.damage * DataController.Instance.devilDamage
+                    + DataController.Instance.damage * DataController.Instance.advancedDamage
+                    + DataController.Instance.damage * DataController.Instance.legendDevilStone *
+                    DataController.Instance.nowRebirthLevel * 3
+                    + DataController.Instance.damage * DataController.Instance.skinDamage)
+                   * 100 *
+                   DataController.Instance.collectionGoldRising;
 
         var item1 = Instantiate(Item, new Vector3(0, 0, 0), Quaternion.identity);
         item1.GetComponentsInChildren<Image>()[1].sprite = Resources.Load("Gold/stone", typeof(Sprite)) as Sprite;
@@ -52,7 +64,7 @@ public class RewardManager : MonoBehaviour
         item3.GetComponentInChildren<Text>().text = sapphire.ToString();
 
         DataController.Instance.getSapphire = sapphire;
-        
+
         item1.transform.SetParent(ItemGridView, false);
         item2.transform.SetParent(ItemGridView, false);
         item3.transform.SetParent(ItemGridView, false);
@@ -155,28 +167,61 @@ public class RewardManager : MonoBehaviour
 
             if (DataController.Instance.relicCount == 0)
             {
-                Social.ReportProgress(GPGSIds.achievement_relic_acquisition, 100f, isSuccess =>
-                {
-                });
+                Social.ReportProgress(GPGSIds.achievement_relic_acquisition, 100f, isSuccess => { });
             }
 
             DataController.Instance.relicCount++;
 
-            Social.ReportScore(DataController.Instance.relicCount, GPGSIds.leaderboard_5, success =>
+            if (Social.localUser.authenticated)
             {
-                if (success)
+                Social.ReportScore(DataController.Instance.relicCount, GPGSIds.leaderboard_5, success =>
                 {
-                    print("Success");
-                }
-            });
+                    if (success)
+                    {
+                        print("Success");
+                    }
+                });
+            }
 
             DataController.Instance.UpdateDamage();
             DataController.Instance.UpdateCritical();
 
             DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
-            
+
             item4.transform.SetParent(ItemGridView, false);
         }
+
+        RewardPanel.SetActive(true);
+    }
+
+    public void ShowRewardPanel1(float ruby, float sapphire)
+    {
+        foreach (Transform item in ItemGridView)
+        {
+            Destroy(item.gameObject);
+        }
+
+        var item1 = Instantiate(Item, new Vector3(0, 0, 0), Quaternion.identity);
+        item1.GetComponentsInChildren<Image>()[1].sprite = Resources.Load("Gold/stone", typeof(Sprite)) as Sprite;
+        item1.GetComponentInChildren<Text>().text = DataController.Instance.FormatGoldOne(0);
+
+        DataController.Instance.getGold = 0;
+
+        var item2 = Instantiate(Item, new Vector3(0, 0, 0), Quaternion.identity);
+        item2.GetComponentsInChildren<Image>()[1].sprite = Resources.Load("Gold/ruby", typeof(Sprite)) as Sprite;
+        item2.GetComponentInChildren<Text>().text = ruby.ToString();
+
+        DataController.Instance.getRuby = ruby;
+
+        var item3 = Instantiate(Item, new Vector3(0, 0, 0), Quaternion.identity);
+        item3.GetComponentsInChildren<Image>()[1].sprite = Resources.Load("Gold/sapphire", typeof(Sprite)) as Sprite;
+        item3.GetComponentInChildren<Text>().text = sapphire.ToString();
+
+        DataController.Instance.getSapphire = sapphire;
+
+        item1.transform.SetParent(ItemGridView, false);
+        item2.transform.SetParent(ItemGridView, false);
+        item3.transform.SetParent(ItemGridView, false);
 
         RewardPanel.SetActive(true);
     }

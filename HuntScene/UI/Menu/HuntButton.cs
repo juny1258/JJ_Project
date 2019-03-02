@@ -69,16 +69,16 @@ public class HuntButton : MonoBehaviour
                     
                     if (DataController.Instance.finalHuntLevel == DataController.Instance.huntLevel)
                     {
-                        RewardManager.Instance.ShowRewardPanel((float) (global::MonsterSpwan.gold * Math.Pow(3f, index)),
+                        RewardManager.Instance.ShowRewardPanel(
                             global::MonsterSpwan.ruby[index], global::MonsterSpwan.sapphire[index]);
                     }
                     else
                     {
-                        RewardManager.Instance.ShowRewardPanel((float) (global::MonsterSpwan.gold * Math.Pow(3f, index)),
+                        RewardManager.Instance.ShowRewardPanel(
                             global::MonsterSpwan.ruby[DataController.Instance.finalHuntLevel-1], global::MonsterSpwan.sapphire[DataController.Instance.finalHuntLevel-1]);
                     }
                     
-                    PlayerPrefs.SetFloat("HuntCoolTime_" + DataController.Instance.huntLevel, 300);
+                    PlayerPrefs.SetFloat("HuntCoolTime_" + index, 300);
                     
                     NotClearPanel.SetActive(index > DataController.Instance.finalHuntLevel);
                 }

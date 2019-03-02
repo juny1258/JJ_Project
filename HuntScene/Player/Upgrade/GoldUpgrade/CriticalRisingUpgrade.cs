@@ -29,28 +29,35 @@ public class CriticalRisingUpgrade : MonoBehaviour, IPointerUpHandler, IPointerD
 
     public void UpgradeButtonClick()
     {
-        if (DataController.Instance.criticalRisingLevel < 61)
+        if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel == 0)
         {
-            if (DataController.Instance.gold >= DataController.Instance.criticalRisingCost)
+            if (DataController.Instance.criticalRisingLevel < 61)
             {
-                DataController.Instance.gold -= DataController.Instance.criticalRisingCost;
+                if (DataController.Instance.gold >= DataController.Instance.criticalRisingCost)
+                {
+                    DataController.Instance.gold -= DataController.Instance.criticalRisingCost;
 
-                DataController.Instance.criticalRisingAddCost +=
-                    (int) (DataController.Instance.criticalRisingLevel * 80000);
-                DataController.Instance.criticalRisingCost += DataController.Instance.criticalRisingAddCost;
+                    DataController.Instance.criticalRisingAddCost +=
+                        (int) (DataController.Instance.criticalRisingLevel * 80000);
+                    DataController.Instance.criticalRisingCost += DataController.Instance.criticalRisingAddCost;
 
-                DataController.Instance.criticalRising += 0.01f;
-                
-                DataController.Instance.UpdateCritical();
+                    DataController.Instance.criticalRising += 0.01f;
 
-                DataController.Instance.criticalRisingLevel++;
+                    DataController.Instance.UpdateCritical();
 
-                UpdateUI();
+                    DataController.Instance.criticalRisingLevel++;
+
+                    UpdateUI();
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
+                }
             }
-            else
-            {
-                NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
-            }
+        }
+        else
+        {
+            NotificationManager.Instance.SetNotification("악의 기운에 가로막혀 강화할 수 없습니다.");
         }
     }
 

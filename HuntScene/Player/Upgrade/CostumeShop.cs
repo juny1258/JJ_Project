@@ -16,14 +16,21 @@ public class CostumeShop : MonoBehaviour {
 
 	private void Start()
 	{
-		EventManager.SelectCostumeEvent += () =>
-		{
-			HpText.text = "체력 + " + plusHp[index] + "%";
+		EventManager.SelectCostumeEvent += Select;
+	}
+
+	private void OnDestroy()
+	{
+		EventManager.SelectCostumeEvent -= Select;
+	}
+
+	private void Select()
+	{
+		HpText.text = "체력 + " + plusHp[index] + "%";
             
-			SelectPanel.SetActive(DataController.Instance.costumeIndex == index);
+		SelectPanel.SetActive(DataController.Instance.costumeIndex == index);
             
-			NotClearPanel.SetActive(DataController.Instance.masterCostumeIndex < index);
-		};
+		NotClearPanel.SetActive(DataController.Instance.masterCostumeIndex < index);
 	}
 
 	private void OnEnable()

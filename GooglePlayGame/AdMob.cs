@@ -44,7 +44,7 @@ public class AdMob : MonoBehaviour
 
         _coroutine = ShowAds();
 
-        InvokeRepeating("IsReady", 0, 300);
+        InvokeRepeating("IsReady", 0, 600);
     }
 
     private void IsReady()
@@ -62,7 +62,7 @@ public class AdMob : MonoBehaviour
         string adUnitId = string.Empty;
 
 #if UNITY_ANDROID
-        adUnitId = "ca-app-pub-3940256099942544/6300978111";
+        adUnitId = "ca-app-pub-8345080599263513/9312843468";
 #elif UNITY_IOS
         adUnitId = ios_interstitialAdUnitId;
 #endif
@@ -80,7 +80,7 @@ public class AdMob : MonoBehaviour
         string adUnitId = string.Empty;
 
 #if UNITY_ANDROID
-        adUnitId = "ca-app-pub-3940256099942544/5224354917";
+        adUnitId = "ca-app-pub-8345080599263513/2032995530";
 #elif UNITY_IOS
         adUnitId = ios_interstitialAdUnitId;
 #endif
@@ -98,7 +98,7 @@ public class AdMob : MonoBehaviour
         string adUnitId = string.Empty;
 
 #if UNITY_ANDROID
-        adUnitId = "ca-app-pub-3940256099942544/5224354917";
+        adUnitId = "ca-app-pub-8345080599263513/6325168143";
 #elif UNITY_IOS
         adUnitId = ios_interstitialAdUnitId;
 #endif
@@ -116,7 +116,7 @@ public class AdMob : MonoBehaviour
         string adUnitId = string.Empty;
 
 #if UNITY_ANDROID
-        adUnitId = "ca-app-pub-3940256099942544/5224354917";
+        adUnitId = "ca-app-pub-8345080599263513/5942024764";
 #elif UNITY_IOS
         adUnitId = ios_interstitialAdUnitId;
 #endif

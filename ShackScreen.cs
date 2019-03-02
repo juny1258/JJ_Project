@@ -30,4 +30,9 @@ public class ShackScreen : MonoBehaviour {
 
 		transform.localPosition = originPos;
 	}
+
+	private void OnDestroy()
+	{
+		EventManager.ShackScreenEvent -= Explosion1;
+	}
 }

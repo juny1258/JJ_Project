@@ -19,8 +19,6 @@ public class BossSpwan : MonoBehaviour
 
     private float startHP = 250000;
 
-    public static float gold = 500000;
-
     public static float[] ruby =
     {
         3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25
@@ -47,8 +45,8 @@ public class BossSpwan : MonoBehaviour
         else
         {
             monster.GetComponent<MonsterManager>().SetMonsterAvility(
-                (float) (startHP * Math.Pow(5, DataController.Instance.finalBossLevel-1)),
-                (float) (startHP * Math.Pow(5, DataController.Instance.finalBossLevel-1) / 10));
+                (float) (startHP * Math.Pow(5, DataController.Instance.finalBossLevel - 1)),
+                (float) (startHP * Math.Pow(5, DataController.Instance.finalBossLevel - 1) / 10));
         }
 
         monster.transform.SetParent(DataController.Instance.Monsters);
@@ -94,13 +92,14 @@ public class BossSpwan : MonoBehaviour
         {
             if (DataController.Instance.finalBossLevel == DataController.Instance.bossLevel)
             {
-                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(3, DataController.Instance.bossLevel)),
+                RewardManager.Instance.ShowRewardPanel(
                     ruby[DataController.Instance.bossLevel], sapphire[DataController.Instance.bossLevel]);
             }
             else
             {
-                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(3, DataController.Instance.bossLevel)),
-                    ruby[DataController.Instance.finalBossLevel-1], sapphire[DataController.Instance.finalBossLevel-1]);
+                RewardManager.Instance.ShowRewardPanel(
+                    ruby[DataController.Instance.finalBossLevel - 1],
+                    sapphire[DataController.Instance.finalBossLevel - 1]);
             }
 
             if (DataController.Instance.finalBossLevel == DataController.Instance.bossLevel)
@@ -117,18 +116,18 @@ public class BossSpwan : MonoBehaviour
                                 isSuccess => { PlayerPrefs.SetFloat("FirstBossClear", 1); });
                         }
                     }
-                    
+
                     CostumeImage.sprite = Resources.Load(
                         "Player/Costume" + (DataController.Instance.bossLevel + 1) + "/Costume",
                         typeof(Sprite)) as Sprite;
                     AvilityText.text = "체력 + " + 20 * (DataController.Instance.bossLevel + 1) + "%";
                     GetCostumePanel.SetActive(true);
-                    
+
                     DataController.Instance.masterCostumeIndex = DataController.Instance.bossLevel + 1;
 
                     DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
                 }
-                
+
 
                 print("마지막 스테이지 클리어");
             }
@@ -137,7 +136,7 @@ public class BossSpwan : MonoBehaviour
         }
         else
         {
-            RewardManager.Instance.ShowRewardPanel(0, 0, 0);
+            RewardManager.Instance.ShowRewardPanel1(0, 0);
         }
     }
 

@@ -17,7 +17,17 @@ public class ExplosionSkill : MonoBehaviour
     {
         NotPurchasePanel.SetActive(DataController.Instance.skill_5 == 0);
         
-        EventManager.UpgradeSkillEvent += () => { NotPurchasePanel.SetActive(DataController.Instance.skill_5 == 0); };
+        EventManager.UpgradeSkillEvent += UpSkill;
+    }
+
+    private void UpSkill()
+    {
+        NotPurchasePanel.SetActive(DataController.Instance.skill_5 == 0);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.UpgradeSkillEvent -= UpSkill;
     }
 
     public void PlaySkill()
@@ -28,6 +38,7 @@ public class ExplosionSkill : MonoBehaviour
             Instantiate(Meteor, new Vector3(-7.07f, 7.66f, 0), Quaternion.Euler(0, 0, -135));
             Invoke("DelaySkill", 0.6f);
             GetComponent<AudioSource>().Play();   
+            EventManager.Instance.PlaySkill();
         }
     }
 

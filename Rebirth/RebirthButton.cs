@@ -11,7 +11,7 @@ public class RebirthButton : MonoBehaviour
     {
         if (!DataController.Instance.isFight)
         {
-            if (DataController.Instance.rebirthLevel < 14)
+            if (DataController.Instance.rebirthLevel < 15)
             {
                 if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel > 0)
                 {
@@ -19,7 +19,7 @@ public class RebirthButton : MonoBehaviour
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("아직 환생할 수 없습니다.");
+                    NotificationManager.Instance.SetNotification("아직 초월할 수 없습니다.");
                 }      
             }
             else

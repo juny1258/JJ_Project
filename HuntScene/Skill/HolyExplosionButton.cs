@@ -18,8 +18,18 @@ public class HolyExplosionButton : MonoBehaviour {
 		NotPurchasePanel.SetActive(DataController.Instance.skill_6 == 0);
 
 		SkillAudio = GetComponent<AudioSource>();
-		
-		EventManager.UpgradeSkillEvent += () => { NotPurchasePanel.SetActive(DataController.Instance.skill_6 == 0); };
+
+		EventManager.UpgradeSkillEvent += UpSkill;
+	}
+
+	private void UpSkill()
+	{
+		NotPurchasePanel.SetActive(DataController.Instance.skill_6 == 0);
+	}
+
+	private void OnDestroy()
+	{
+		EventManager.UpgradeSkillEvent -= UpSkill;
 	}
 
 	public void PlaySkill()
@@ -31,6 +41,7 @@ public class HolyExplosionButton : MonoBehaviour {
 			EventManager.Instance.UseSkill(4);
 			EventManager.Instance.ShackScreen(0.1f, 1.5f);
 			DataController.Instance.skill_6_cooltime = 180 - 9 * (DataController.Instance.collectionCoolTime / 5);
+			EventManager.Instance.PlaySkill();
 		}
 	}
 	

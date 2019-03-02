@@ -33,41 +33,61 @@ public class HpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     public void UpgradeButtonClick()
     {
-        if (DataController.Instance.gold >= DataController.Instance.hpCost)
+        if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel == 0)
         {
-            DataController.Instance.gold -= DataController.Instance.hpCost;
+            if (DataController.Instance.hpLevel <= 2000)
+            {
+                if (DataController.Instance.gold >= DataController.Instance.hpCost)
+                {
+                    DataController.Instance.gold -= DataController.Instance.hpCost;
 
-            DataController.Instance.playerHP += hpByUpgrade;
+                    DataController.Instance.playerHP += hpByUpgrade;
 
-            DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
+                    DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
 
-            DataController.Instance.hpAddCost += (int) (DataController.Instance.hpLevel * 10);
-            DataController.Instance.hpCost += DataController.Instance.hpAddCost;
+                    DataController.Instance.hpAddCost += (int) (DataController.Instance.hpLevel * 10);
+                    DataController.Instance.hpCost += DataController.Instance.hpAddCost;
 
-            DataController.Instance.hpLevel++;
+                    DataController.Instance.hpLevel++;
 
-            UpdateUpgrade();
+                    UpdateUpgrade();
 
-            UpdateUI();
+                    UpdateUI();
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
+                }
+            }
         }
         else
         {
-            NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
+            NotificationManager.Instance.SetNotification("악의 기운에 가로막혀 강화할 수 없습니다.");
         }
     }
 
     private void UpdateUpgrade()
     {
-        hpByUpgrade = ((int) (DataController.Instance.hpLevel) + 1) * 100;
+        hpByUpgrade = ((int) (DataController.Instance.hpLevel) + 1) * 30;
     }
 
     private void UpdateUI()
     {
-        ProductName.text = "체력[+" + (DataController.Instance.hpLevel - 1) + "]";
-        PriceText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.hpCost);
+        if (DataController.Instance.hpLevel <= 2000)
+        {
+            ProductName.text = "체력[+" + (DataController.Instance.hpLevel - 1) + "]";
+            PriceText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.hpCost);
 
-        UpgradeInfo.text = DataController.Instance.FormatGoldTwo(DataController.Instance.playerHP) + "\n-> " +
-                           DataController.Instance.FormatGoldTwo(DataController.Instance.playerHP + hpByUpgrade);
+            UpgradeInfo.text = DataController.Instance.FormatGoldTwo(DataController.Instance.playerHP) + "\n-> " +
+                               DataController.Instance.FormatGoldTwo(DataController.Instance.playerHP + hpByUpgrade);
+        }
+        else
+        {
+            ProductName.text = "체력[+" + (DataController.Instance.hpLevel - 1) + "]";
+            PriceText.text = "MAX";
+
+            UpgradeInfo.text = DataController.Instance.FormatGoldTwo(DataController.Instance.playerHP);
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)

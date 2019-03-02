@@ -9,6 +9,13 @@ public class ShowMenu : MonoBehaviour
 
 	public void OpenPanel()
 	{
-		Panel.SetActive(true);
+		if (!DataController.Instance.isFight)
+		{
+			Panel.SetActive(true);	
+		}
+		else
+		{
+			NotificationManager.Instance.SetNotification("사냥중에는 메뉴를 열 수 없습니다.");
+		}
 	}
 }

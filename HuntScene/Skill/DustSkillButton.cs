@@ -15,7 +15,17 @@ public class DustSkillButton : MonoBehaviour
 	{
 		NotPurchasePanel.SetActive(DataController.Instance.skill_4 == 0);
 		
-		EventManager.UpgradeSkillEvent += () => { NotPurchasePanel.SetActive(DataController.Instance.skill_4 == 0); };
+		EventManager.UpgradeSkillEvent += UpSkill;
+	}
+
+	private void UpSkill()
+	{
+		NotPurchasePanel.SetActive(DataController.Instance.skill_4 == 0);
+	}
+
+	private void OnDestroy()
+	{
+		EventManager.UpgradeSkillEvent -= UpSkill;
 	}
 
 	public void PlaySkill()
@@ -25,6 +35,7 @@ public class DustSkillButton : MonoBehaviour
 			Instantiate(DustSkillObject, new Vector3(0, 0, 0), Quaternion.identity);
 			EventManager.Instance.ShackScreen(0.1f, 1f);
 			DataController.Instance.skill_4_cooltime = 180 - 9 * (DataController.Instance.collectionCoolTime / 5);
+			EventManager.Instance.PlaySkill();
 		}
 	}
 	

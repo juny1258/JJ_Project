@@ -29,25 +29,32 @@ public class AngerTimeUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHa
 
     public void UpgradeButtonClick()
     {
-        if (DataController.Instance.angerTimeLevel < 51)
+        if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel == 0)
         {
-            if (DataController.Instance.gold >= DataController.Instance.angerTimeCost)
+            if (DataController.Instance.angerTimeLevel < 51)
             {
-                DataController.Instance.gold -= DataController.Instance.angerTimeCost;
+                if (DataController.Instance.gold >= DataController.Instance.angerTimeCost)
+                {
+                    DataController.Instance.gold -= DataController.Instance.angerTimeCost;
 
-                DataController.Instance.angerTimeAddCost += (int) (DataController.Instance.angerTimeLevel * 50000);
-                DataController.Instance.angerTimeCost += DataController.Instance.angerTimeAddCost;
+                    DataController.Instance.angerTimeAddCost += (int) (DataController.Instance.angerTimeLevel * 50000);
+                    DataController.Instance.angerTimeCost += DataController.Instance.angerTimeAddCost;
 
-                DataController.Instance.angerTime += 0.1f;
+                    DataController.Instance.angerTime += 0.1f;
 
-                DataController.Instance.angerTimeLevel++;
+                    DataController.Instance.angerTimeLevel++;
 
-                UpdateUI();
+                    UpdateUI();
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
+                }
             }
-            else
-            {
-                NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
-            }
+        }
+        else
+        {
+            NotificationManager.Instance.SetNotification("악의 기운에 가로막혀 강화할 수 없습니다.");
         }
     }
 

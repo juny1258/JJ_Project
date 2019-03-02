@@ -31,6 +31,11 @@ public class RebirthAnimation : MonoBehaviour
         EventManager.RebirtButtonClickEvent += OnRebirthAnimation;
     }
 
+    private void OnDestroy()
+    {
+        EventManager.RebirtButtonClickEvent -= OnRebirthAnimation;
+    }
+
     private void OnEnable()
     {
         originPos = SealStone.transform.position;

@@ -18,7 +18,17 @@ public class ShadowSkill : MonoBehaviour
     {
         NotPurchasePanel.SetActive(DataController.Instance.skill_3 == 0);
         
-        EventManager.UpgradeSkillEvent += () => { NotPurchasePanel.SetActive(DataController.Instance.skill_3 == 0); };
+        EventManager.UpgradeSkillEvent += UpSkill;
+    }
+
+    private void UpSkill()
+    {
+        NotPurchasePanel.SetActive(DataController.Instance.skill_3 == 0);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.UpgradeSkillEvent -= UpSkill;
     }
 
     private void Update()
@@ -51,12 +61,20 @@ public class ShadowSkill : MonoBehaviour
     {
         if (DataController.Instance.skill_3_cooltime <= 0)
         {
-            ShadowPartner.SetActive(true);
+            if (DataController.Instance.isFight)
+            {
+                ShadowPartner.SetActive(true);
             
-            ShadowPlayer.Play("Attack" + DataController.Instance.costumeIndex, 0, 1f);
-            shadowTime = DataController.Instance.skill_3_time;
-            DataController.Instance.isShadowSkill = true;
-            DataController.Instance.skill_3_cooltime = 180 - 9 * (DataController.Instance.collectionCoolTime / 5);
+                ShadowPlayer.Play("Attack" + DataController.Instance.costumeIndex, 0, 1f);
+                shadowTime = DataController.Instance.skill_3_time;
+                DataController.Instance.isShadowSkill = true;
+                DataController.Instance.skill_3_cooltime = 180 - 9 * (DataController.Instance.collectionCoolTime / 5);
+                EventManager.Instance.PlaySkill();
+            }
+            else
+            {
+                NotificationManager.Instance.SetNotification("지금은 사용할 수 없습니다.");
+            }
         }
     }
 }

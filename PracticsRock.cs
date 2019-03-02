@@ -85,6 +85,8 @@ public class PracticsRock : MonoBehaviour
         }
     }
 
+    public GameObject TutorialPanel;
+
     private void Update()
     {
         if (HpSlider.value == 0 &&
@@ -98,6 +100,13 @@ public class PracticsRock : MonoBehaviour
                 HpSlider.value = rockHp * Mathf.Pow(upgradePower, DataController.Instance.nowRebirthLevel);
                 LevelText.text = (DataController.Instance.nowRebirthLevel + 1).ToString();
                 Glow.SetActive(DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel > 0);
+            }
+
+            if (PlayerPrefs.GetFloat("FirstBreakStone", 0) == 0)
+            {
+                PlayerPrefs.SetFloat("FirstBreakStone", 1);
+                Time.timeScale = 0;
+                TutorialPanel.SetActive(true);
             }
         }
     }
@@ -123,9 +132,7 @@ public class PracticsRock : MonoBehaviour
                 gold.transform.SetParent(Stones);
                 var rand = Random.Range(-80f, 80f);
                 gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
-                DataController.Instance.goldQueue.Enqueue(DataController.Instance.masterDamage / getGoldPer *
-                                                          DataController.Instance.collectionGoldRising *
-                                                          DataController.Instance.useGoldBuff);
+                DataController.Instance.goldQueue.Enqueue(DataController.Instance.enqueueGold);
                 if (DataController.Instance.rebirthLevel < 14)
                     HpSlider.value -= DataController.Instance.masterDamage;
 
@@ -141,7 +148,7 @@ public class PracticsRock : MonoBehaviour
                 gold.transform.SetParent(Stones);
                 var rand = Random.Range(-80f, 80f);
                 gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
-                DataController.Instance.goldQueue.Enqueue(DataController.Instance.masterCriticalDamage / getGoldPer *
+                DataController.Instance.goldQueue.Enqueue(DataController.Instance.masterCriticalDamage / getGoldPer * 
                                                           DataController.Instance.collectionGoldRising *
                                                           DataController.Instance.useGoldBuff);
                 if (DataController.Instance.rebirthLevel < 14)
@@ -175,14 +182,11 @@ public class PracticsRock : MonoBehaviour
             gold.transform.SetParent(Stones);
             var rand = Random.Range(-80f, 80f);
             gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
-            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer *
+            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer * 
                                                       DataController.Instance.collectionGoldRising *
                                                       DataController.Instance.useGoldBuff);
 
             i++;
-
-            if (DataController.Instance.rebirthLevel < 14)
-                HpSlider.value -= criticalDamage;
 
             yield return new WaitForSeconds(0.08f);
         }
@@ -204,11 +208,9 @@ public class PracticsRock : MonoBehaviour
             gold.transform.SetParent(Stones);
             var rand = Random.Range(-80f, 80f);
             gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
-            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer *
+            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer * 
                                                       DataController.Instance.collectionGoldRising *
                                                       DataController.Instance.useGoldBuff);
-            if (DataController.Instance.rebirthLevel < 14)
-                HpSlider.value -= criticalDamage;
 
             i++;
 
@@ -232,11 +234,9 @@ public class PracticsRock : MonoBehaviour
             gold.transform.SetParent(Stones);
             var rand = Random.Range(-80f, 80f);
             gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
-            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer *
+            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer * 
                                                       DataController.Instance.collectionGoldRising *
                                                       DataController.Instance.useGoldBuff);
-            if (DataController.Instance.rebirthLevel < 14)
-                HpSlider.value -= criticalDamage;
 
             i++;
 
@@ -260,11 +260,9 @@ public class PracticsRock : MonoBehaviour
             gold.transform.SetParent(Stones);
             var rand = Random.Range(-80f, 80f);
             gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
-            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer *
+            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer * 
                                                       DataController.Instance.collectionGoldRising *
                                                       DataController.Instance.useGoldBuff);
-            if (DataController.Instance.rebirthLevel < 14)
-                HpSlider.value -= criticalDamage;
 
             i++;
 
@@ -288,11 +286,9 @@ public class PracticsRock : MonoBehaviour
             gold.transform.SetParent(Stones);
             var rand = Random.Range(-80f, 80f);
             gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
-            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer *
+            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer * 
                                                       DataController.Instance.collectionGoldRising *
                                                       DataController.Instance.useGoldBuff);
-            if (DataController.Instance.rebirthLevel < 14)
-                HpSlider.value -= criticalDamage;
 
             i++;
 

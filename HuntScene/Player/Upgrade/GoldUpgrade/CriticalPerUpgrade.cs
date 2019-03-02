@@ -32,25 +32,32 @@ public class CriticalPerUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDown
 
     public void UpgradeButtonClick()
     {
-        if (DataController.Instance.criticalPerLevel < 61)
+        if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel == 0)
         {
-            if (DataController.Instance.gold >= DataController.Instance.criticalCost)
+            if (DataController.Instance.criticalPerLevel < 61)
             {
-                DataController.Instance.gold -= DataController.Instance.criticalCost;
+                if (DataController.Instance.gold >= DataController.Instance.criticalCost)
+                {
+                    DataController.Instance.gold -= DataController.Instance.criticalCost;
 
-                DataController.Instance.criticalAddCost += (int) (DataController.Instance.criticalPerLevel * 80000);
-                DataController.Instance.criticalCost += DataController.Instance.criticalAddCost;
+                    DataController.Instance.criticalAddCost += (int) (DataController.Instance.criticalPerLevel * 80000);
+                    DataController.Instance.criticalCost += DataController.Instance.criticalAddCost;
 
-                DataController.Instance.criticalPercent += 0.2f;
+                    DataController.Instance.criticalPercent += 0.2f;
 
-                DataController.Instance.criticalPerLevel++;
+                    DataController.Instance.criticalPerLevel++;
 
-                UpdateUI();
+                    UpdateUI();
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
+                }
             }
-            else
-            {
-                NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
-            }
+        }
+        else
+        {
+            NotificationManager.Instance.SetNotification("악의 기운에 가로막혀 강화할 수 없습니다.");
         }
     }
 

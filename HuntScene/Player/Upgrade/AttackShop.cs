@@ -16,17 +16,24 @@ public class AttackShop : MonoBehaviour
 
     private void Start()
     {
-        EventManager.SelectAttackEvent += () =>
-        {
-            DamageText.text = "공격력 + " + plusDamage[index] + "%";
+        EventManager.SelectAttackEvent += Select;
+    }
 
-            SelectPanel.SetActive(DataController.Instance.skillIndex == index);
-
-            NotClearPanel.SetActive(DataController.Instance.masterSkillIndex < index);
-        };
+    private void OnDestroy()
+    {
+        EventManager.SelectAttackEvent -= Select;
     }
 
     private void OnEnable()
+    {
+        DamageText.text = "공격력 + " + plusDamage[index] + "%";
+
+        SelectPanel.SetActive(DataController.Instance.skillIndex == index);
+
+        NotClearPanel.SetActive(DataController.Instance.masterSkillIndex < index);
+    }
+
+    private void Select()
     {
         DamageText.text = "공격력 + " + plusDamage[index] + "%";
 

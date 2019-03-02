@@ -9,6 +9,9 @@ public class RebirthOK : MonoBehaviour
     public GameObject RebirthPanel;
 
     public Text RewardText;
+    public Text PriceText;
+
+    public int index;
 
     private float[] rewardRebirthStone =
     {
@@ -16,11 +19,22 @@ public class RebirthOK : MonoBehaviour
         9000, 10000, 11500, 13000
     };
 
+    private int[] advancedRuby =
+    {
+        200, 300, 400, 500, 800, 1000, 1500, 2000, 2500, 3000,
+        3500, 4000, 4500, 5000
+    };
+
     private void OnEnable()
     {
         RewardText.text = "+ " + rewardRebirthStone[DataController.Instance.rebirthLevel-1]
                           * (DataController.Instance.collectionRebirthRising +
                              DataController.Instance.advancedRebirthPer);
+
+        if (index == 1)
+        {
+            PriceText.text = "X " + advancedRuby[DataController.Instance.nowRebirthLevel];   
+        }
     }
 
     public void RebirthButtonClick()
@@ -32,9 +46,9 @@ public class RebirthOK : MonoBehaviour
 
     public void AdvancedRebirthButton()
     {
-        if (DataController.Instance.ruby >= 2000)
+        if (DataController.Instance.ruby >= advancedRuby[DataController.Instance.nowRebirthLevel])
         {
-            DataController.Instance.ruby -= 2000;
+            DataController.Instance.ruby -= advancedRuby[DataController.Instance.nowRebirthLevel];
             
             RebirthPanel.SetActive(false);
 

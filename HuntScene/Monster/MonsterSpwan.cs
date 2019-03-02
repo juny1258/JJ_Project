@@ -107,12 +107,12 @@ public class MonsterSpwan : MonoBehaviour
             // 클리어 했을 때
             if (DataController.Instance.finalHuntLevel == DataController.Instance.huntLevel)
             {
-                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(3f, DataController.Instance.huntLevel)),
+                RewardManager.Instance.ShowRewardPanel(
                     ruby[DataController.Instance.huntLevel], sapphire[DataController.Instance.huntLevel]);
             }
             else
             {
-                RewardManager.Instance.ShowRewardPanel((float) (gold * Math.Pow(3f, DataController.Instance.huntLevel)),
+                RewardManager.Instance.ShowRewardPanel(
                     ruby[DataController.Instance.finalHuntLevel-1], sapphire[DataController.Instance.finalHuntLevel-1]);
             }
 
@@ -160,7 +160,7 @@ public class MonsterSpwan : MonoBehaviour
         }
         else
         {
-            RewardManager.Instance.ShowRewardPanel(0, 0, 0);
+            RewardManager.Instance.ShowRewardPanel1(0, 0);
         }
 
         if (Social.localUser.authenticated)
