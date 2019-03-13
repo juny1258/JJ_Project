@@ -35,7 +35,7 @@ public class HpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     {
         if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel == 0)
         {
-            if (DataController.Instance.hpLevel <= 2000)
+            if (DataController.Instance.hpLevel <= 2500)
             {
                 if (DataController.Instance.gold >= DataController.Instance.hpCost)
                 {
@@ -62,7 +62,7 @@ public class HpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
         }
         else
         {
-            NotificationManager.Instance.SetNotification("악의 기운에 가로막혀 강화할 수 없습니다.");
+            NotificationManager.Instance.SetNotification("결계석의 레벨을 눌러 초월기를 사용하세요.");
         }
     }
 
@@ -73,7 +73,7 @@ public class HpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     private void UpdateUI()
     {
-        if (DataController.Instance.hpLevel <= 2000)
+        if (DataController.Instance.hpLevel <= 2500)
         {
             ProductName.text = "체력[+" + (DataController.Instance.hpLevel - 1) + "]";
             PriceText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.hpCost);

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Firebase;
 using Firebase.Database;
 using Firebase.Unity.Editor;
@@ -19,136 +20,176 @@ public class BestRank : MonoBehaviour
 
     private void Awake()
     {
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://devilhunter-b89af.firebaseio.com/");
-
-        userReference = FirebaseDatabase.DefaultInstance.RootReference.Child("Rank");
+        userReference = FirebaseManager.Instance.Reference.Child("FaustRank1");
     }
 
     private void OnEnable()
     {
+
         LoadingPanel.SetActive(true);
-        PlayGamesPlatform.Instance.LoadScores(
-            GPGSIds.leaderboard_7,
-            LeaderboardStart.TopScores,
-            3,
-            LeaderboardCollection.Public,
-            LeaderboardTimeSpan.AllTime,
-            data =>
+
+        userReference.Reference.OrderByChild("faustDamage").LimitToFirst(20).GetValueAsync().ContinueWith(task =>
+        {
+            if (task.IsCompleted)
             {
-                if (data.Valid)
+                var i = 0;
+                foreach (var child in task.Result.Children)
                 {
-                    Social.LoadUsers(data.Scores.Select(score => score.userID).ToArray(), profiles =>
+                    var userData = JsonUtility.FromJson<UserRankData>(child.GetRawJsonValue());
+                    if (userData.isHack == 0)
                     {
-                        if (profiles.Length >= 3)
+                        if (userData.skinIndex == 0)
                         {
-                            var index = 0;
-                            userReference.Child(profiles[0].id).GetValueAsync().ContinueWith(task =>
-                            {
-                                if (task.IsCompleted)
-                                {
-                                    var userData = JsonUtility.FromJson<UserRankData>(task.Result.GetRawJsonValue());
-                                    if (userData.skinIndex == 0)
-                                    {
-                                        PlayerImage[0].sprite =
-                                            Resources.Load("Player/Costume" + userData.costumeIndex + "/Costume",
-                                                typeof(Sprite)) as Sprite;
-                                    }
-                                    else
-                                    {
-                                        PlayerImage[0].sprite =
-                                            Resources.Load("Player/Skin" + userData.skinIndex + "/Costume",
-                                                typeof(Sprite)) as Sprite;
-                                    }
-
-                                    PlayerName[0].text = profiles[0].userName;
-                                    Score[0].text = GetThousandCommaText(data.Scores[0].value);
-
-                                    index++;
-                                    if (index == 3)
-                                    {
-                                        LoadingPanel.SetActive(false);
-                                    }
-                                }
-                                else if (task.IsFaulted)
-                                {
-                                }
-                            });
-
-                            userReference.Child(profiles[1].id).GetValueAsync().ContinueWith(task =>
-                            {
-                                if (task.IsCompleted)
-                                {
-                                    var userData = JsonUtility.FromJson<UserRankData>(task.Result.GetRawJsonValue());
-                                    if (userData.skinIndex == 0)
-                                    {
-                                        PlayerImage[1].sprite =
-                                            Resources.Load("Player/Costume" + userData.costumeIndex + "/Costume",
-                                                typeof(Sprite)) as Sprite;
-                                    }
-                                    else
-                                    {
-                                        PlayerImage[1].sprite =
-                                            Resources.Load("Player/Skin" + userData.skinIndex + "/Costume",
-                                                typeof(Sprite)) as Sprite;
-                                    }
-
-                                    PlayerName[1].text = profiles[1].userName;
-                                    Score[1].text = GetThousandCommaText(data.Scores[1].value);
-
-                                    index++;
-                                    if (index == 3)
-                                    {
-                                        LoadingPanel.SetActive(false);
-                                    }
-                                }
-                                else if (task.IsFaulted)
-                                {
-                                }
-                            });
-
-                            userReference.Child(profiles[2].id).GetValueAsync().ContinueWith(task =>
-                            {
-                                if (task.IsCompleted)
-                                {
-                                    var userData = JsonUtility.FromJson<UserRankData>(task.Result.GetRawJsonValue());
-                                    if (userData.skinIndex == 0)
-                                    {
-                                        PlayerImage[2].sprite =
-                                            Resources.Load("Player/Costume" + userData.costumeIndex + "/Costume",
-                                                typeof(Sprite)) as Sprite;
-                                    }
-                                    else
-                                    {
-                                        PlayerImage[2].sprite =
-                                            Resources.Load("Player/Skin" + userData.skinIndex + "/Costume",
-                                                typeof(Sprite)) as Sprite;
-                                    }
-
-                                    PlayerName[2].text = profiles[2].userName;
-                                    Score[2].text = GetThousandCommaText(data.Scores[2].value);
-
-                                    index++;
-                                    if (index == 3)
-                                    {
-                                        LoadingPanel.SetActive(false);
-                                    }
-                                }
-                                else if (task.IsFaulted)
-                                {
-                                }
-                            });
+                            PlayerImage[i].sprite =
+                                Resources.Load("Player/Costume" + userData.costumeIndex + "/Costume",
+                                    typeof(Sprite)) as Sprite;
                         }
                         else
                         {
-                            NotificationManager.Instance.SetNotification("데이터가 부족합니다.");
+                            PlayerImage[i].sprite =
+                                Resources.Load("Player/Skin" + userData.skinIndex + "/Costume",
+                                    typeof(Sprite)) as Sprite;
                         }
-                    });
+
+                        print(child.Key);
+
+                        PlayerName[i].text = userData.userName;
+                        Score[i].text = DataController.Instance.FormatGoldTwo(-userData.faustDamage);
+//
+                        i++;
+                        if (i == 3)
+                        {
+                            LoadingPanel.SetActive(false);
+                            break;
+                        }
+                    }
+
+                    print(JsonUtility.FromJson<UserRankData>(child.GetRawJsonValue()).faustDamage);
                 }
-                else
-                {
-                    NotificationManager.Instance.SetNotification("인터넷 연결을 확인해주세요.");
-                }
-            });
+            }
+        });
+//        PlayGamesPlatform.Instance.LoadScores(
+//            GPGSIds.leaderboard,
+//            LeaderboardStart.TopScores,
+//            3,
+//            LeaderboardCollection.Public,
+//            LeaderboardTimeSpan.AllTime,
+//            data =>
+//            {
+//                if (data.Valid)
+//                {
+//                    Social.LoadUsers(data.Scores.Select(score => score.userID).ToArray(), profiles =>
+//                    {
+//                        if (profiles.Length >= 3)
+//                        {
+//                            var index = 0;
+//                            userReference.Child(profiles[0].id).GetValueAsync().ContinueWith(task =>
+//                            {
+//                                if (task.IsCompleted)
+//                                {
+//                                    var userData = JsonUtility.FromJson<UserRankData>(task.Result.GetRawJsonValue());
+//                                    if (userData.skinIndex == 0)
+//                                    {
+//                                        PlayerImage[0].sprite =
+//                                            Resources.Load("Player/Costume" + userData.costumeIndex + "/Costume",
+//                                                typeof(Sprite)) as Sprite;
+//                                    }
+//                                    else
+//                                    {
+//                                        PlayerImage[0].sprite =
+//                                            Resources.Load("Player/Skin" + userData.skinIndex + "/Costume",
+//                                                typeof(Sprite)) as Sprite;
+//                                    }
+//
+//                                    PlayerName[0].text = profiles[0].userName;
+//                                    Score[0].text = GetThousandCommaText(data.Scores[0].value);
+//
+//                                    index++;
+//                                    if (index == 3)
+//                                    {
+//                                        LoadingPanel.SetActive(false);
+//                                    }
+//                                }
+//                                else if (task.IsFaulted)
+//                                {
+//                                }
+//                            });
+//
+//                            userReference.Child(profiles[1].id).GetValueAsync().ContinueWith(task =>
+//                            {
+//                                if (task.IsCompleted)
+//                                {
+//                                    var userData = JsonUtility.FromJson<UserRankData>(task.Result.GetRawJsonValue());
+//                                    if (userData.skinIndex == 0)
+//                                    {
+//                                        PlayerImage[1].sprite =
+//                                            Resources.Load("Player/Costume" + userData.costumeIndex + "/Costume",
+//                                                typeof(Sprite)) as Sprite;
+//                                    }
+//                                    else
+//                                    {
+//                                        PlayerImage[1].sprite =
+//                                            Resources.Load("Player/Skin" + userData.skinIndex + "/Costume",
+//                                                typeof(Sprite)) as Sprite;
+//                                    }
+//
+//                                    PlayerName[1].text = profiles[1].userName;
+//                                    Score[1].text = GetThousandCommaText(data.Scores[1].value);
+//
+//                                    index++;
+//                                    if (index == 3)
+//                                    {
+//                                        LoadingPanel.SetActive(false);
+//                                    }
+//                                }
+//                                else if (task.IsFaulted)
+//                                {
+//                                }
+//                            });
+//
+//                            userReference.Child(profiles[2].id).GetValueAsync().ContinueWith(task =>
+//                            {
+//                                if (task.IsCompleted)
+//                                {
+//                                    var userData = JsonUtility.FromJson<UserRankData>(task.Result.GetRawJsonValue());
+//                                    if (userData.skinIndex == 0)
+//                                    {
+//                                        PlayerImage[2].sprite =
+//                                            Resources.Load("Player/Costume" + userData.costumeIndex + "/Costume",
+//                                                typeof(Sprite)) as Sprite;
+//                                    }
+//                                    else
+//                                    {
+//                                        PlayerImage[2].sprite =
+//                                            Resources.Load("Player/Skin" + userData.skinIndex + "/Costume",
+//                                                typeof(Sprite)) as Sprite;
+//                                    }
+//
+//                                    PlayerName[2].text = profiles[2].userName;
+//                                    Score[2].text = GetThousandCommaText(data.Scores[2].value);
+//
+//                                    index++;
+//                                    if (index == 3)
+//                                    {
+//                                        LoadingPanel.SetActive(false);
+//                                    }
+//                                }
+//                                else if (task.IsFaulted)
+//                                {
+//                                }
+//                            });
+//                        }
+//                        else
+//                        {
+//                            NotificationManager.Instance.SetNotification("데이터가 부족합니다.");
+//                        }
+//                    });
+//                }
+//                else
+//                {
+//                    NotificationManager.Instance.SetNotification("인터넷 연결을 확인해주세요.");
+//                }
+//            });
 
 //        userReference.GetValueAsync().ContinueWith(task =>
 //        {

@@ -14,16 +14,23 @@ public class GameStartButton : MonoBehaviour
 
     public void StartButton()
     {
-        if (Social.localUser.authenticated)
-        {
-            PlayerPrefs.SetFloat("StartGame", 0);
-            LoadingPanel.SetActive(true);
-        }
-        else
-        {
-            NotificationManager.Instance.SetNotification("로그인 후 이용해주세요.");
+//        if (StartGame.isHack == 1)
+//        {
+            if (Social.localUser.authenticated)
+            {
+                PlayerPrefs.SetFloat("StartGame", 0);
+                LoadingPanel.SetActive(true);
+            }
+            else
+            {
+                NotificationManager.Instance.SetNotification("로그인 후 이용해주세요.");
 
-            LoginButton.SetActive(true);
-        }
+                LoginButton.SetActive(true);
+            }   
+//        }
+//        else
+//        {
+//            NotificationManager.Instance.SetNotification("로그인중입니다.");
+//        }
     }
 }

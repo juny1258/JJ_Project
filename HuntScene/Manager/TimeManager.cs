@@ -22,20 +22,11 @@ public class TimeManager : MonoBehaviour
     public Text CompensationText;
 
     public GameObject AttendancePanel;
-    
+
     private int[] attendanceRuby =
     {
         50, 80, 120, 150, 200, 250, 300
     };
-    
-    private DatabaseReference userReference;
-
-    private void Awake()
-    {
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://devilhunter-b89af.firebaseio.com/");
-        // 엉
-        userReference = FirebaseDatabase.DefaultInstance.RootReference.Child("Rank");
-    }
 
     void Start()
     {
@@ -59,24 +50,6 @@ public class TimeManager : MonoBehaviour
         {
             DataController.Instance.lastPlayTime = 0;
         }
-        
-        var user = new UserRankData
-        {
-            costumeIndex = DataController.Instance.costumeIndex,
-            skinIndex =  DataController.Instance.skinIndex
-        };
-        
-        var json = JsonUtility.ToJson(user);
-
-        if (PlayGamesPlatform.Instance.localUser.id != "")
-        {
-            userReference.Child(PlayGamesPlatform.Instance.localUser.id).SetRawJsonValueAsync(json).ContinueWith(task =>
-            {
-                if (task.IsCompleted)
-                {
-                }
-            });
-        }
     }
 
     public IEnumerator OfflineCompensation()
@@ -96,7 +69,7 @@ public class TimeManager : MonoBehaviour
             Debug.Log("The time is : " + words[1]);
             var time = Convert.ToDateTime(words[0].Replace('-', '/') + " " + words[1]);
 
-            var nowTime = float.Parse(TimeSpan.Parse(time.Add(TimeSpan.FromHours(14)).ToString().Split(' ')[1])
+            var nowTime = float.Parse(TimeSpan.Parse(time.Add(TimeSpan.FromHours(13)).ToString().Split(' ')[1])
                 .TotalSeconds
                 .ToString());
 
@@ -126,7 +99,7 @@ public class TimeManager : MonoBehaviour
                                                                   DataController.Instance.collectionGoldRising / 5) +
                             "G 획득!!";
 
-                        if ( DataController.Instance.skipCoupon == 0)
+                        if (DataController.Instance.skipCoupon == 0)
                         {
                             DataController.Instance.couponTime = 1800;
                             DataController.Instance.skipCoupon += 3;
@@ -207,8 +180,8 @@ public class TimeManager : MonoBehaviour
                             DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage * 5400 / 3.8f *
                                                                   DataController.Instance.collectionGoldRising / 5) +
                             "G 획득!!";
-                        
-                        if ( DataController.Instance.skipCoupon == 0)
+
+                        if (DataController.Instance.skipCoupon == 0)
                         {
                             DataController.Instance.couponTime = 1800;
                             DataController.Instance.skipCoupon += 3;
@@ -241,7 +214,7 @@ public class TimeManager : MonoBehaviour
                                                                   compensationTime / 3.8f *
                                                                   DataController.Instance.collectionGoldRising / 5) +
                             "G 획득!!";
-                        
+
                         if (compensationTime < 1800 && DataController.Instance.skipCoupon < 3)
                         {
                             DataController.Instance.couponTime -= compensationTime;
@@ -269,12 +242,12 @@ public class TimeManager : MonoBehaviour
                         }
                     }
                 }
-                
+
                 CompensationPanel.SetActive(true);
             }
 
             DataController.Instance.lastPlayTime = float.Parse(TimeSpan
-                .Parse(time.Add(TimeSpan.FromHours(14)).ToString().Split(' ')[1]).TotalSeconds.ToString());
+                .Parse(time.Add(TimeSpan.FromHours(13)).ToString().Split(' ')[1]).TotalSeconds.ToString());
 
             print("시간 -> sec : " + DataController.Instance.lastPlayTime);
             InvokeRepeating("RecordTime", 0, 5);
@@ -297,7 +270,7 @@ public class TimeManager : MonoBehaviour
         DataController.Instance.skill_5_cooltime -= time;
         DataController.Instance.skill_6_cooltime -= time;
 
-        for (var i = 0; i < 5; i++)
+        for (var i = 0; i < 13; i++)
         {
             if (PlayerPrefs.GetFloat("HuntCoolTime_" + i, 0) > 0)
             {
@@ -306,7 +279,7 @@ public class TimeManager : MonoBehaviour
             }
         }
 
-        for (var i = 0; i < 3; i++)
+        for (var i = 0; i < 11; i++)
         {
             if (PlayerPrefs.GetFloat("BossCoolTime_" + i, 0) > 0)
             {
@@ -337,9 +310,9 @@ public class TimeManager : MonoBehaviour
 
             var time = Convert.ToDateTime(words[0].Replace('-', '/') + " " + words[1]);
 
-            Debug.Log("The time is : " + time.Add(TimeSpan.FromHours(14)));
+            Debug.Log("The time is : " + time.Add(TimeSpan.FromHours(13)));
 
-            serverTime = int.Parse(time.Add(TimeSpan.FromHours(14)).ToString().Split('/')[1]);
+            serverTime = int.Parse(time.Add(TimeSpan.FromHours(13)).ToString().Split('/')[1]);
 
             print("현재 시간 : " + serverTime);
 
@@ -358,6 +331,7 @@ public class TimeManager : MonoBehaviour
                 AttendancePanel.SetActive(PlayerPrefs.GetInt("FirstOpenGame", 0) != 0);
 
                 DataController.Instance.faustCount = 10;
+                DataController.Instance.pvpCount = 10;
             }
             else
             {
@@ -370,28 +344,32 @@ public class TimeManager : MonoBehaviour
                         // 7일차 이전
                         DataController.Instance.lastAttendance = serverTime;
                         DataController.Instance.attendanceIndex++;
-                        
-                        DataController.Instance.ruby += attendanceRuby[(int) DataController.Instance.attendanceIndex - 1];
+
+                        DataController.Instance.ruby +=
+                            attendanceRuby[(int) DataController.Instance.attendanceIndex - 1];
 
                         NotificationManager.Instance.SetNotification(
                             "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
-                    
+
                         AttendancePanel.SetActive(PlayerPrefs.GetInt("FirstOpenGame", 0) != 0);
                         DataController.Instance.faustCount = 10;
+                        DataController.Instance.pvpCount = 10;
                     }
                     else
                     {
                         // 7일차 출석까지 한 단계에서는 1일차로 돌아간다
                         DataController.Instance.lastAttendance = serverTime;
                         DataController.Instance.attendanceIndex = 1;
-                        
-                        DataController.Instance.ruby += attendanceRuby[(int) DataController.Instance.attendanceIndex - 1];
+
+                        DataController.Instance.ruby +=
+                            attendanceRuby[(int) DataController.Instance.attendanceIndex - 1];
 
                         NotificationManager.Instance.SetNotification(
                             "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
-                    
+
                         AttendancePanel.SetActive(PlayerPrefs.GetInt("FirstOpenGame", 0) != 0);
                         DataController.Instance.faustCount = 10;
+                        DataController.Instance.pvpCount = 10;
                     }
                 }
                 else if (serverTime - DataController.Instance.lastAttendance == 0)
@@ -404,14 +382,15 @@ public class TimeManager : MonoBehaviour
                     // 출석한 다음날 연속 접속 안 함
                     DataController.Instance.lastAttendance = serverTime;
                     DataController.Instance.attendanceIndex = 1;
-                    
+
                     DataController.Instance.ruby += attendanceRuby[(int) DataController.Instance.attendanceIndex - 1];
 
                     NotificationManager.Instance.SetNotification(
                         "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
-                    
+
                     AttendancePanel.SetActive(PlayerPrefs.GetInt("FirstOpenGame", 0) != 0);
                     DataController.Instance.faustCount = 10;
+                    DataController.Instance.pvpCount = 10;
                 }
             }
 

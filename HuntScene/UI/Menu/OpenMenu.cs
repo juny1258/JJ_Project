@@ -23,6 +23,10 @@ public class OpenMenu : MonoBehaviour
 		{
 			NotificationManager.Instance.SetNotification("사냥중에는 메뉴를 열 수 없습니다.");
 		}
+		else if (DataController.Instance.isStatus)
+		{
+			NotificationManager.Instance.SetNotification("지금은 메뉴를 열 수 없습니다.");
+		}
 		else
 		{
 			MenuManager.Instance.Open(index);

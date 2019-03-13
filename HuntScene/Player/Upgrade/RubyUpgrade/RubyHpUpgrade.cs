@@ -29,7 +29,7 @@ public class RubyHpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     public void UpgradeButtonClick()
     {
-        if (DataController.Instance.rubyRisingHPLevel < 200)
+        if (DataController.Instance.rubyRisingHPLevel < 300)
         {
             if (DataController.Instance.ruby >= (DataController.Instance.rubyRisingHPLevel + 1) * 10)
             {
@@ -52,18 +52,18 @@ public class RubyHpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     private void UpdateUI()
     {
-        if (DataController.Instance.rubyRisingHPLevel < 200)
+        if (DataController.Instance.rubyRisingHPLevel < 300)
         {
             ProductName.text = "체력 증가[+" + DataController.Instance.rubyRisingHPLevel + "]";
 
             PriceText.text =
                 DataController.Instance.FormatGoldTwo((DataController.Instance.rubyRisingHPLevel + 1) * 10);
 
-            UpgradeInfo.text = Math.Truncate(DataController.Instance.rubyRisingHP * 100) +
+            UpgradeInfo.text = Math.Round(DataController.Instance.rubyRisingHP * 100, 1) +
                                "% -> " +
-                               Math.Truncate(
+                               Math.Round(
                                    (DataController.Instance.rubyRisingHP +
-                                    (DataController.Instance.rubyRisingHPLevel + 1) * 0.006f) * 100) +
+                                    (DataController.Instance.rubyRisingHPLevel + 1) * 0.006f) * 100, 1) +
                                "%";
         }
         else

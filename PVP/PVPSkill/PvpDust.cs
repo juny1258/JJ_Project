@@ -9,31 +9,17 @@ public class PvpDust : MonoBehaviour
     public GameObject PlayerSkill;
     public GameObject AISkill;
 
-    private bool isClick;
-    private float skillTime;
-
     public GameObject SkillEffect;
 
     private void Start()
     {
-        Invoke("PlayAISkill", DataController.Instance.AIData.skillClickTime);
+        Invoke("PlayAISkill", Random.Range(0.4f, 1));
     }
-
-    private void Update()
-    {
-        if (!isClick)
-        {
-            skillTime += Time.deltaTime;
-        }
-    }
-
+    
     public void PlaySkill()
     {
-        isClick = true;
         Instantiate(PlayerSkill, new Vector3(0, 0, 0), Quaternion.identity);
         EventManager.Instance.ShackScreen(0.1f, 1f);
-
-        DataController.Instance.PlayerData.skillClickTime = skillTime;
 
         Instantiate(SkillEffect, transform.position, Quaternion.identity);
         Destroy(Panel);
@@ -41,7 +27,6 @@ public class PvpDust : MonoBehaviour
 
     private void PlayAISkill()
     {
-        isClick = true;
         Instantiate(AISkill, new Vector3(-5, 0, 0), Quaternion.identity);
         EventManager.Instance.ShackScreen(0.1f, 1f);
 

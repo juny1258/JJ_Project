@@ -5,58 +5,50 @@ using UnityEngine.UI;
 
 public class HuntCoolTime : MonoBehaviour
 {
-	public GameObject[] HuntTimerPanels;
-	public Text[] HuntTimerTexts;
-	
-	public GameObject[] BossTimerPanels;
-	public Text[] BossTimerTexts;
-
 	public Text CouponTimer;
 
-	private void Start()
+	private void OnEnable()
 	{
-		EventManager.RebirthEvent += ResetCoolTime;
-	}
-
-	// Update is called once per frame
-	void Update () {
-		for (var i = 0; i < HuntTimerPanels.Length; i++)
-		{
-			if (PlayerPrefs.GetFloat("HuntCoolTime_" + i, 0) > 0)
-			{
-				HuntTimerPanels[i].SetActive(true);
-				var min = (int)PlayerPrefs.GetFloat("HuntCoolTime_" + i, 0) / 60;
-				var sec = (int)PlayerPrefs.GetFloat("HuntCoolTime_" + i, 0) - 60 * min;
-				HuntTimerTexts[i].text = string.Format("{0:00}:{1:00}", min, sec);
-			}
-			else
-			{
-				HuntTimerPanels[i].SetActive(false);
-			}
-		}
+		DataController.Instance.couponTime -= DataController.Instance.skipCool;
 		
-		for (var i = 0; i < BossTimerPanels.Length; i++)
-		{
-			if (PlayerPrefs.GetFloat("BossCoolTime_" + i, 0) > 0)
-			{
-				BossTimerPanels[i].SetActive(true);
-				var min = (int)PlayerPrefs.GetFloat("BossCoolTime_" + i, 0) / 60;
-				var sec = (int)PlayerPrefs.GetFloat("BossCoolTime_" + i, 0) - 60 * min;
-				BossTimerTexts[i].text = string.Format("{0:00}:{1:00}", min, sec);
-			}
-			else
-			{
-				BossTimerPanels[i].SetActive(false);
-			}
-		}
-
 		if (DataController.Instance.skipCoupon < 3)
 		{
+			
+			if (DataController.Instance.couponTime <= 0)
+			{
+				DataController.Instance.couponTime = 1800;
+				DataController.Instance.skipCoupon++;
+			}
+			
 			CouponTimer.gameObject.SetActive(true);
 			var m = (int) DataController.Instance.couponTime / 60;
 			var s = (int) DataController.Instance.couponTime - 60 * m;
+
+			CouponTimer.text = string.Format("{0:00}:{1:00}", m, s);
+		}
+		else
+		{
+			CouponTimer.gameObject.SetActive(false);
+		}
+		
+		InvokeRepeating("CoolTime", 1, 1);
+	}
+
+	private void CoolTime()
+	{
+		if (DataController.Instance.skipCoupon < 3)
+		{
+			DataController.Instance.couponTime -= 1;
 			
-			print(DataController.Instance.couponTime);
+			if (DataController.Instance.couponTime <= 0)
+			{
+				DataController.Instance.couponTime = 1800;
+				DataController.Instance.skipCoupon++;
+			}
+			
+			CouponTimer.gameObject.SetActive(true);
+			var m = (int) DataController.Instance.couponTime / 60;
+			var s = (int) DataController.Instance.couponTime - 60 * m;
 
 			CouponTimer.text = string.Format("{0:00}:{1:00}", m, s);	
 		}
@@ -65,18 +57,10 @@ public class HuntCoolTime : MonoBehaviour
 			CouponTimer.gameObject.SetActive(false);
 		}
 	}
-
-	private void ResetCoolTime()
+	
+	private void OnDisable()
 	{
-		for (var i = 0; i < HuntTimerPanels.Length; i++)
-		{
-			PlayerPrefs.SetFloat("HuntCoolTime_" + i, 0);
-		}
-
-		for (var i = 0; i < BossTimerPanels.Length; i++)
-		{
-			PlayerPrefs.SetFloat("BossCoolTime_" + i, 0);
-		}
-
+		DataController.Instance.skipCool = 0;
+		CancelInvoke();
 	}
 }

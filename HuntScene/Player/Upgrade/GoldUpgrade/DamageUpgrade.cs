@@ -35,7 +35,7 @@ public class DamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     {
         if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel == 0)
         {
-            if (DataController.Instance.damageLevel <= 2000)
+            if (DataController.Instance.damageLevel <= 10000)
             {
                 if (DataController.Instance.gold >= DataController.Instance.damageCost)
                 {
@@ -63,7 +63,7 @@ public class DamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         }
         else
         {
-            NotificationManager.Instance.SetNotification("악의 기운에 가로막혀 강화할 수 없습니다.");
+            NotificationManager.Instance.SetNotification("결계석의 레벨을 눌러 초월기를 사용하세요.");
         }
     }
 
@@ -74,7 +74,7 @@ public class DamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     private void UpdateUI()
     {
-        if (DataController.Instance.damageLevel <= 2000)
+        if (DataController.Instance.damageLevel <= 10000)
         {
             ProductName.text = "공격력[+" + (DataController.Instance.damageLevel - 1) + "]";
             PriceText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.damageCost);

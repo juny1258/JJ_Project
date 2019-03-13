@@ -24,6 +24,8 @@ public class SkillPakage : MonoBehaviour
 
         NotificationManager.Instance.SetNotification2("스킬 패키지 구매완료!!");
         
+        DataController.Instance.inAppPurchase += 14000;
+        
         Panel.SetActive(PlayerPrefs.GetFloat("IsSkillPurchase", 0) == 1);
     }
 }

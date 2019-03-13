@@ -10,29 +10,15 @@ public class PvpTonado : MonoBehaviour
 
     public GameObject SkillEffect;
 
-    private bool isClick;
-    private float skillTime;
-
     private void Start()
     {
-        Invoke("PlayAISkill", DataController.Instance.AIData.skillClickTime);
-    }
-
-    private void Update()
-    {
-        if (!isClick)
-        {
-            skillTime += Time.deltaTime;
-        }
+        Invoke("PlayAISkill", Random.Range(0.4f, 1));
     }
 
     public void PlaySkill()
     {
-        isClick = true;
         Instantiate(PlayerSkill, new Vector3(0, -0.65f, 0), Quaternion.identity);
         EventManager.Instance.UseSkill(4);
-
-        DataController.Instance.PlayerData.skillClickTime = skillTime;
 
         Instantiate(SkillEffect, transform.position, Quaternion.identity);
         Destroy(Panel);
@@ -40,7 +26,6 @@ public class PvpTonado : MonoBehaviour
 
     private void PlayAISkill()
     {
-        isClick = true;
         Instantiate(PlayerSkill, new Vector3(-5, -0.65f, 0), Quaternion.identity);
         EventManager.Instance.UseSkill(1);
 

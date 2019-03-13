@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Firebase;
+using Firebase.Database;
+using Firebase.Unity.Editor;
+using GooglePlayGames;
 using UnityEngine;
 
 public class FaustObject : MonoBehaviour
@@ -33,6 +37,13 @@ public class FaustObject : MonoBehaviour
     private int faustDamageLenel;
 
     private float nowDamage;
+
+    private DatabaseReference userReference;
+
+    private void Awake()
+    {
+        userReference = FirebaseManager.Instance.Reference.Child("FaustRank1");
+    }
 
     private void OnEnable()
     {
@@ -120,7 +131,7 @@ public class FaustObject : MonoBehaviour
 
     private IEnumerator Skill_1()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_1_damage
                              * (DataController.Instance.collectionFaustDamage +
                                 DataController.Instance.advancedFaustDamage);
@@ -146,7 +157,7 @@ public class FaustObject : MonoBehaviour
 
     private IEnumerator Skill_2()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_2_damage
                              * (DataController.Instance.collectionFaustDamage +
                                 DataController.Instance.advancedFaustDamage);
@@ -172,7 +183,7 @@ public class FaustObject : MonoBehaviour
 
     private IEnumerator DustSkill()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_4_damage
                              * (DataController.Instance.collectionFaustDamage +
                                 DataController.Instance.advancedFaustDamage);
@@ -198,7 +209,7 @@ public class FaustObject : MonoBehaviour
 
     private IEnumerator ExplosionSkill()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_5_damage
                              * (DataController.Instance.collectionFaustDamage +
                                 DataController.Instance.advancedFaustDamage);
@@ -224,7 +235,7 @@ public class FaustObject : MonoBehaviour
 
     private IEnumerator HolyExpllosion()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_6_damage
                              * (DataController.Instance.collectionFaustDamage +
                                 DataController.Instance.advancedFaustDamage);
@@ -324,13 +335,13 @@ public class FaustObject : MonoBehaviour
     {
         for (int i = 0; i < 20; i++)
         {
-            if (damageReceived < 1000000)
+            if (damageReceived < 500000)
             {
                 rewardLevel = 0;
                 break;
             }
 
-            if (damageReceived > 1000000 * Math.Pow(2, i))
+            if (damageReceived > 500000 * Math.Pow(2, i))
             {
                 rewardLevel++;
             }
@@ -341,13 +352,42 @@ public class FaustObject : MonoBehaviour
         if (Social.localUser.authenticated)
         {
             DataController.Instance.FaustAchievement();
+
+            if (DataController.Instance.recordFaustDamage < damageReceived)
+            {
+                var user = new UserRankData
+                {
+                    userName = Social.localUser.userName,
+                    costumeIndex = DataController.Instance.costumeIndex,
+                    skinIndex = DataController.Instance.skinIndex,
+
+                    playTime = PlayerPrefs.GetFloat("PlayTime", 0),
+
+                    faustDamage = -damageReceived,
+                    inAppPurchase = DataController.Instance.inAppPurchase,
+
+                    isHack = 0
+                };
+
+                var json = JsonUtility.ToJson(user);
+
+                userReference.Child(PlayGamesPlatform.Instance.localUser.id)
+                    .SetRawJsonValueAsync(json).ContinueWith(
+                        task1 =>
+                        {
+                            if (task1.IsCompleted)
+                            {
+                                DataController.Instance.recordFaustDamage = damageReceived;
+                            }
+                        });
+            }
         }
-        
+
         if (Social.localUser.authenticated)
         {
             // login success
             float highScore = damageReceived;
-            string leaderBoardId = GPGSIds.leaderboard_7;
+            string leaderBoardId = GPGSIds.leaderboard;
 
             Social.ReportScore((long) highScore, leaderBoardId, success =>
             {

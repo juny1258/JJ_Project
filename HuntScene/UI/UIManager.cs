@@ -1,5 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Firebase;
+using Firebase.Database;
+using Firebase.Unity.Editor;
+using GooglePlayGames;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,9 +21,6 @@ public class UIManager : MonoBehaviour
 
     public GameObject AutoSkill;
 
-    public int HuntIndex;
-    public int BossIndex;
-
     public Image PlayerStateImage;
     public Image PlayerStateImage1;
 
@@ -31,6 +32,20 @@ public class UIManager : MonoBehaviour
 
     public GameObject StartInfoPanel;
 
+    public GameObject BanPanel;
+
+    public GameObject QuitPanel;
+
+    private DatabaseReference userReference;
+
+    private void Awake()
+    {
+        if (Social.localUser.authenticated)
+        {
+            userReference = FirebaseManager.Instance.Reference.Child("FaustRank1");
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -38,10 +53,20 @@ public class UIManager : MonoBehaviour
         if (PlayerPrefs.GetInt("FirstOpenGame", 0) == 0)
         {
             DataController.Instance.isTutorial = true;
-            
+
             StartInfoPanel.SetActive(true);
         }
-        
+
+        if (PlayerPrefs.GetFloat("Merchant", 0) == 0)
+        {
+            if (AndroidUtil.IsAppInstalled("com.juny.merchant"))
+            {
+                PlayerPrefs.SetFloat("Merchant", 1);
+                DataController.Instance.ruby += 2000;
+                NotificationManager.Instance.SetNotification2("루비 2,000개가 지급되었습니다.");
+            }
+        }
+
         SetCostume();
 
         EventManager.AutoClickEvent += SetAutoClick;
@@ -51,10 +76,29 @@ public class UIManager : MonoBehaviour
         EventManager.SelectSkinEvent += SetCostume;
 
         EventManager.PlaySkillEvent += ShowSkillCoolTime;
-        
+
         InvokeRepeating("FlyRewardPlay", 60, 180);
-        
+
         InvokeRepeating("ShowSkillCoolTime", 0, 0.2f);
+
+        InvokeRepeating("AddCool", 1, 1);
+
+        if (Social.localUser.authenticated)
+        {
+            userReference.Child(PlayGamesPlatform.Instance.localUser.id).GetValueAsync().ContinueWith(
+                task =>
+                {
+                    if (task.IsCompleted)
+                    {
+                        var userData = JsonUtility.FromJson<UserRankData>(task.Result.GetRawJsonValue());
+                        if (userData.isHack >= 1)
+                        {
+                            BanPanel.SetActive(true);
+                            task.Result.Child("isHack").Reference.SetValueAsync(2);
+                        }
+                    }
+                });   
+        }
     }
 
     private void OnDestroy()
@@ -73,7 +117,7 @@ public class UIManager : MonoBehaviour
         // 오토클릭 상품 결제 시 버프 이펙트 띄우기
         AutoSkill.SetActive(DataController.Instance.useAutoClick);
         Invoke("StopAutoClick", 180 + 30 * DataController.Instance.autoClickLevel);
-            
+
         // 물약 사용 횟수 증가
         DataController.Instance.autoClickIndex++;
         if (DataController.Instance.autoClickIndex == 10)
@@ -90,18 +134,18 @@ public class UIManager : MonoBehaviour
         {
             PlayerStateImage.sprite =
                 Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
-                    typeof(Sprite)) as Sprite;  
-                
+                    typeof(Sprite)) as Sprite;
+
             PlayerStateImage1.sprite =
                 Resources.Load("Player/Costume" + DataController.Instance.costumeIndex + "/Costume",
-                    typeof(Sprite)) as Sprite; 
+                    typeof(Sprite)) as Sprite;
         }
         else
         {
             PlayerStateImage.sprite =
                 Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
                     typeof(Sprite)) as Sprite;
-                
+
             PlayerStateImage1.sprite =
                 Resources.Load("Player/Skin" + DataController.Instance.skinIndex + "/Costume",
                     typeof(Sprite)) as Sprite;
@@ -114,37 +158,68 @@ public class UIManager : MonoBehaviour
         DataController.Instance.useAutoClick = false;
     }
 
-    public void ShowSkillCoolTime()
+    private void ShowSkillCoolTime()
     {
         if (DataController.Instance.skill_1_cooltime > 0)
         {
-            Skill1.fillAmount = DataController.Instance.skill_1_cooltime * 0.0056f;
+            Skill1.fillAmount = DataController.Instance.skill_1_cooltime * 0.0167f;
+        }
+        else
+        {
+            Skill1.fillAmount = 0;
         }
 
         if (DataController.Instance.skill_2_cooltime > 0)
         {
-            Skill2.fillAmount = DataController.Instance.skill_2_cooltime * 0.0056f;
+            Skill2.fillAmount = DataController.Instance.skill_2_cooltime * 0.0167f;
+        }
+        else
+        {
+            Skill2.fillAmount = 0;
         }
 
         if (DataController.Instance.skill_3_cooltime > 0)
         {
-            Skill3.fillAmount = DataController.Instance.skill_3_cooltime * 0.0056f;
+            Skill3.fillAmount = DataController.Instance.skill_3_cooltime * 0.0167f;
+        }
+        else
+        {
+            Skill3.fillAmount = 0;
         }
 
         if (DataController.Instance.skill_4_cooltime > 0)
         {
-            Skill4.fillAmount = DataController.Instance.skill_4_cooltime * 0.0056f;
+            Skill4.fillAmount = DataController.Instance.skill_4_cooltime * 0.0167f;
+        }
+        else
+        {
+            Skill4.fillAmount = 0;
         }
 
         if (DataController.Instance.skill_5_cooltime > 0)
         {
-            Skill5.fillAmount = DataController.Instance.skill_5_cooltime * 0.0056f;
+            Skill5.fillAmount = DataController.Instance.skill_5_cooltime * 0.0167f;
+        }
+        else
+        {
+            Skill5.fillAmount = 0;
         }
 
         if (DataController.Instance.skill_6_cooltime > 0)
         {
-            Skill6.fillAmount = DataController.Instance.skill_6_cooltime * 0.0056f;
+            Skill6.fillAmount = DataController.Instance.skill_6_cooltime * 0.0167f;
         }
+        else
+        {
+            Skill6.fillAmount = 0;
+        }
+    }
+
+    private void AddCool()
+    {
+        DataController.Instance.huntCool++;
+        DataController.Instance.bossCool++;
+        DataController.Instance.skipCool++;
     }
 
     // Update is called once per frame
@@ -153,34 +228,6 @@ public class UIManager : MonoBehaviour
         GoldView.text = DataController.Instance.FormatGoldTwo(DataController.Instance.gold) + " G";
         RubyView.text = DataController.Instance.FormatGoldTwo(DataController.Instance.ruby);
 
-        if (DataController.Instance.skipCoupon < 3)
-        {
-            DataController.Instance.couponTime -= Time.deltaTime;
-            if (DataController.Instance.couponTime <= 0)
-            {
-                DataController.Instance.couponTime = 1800;
-                DataController.Instance.skipCoupon++;
-            }
-        }
-
-        for (var i = 0; i < HuntIndex; i++)
-        {
-            if (PlayerPrefs.GetFloat("HuntCoolTime_" + i, 0) > 0)
-            {
-                PlayerPrefs.SetFloat("HuntCoolTime_" + i,
-                    PlayerPrefs.GetFloat("HuntCoolTime_" + i, 0) - Time.deltaTime);
-            }
-        }
-
-        for (var i = 0; i < BossIndex; i++)
-        {
-            if (PlayerPrefs.GetFloat("BossCoolTime_" + i, 0) > 0)
-            {
-                PlayerPrefs.SetFloat("BossCoolTime_" + i,
-                    PlayerPrefs.GetFloat("BossCoolTime_" + i, 0) - Time.deltaTime);
-            }
-        }
-        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             var i = 0;
@@ -193,7 +240,7 @@ public class UIManager : MonoBehaviour
                     {
                         if (!MenuPanel.active && !RankPanel.active)
                         {
-                            Application.Quit();
+                            QuitPanel.SetActive(true);
                         }
                     }
                 }

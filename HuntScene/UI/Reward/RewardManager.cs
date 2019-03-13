@@ -57,138 +57,155 @@ public class RewardManager : MonoBehaviour
         item2.GetComponentsInChildren<Image>()[1].sprite = Resources.Load("Gold/ruby", typeof(Sprite)) as Sprite;
         item2.GetComponentInChildren<Text>().text = ruby.ToString();
 
-        DataController.Instance.getRuby = ruby;
+        if (Random.Range(0, 100) < DataController.Instance.collectionRubyRising)
+        {
+            DataController.Instance.getRuby = ruby * 2; 
+        }
+        else
+        {
+            DataController.Instance.getRuby = ruby;
+        }
 
         var item3 = Instantiate(Item, new Vector3(0, 0, 0), Quaternion.identity);
         item3.GetComponentsInChildren<Image>()[1].sprite = Resources.Load("Gold/sapphire", typeof(Sprite)) as Sprite;
         item3.GetComponentInChildren<Text>().text = sapphire.ToString();
 
-        DataController.Instance.getSapphire = sapphire;
+        if (Random.Range(0, 100) < DataController.Instance.collectionSappaireRising)
+        {
+            DataController.Instance.getSapphire = sapphire * 2;
+        }
+        else
+        {
+            DataController.Instance.getSapphire = sapphire;
+        }
 
         item1.transform.SetParent(ItemGridView, false);
         item2.transform.SetParent(ItemGridView, false);
         item3.transform.SetParent(ItemGridView, false);
 
-        if (Random.Range(0, 200) == 0 && ruby != 0)
+        if (Random.Range(0, 100) < 5 && ruby != 0)
         {
             var randInt = Random.Range(0, 16);
 
-            var item4 = Instantiate(Item, new Vector3(0, 0, 0), Quaternion.identity);
-
-            switch (randInt)
+            if (PlayerPrefs.GetInt("CollectionItem_" + randInt, 0) < 100)
             {
-                case 0:
-                    DataController.Instance.collectionHp += 0.02f;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 1:
-                    DataController.Instance.collectionCriticalPer += 0.5f;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 2:
-                    DataController.Instance.collectionAngerTime += 0.01f;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 3:
-                    DataController.Instance.collectionGoldRising += 0.01f;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 4:
-                    DataController.Instance.collectionCoolTime += 1;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 5:
-                    DataController.Instance.collectionAngerDamage += 0.02f;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 6:
-                    DataController.Instance.collectionRubyRising += 1;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 7:
-                    DataController.Instance.collectionSappaireRising += 1;
+                var item4 = Instantiate(Item, new Vector3(0, 0, 0), Quaternion.identity);
 
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 8:
-                    DataController.Instance.collectionGoldRising += 0.01f;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 9:
-                    DataController.Instance.collectionDevilStoneRising += 1;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 10:
-                    DataController.Instance.collectionRebirthRising += 0.02f;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 11:
-                    DataController.Instance.collectionCriticalDamage += 0.03f;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 12:
-                    DataController.Instance.collectionDamage += 0.03f;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 13:
-                    DataController.Instance.collectionFaustDamage += 0.02f;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 14:
-                    DataController.Instance.collectionFaustDamage += 0.02f;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-                case 15:
-                    DataController.Instance.collectionFaustDamage += 0.02f;
-                    item4.GetComponentsInChildren<Image>()[1].sprite =
-                        Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
-                    break;
-            }
-
-            item4.GetComponentInChildren<Text>().text = "1";
-
-            DataController.Instance.collectionDamage += 0.03f;
-            PlayerPrefs.SetInt("CollectionItem_" + randInt, PlayerPrefs.GetInt("CollectionItem_" + randInt) + 1);
-
-            if (DataController.Instance.relicCount == 0)
-            {
-                Social.ReportProgress(GPGSIds.achievement_relic_acquisition, 100f, isSuccess => { });
-            }
-
-            DataController.Instance.relicCount++;
-
-            if (Social.localUser.authenticated)
-            {
-                Social.ReportScore(DataController.Instance.relicCount, GPGSIds.leaderboard_5, success =>
+                switch (randInt)
                 {
-                    if (success)
+                    case 0:
+                        DataController.Instance.collectionHp += 0.02f;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 1:
+                        DataController.Instance.collectionCriticalPer += 0.5f;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 2:
+                        DataController.Instance.collectionAngerTime += 0.01f;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 3:
+                        DataController.Instance.collectionGoldRising += 0.01f;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 4:
+                        DataController.Instance.collectionCoolTime += 1;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 5:
+                        DataController.Instance.collectionAngerDamage += 0.02f;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 6:
+                        DataController.Instance.collectionRubyRising += 1;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 7:
+                        DataController.Instance.collectionSappaireRising += 1;
+
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 8:
+                        DataController.Instance.collectionGoldRising += 0.01f;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 9:
+                        DataController.Instance.collectionDevilStoneRising += 1;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 10:
+                        DataController.Instance.collectionRebirthRising += 0.02f;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 11:
+                        DataController.Instance.collectionCriticalDamage += 0.03f;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 12:
+                        DataController.Instance.collectionDamage += 0.03f;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 13:
+                        DataController.Instance.collectionFaustDamage += 0.02f;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 14:
+                        DataController.Instance.collectionFaustDamage += 0.02f;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                    case 15:
+                        DataController.Instance.collectionFaustDamage += 0.02f;
+                        item4.GetComponentsInChildren<Image>()[1].sprite =
+                            Resources.Load("UI/Item/relic" + randInt, typeof(Sprite)) as Sprite;
+                        break;
+                }
+
+                item4.GetComponentInChildren<Text>().text = "1";
+
+                DataController.Instance.collectionDamage += 0.03f;
+                PlayerPrefs.SetInt("CollectionItem_" + randInt, PlayerPrefs.GetInt("CollectionItem_" + randInt) + 1);
+
+                if (DataController.Instance.relicCount == 0)
+                {
+                    Social.ReportProgress(GPGSIds.achievement_relic_acquisition, 100f, isSuccess => { });
+                }
+
+                DataController.Instance.relicCount++;
+
+                if (Social.localUser.authenticated)
+                {
+                    Social.ReportScore(DataController.Instance.relicCount, GPGSIds.leaderboard_5, success =>
                     {
-                        print("Success");
-                    }
-                });
+                        if (success)
+                        {
+                            print("Success");
+                        }
+                    });
+                }
+
+                DataController.Instance.UpdateDamage();
+                DataController.Instance.UpdateCritical();
+
+                DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
+
+                item4.transform.SetParent(ItemGridView, false);
             }
-
-            DataController.Instance.UpdateDamage();
-            DataController.Instance.UpdateCritical();
-
-            DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
-
-            item4.transform.SetParent(ItemGridView, false);
         }
 
         RewardPanel.SetActive(true);

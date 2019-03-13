@@ -31,7 +31,7 @@ public class BatSkill : MonoBehaviour
     {
         if (DataController.Instance.skill_1_cooltime <= 0)
         {
-            DataController.Instance.skill_1_cooltime = 180 - 9 * (DataController.Instance.collectionCoolTime / 5);
+            DataController.Instance.skill_1_cooltime = 60 - 3 * (DataController.Instance.collectionCoolTime / 5);
             Instantiate(BatSkillObject, new Vector3(-4.65f, -2.37f, 0), Quaternion.identity);
             EventManager.Instance.PlaySkill();
         }

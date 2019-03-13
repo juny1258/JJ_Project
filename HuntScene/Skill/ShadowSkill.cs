@@ -68,12 +68,12 @@ public class ShadowSkill : MonoBehaviour
                 ShadowPlayer.Play("Attack" + DataController.Instance.costumeIndex, 0, 1f);
                 shadowTime = DataController.Instance.skill_3_time;
                 DataController.Instance.isShadowSkill = true;
-                DataController.Instance.skill_3_cooltime = 180 - 9 * (DataController.Instance.collectionCoolTime / 5);
+                DataController.Instance.skill_3_cooltime = 60 - 3 * (DataController.Instance.collectionCoolTime / 5);
                 EventManager.Instance.PlaySkill();
             }
             else
             {
-                NotificationManager.Instance.SetNotification("지금은 사용할 수 없습니다.");
+                NotificationManager.Instance.SetNotification("사냥터에서만 사용할 수 있습니다.");
             }
         }
     }

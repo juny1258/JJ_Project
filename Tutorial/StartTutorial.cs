@@ -48,6 +48,7 @@ public class StartTutorial : MonoBehaviour
         {
             Info3.SetActive(false);
             DataController.Instance.isTutorial = false;
+            
             TutorialPanel.SetActive(false);
             PlayerPrefs.SetInt("FirstOpenGame", 1);
         }

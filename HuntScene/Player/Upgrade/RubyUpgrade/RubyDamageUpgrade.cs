@@ -29,7 +29,7 @@ public class RubyDamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownH
 
     public void UpgradeButtonClick()
     {
-        if (DataController.Instance.rubyRisingDamageLevel < 200)
+        if (DataController.Instance.rubyRisingDamageLevel < 300)
         {
             if (DataController.Instance.ruby >= (DataController.Instance.rubyRisingDamageLevel + 1) * 10)
             {
@@ -53,7 +53,7 @@ public class RubyDamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownH
 
     private void UpdateUI()
     {
-        if (DataController.Instance.rubyRisingDamageLevel < 200)
+        if (DataController.Instance.rubyRisingDamageLevel < 300)
         {
             ProductName.text = "공격력[+" + DataController.Instance.rubyRisingDamageLevel + "]";
 

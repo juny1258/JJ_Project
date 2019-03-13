@@ -86,10 +86,17 @@ public class BossSpwan : MonoBehaviour
     public Image CostumeImage;
     public Text AvilityText;
 
+    public GameObject ReviewPanel;
+
     private void EndHunt(bool isClear)
     {
         if (isClear)
         {
+            if (PlayerPrefs.GetFloat("IsReview", 0) == 0)
+            {
+                PlayerPrefs.SetFloat("IsReview", 1);
+                ReviewPanel.SetActive(true);
+            }
             if (DataController.Instance.finalBossLevel == DataController.Instance.bossLevel)
             {
                 RewardManager.Instance.ShowRewardPanel(
@@ -132,7 +139,7 @@ public class BossSpwan : MonoBehaviour
                 print("마지막 스테이지 클리어");
             }
 
-            PlayerPrefs.SetFloat("BossCoolTime_" + DataController.Instance.bossLevel, 300);
+            PlayerPrefs.SetFloat("BossCoolTime_" + DataController.Instance.bossLevel, 310);
         }
         else
         {

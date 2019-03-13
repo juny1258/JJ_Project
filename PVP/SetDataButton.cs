@@ -17,7 +17,6 @@ public class SetDataButton : MonoBehaviour
     public Text InfoText;
     
     private DatabaseReference userReference;
-    private DatabaseReference userReference1;
 
     public Transform SkillPanel;
     public GameObject[] SkillButtons;
@@ -26,10 +25,7 @@ public class SetDataButton : MonoBehaviour
 
     private void Awake()
     {
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://devilhunter-b89af.firebaseio.com/");
-        // 엉
-        userReference = FirebaseDatabase.DefaultInstance.RootReference.Child("PVP");
-        userReference1 = FirebaseDatabase.DefaultInstance.RootReference.Child("Rank");
+        userReference = FirebaseManager.Instance.Reference.Child("PVP");
     }
 
     private string[] randName =
@@ -89,31 +85,36 @@ public class SetDataButton : MonoBehaviour
             DataController.Instance.lastPlayTime = 0;
         }
         
-        var user = new UserRankData
-        {
-            costumeIndex = DataController.Instance.costumeIndex,
-            skinIndex =  DataController.Instance.skinIndex
-        };
+//        var user = new UserRankData
+//        {
+//            costumeIndex = DataController.Instance.costumeIndex,
+//            skinIndex =  DataController.Instance.skinIndex
+//        };
+//        
+//        var json = JsonUtility.ToJson(user);
+//        if (PlayGamesPlatform.Instance.localUser.id != "")
+//        {
+//            userReference1.Child(PlayGamesPlatform.Instance.localUser.id).SetRawJsonValueAsync(json).ContinueWith(task =>
+//            {
+//                if (task.IsCompleted)
+//                {
+//                }
+//            });
+//        }
         
-        var json = JsonUtility.ToJson(user);
-        if (PlayGamesPlatform.Instance.localUser.id != "")
-        {
-            userReference1.Child(PlayGamesPlatform.Instance.localUser.id).SetRawJsonValueAsync(json).ContinueWith(task =>
-            {
-                if (task.IsCompleted)
-                {
-                }
-            });
-        }
     }
 
     private void SetSkill()
     {
-        Loading.SetActive(false);
-        time = 30;
-        Invoke("DrewGame", 30);
+        DataController.Instance.PlayerDamage = 0;
+        DataController.Instance.AIDamage = 0;
         
-        InvokeRepeating("InitSkill", 0, 2.5f);
+        
+        Loading.SetActive(false);
+        time = 10;
+        Invoke("DrewGame", 10);
+        
+        InvokeRepeating("InitSkill", 1f, 2.5f);
     }
 
     private void InitSkill()
@@ -126,6 +127,9 @@ public class SetDataButton : MonoBehaviour
 
     private void EndGame(int i)
     {
+        DataController.Instance.isPvpReady = false;
+        pvpDatas.Clear();
+        
         CancelInvoke();
 
         time = 0;
@@ -137,14 +141,21 @@ public class SetDataButton : MonoBehaviour
         
         Loading.SetActive(true);
         // 스코어 갱신 및 스킬 누른 시간 갱신
-        if (i == 0)
+        if (DataController.Instance.PlayerDamage - DataController.Instance.AIDamage > 0)
         {
             // 승리
             InfoText.text = "승리!!";
-            DataController.Instance.PlayerData.score += 5;
+            if (DataController.Instance.PlayerData.score < 10000)
+            {
+                DataController.Instance.PlayerData.score += 5;
+            }
             var json = JsonUtility.ToJson(DataController.Instance.PlayerData);
 
-            userReference.Child(DataController.Instance.playerID).SetRawJsonValueAsync(json).ContinueWith(task =>
+            var randInt = Random.Range(1, 3);
+            DataController.Instance.ruby += randInt;
+            NotificationManager.Instance.SetNotification2("루비 " + randInt + "개 획득!!");
+
+            userReference.Child(PlayGamesPlatform.Instance.localUser.id).SetRawJsonValueAsync(json).ContinueWith(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -152,14 +163,18 @@ public class SetDataButton : MonoBehaviour
                 }
             });
         }
-        else if(i == 1)
+        else if(DataController.Instance.PlayerDamage - DataController.Instance.AIDamage < 0)
         {
             // 패배
             InfoText.text = "패배";
-            DataController.Instance.PlayerData.score -= 5;
+            if (DataController.Instance.PlayerData.score > 5)
+            {
+                DataController.Instance.PlayerData.score -= 5;
+            }
+
             var json = JsonUtility.ToJson(DataController.Instance.PlayerData);
 
-            userReference.Child(DataController.Instance.playerID).SetRawJsonValueAsync(json).ContinueWith(task =>
+            userReference.Child(PlayGamesPlatform.Instance.localUser.id).SetRawJsonValueAsync(json).ContinueWith(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -167,13 +182,12 @@ public class SetDataButton : MonoBehaviour
                 }
             });
         }
-        else if (i == 2)
+        else if (DataController.Instance.PlayerDamage - DataController.Instance.AIDamage == 0)
         {
             // 무승부
             InfoText.text = "무승부";
             var json = JsonUtility.ToJson(DataController.Instance.PlayerData);
-            DataController.Instance.PlayerData.score -= 3;
-            userReference.Child(DataController.Instance.playerID).SetRawJsonValueAsync(json).ContinueWith(task =>
+            userReference.Child(PlayGamesPlatform.Instance.localUser.id).SetRawJsonValueAsync(json).ContinueWith(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -189,11 +203,11 @@ public class SetDataButton : MonoBehaviour
     {
         if (Social.localUser.authenticated)
         {
-            if (DataController.Instance.playerID == "")
+            if (PlayerPrefs.GetFloat("FirstPvp", 0) == 0)
             {
                 // PVP 처음 입장
 
-                DataController.Instance.playerID = PlayGamesPlatform.Instance.localUser.id;
+                PlayerPrefs.SetFloat("FirstPvp", 1);
 
                 var criticalPer = DataController.Instance.criticalPercent + DataController.Instance.rubyCriticalPer +
                                   DataController.Instance.devilCritical +
@@ -214,7 +228,7 @@ public class SetDataButton : MonoBehaviour
                     criticalDamage = DataController.Instance.masterCriticalDamage,
                     Hp = DataController.Instance.GetPlayerHP(),
 
-                    skillClickTime = 2,
+                    skillClickTime = Random.Range(0.5f, 1f),
 
                     skill_1_damage = DataController.Instance.skill_1_damage,
                     skill_2_damage = DataController.Instance.skill_2_damage,
@@ -228,7 +242,7 @@ public class SetDataButton : MonoBehaviour
 
                 var json = JsonUtility.ToJson(user);
 
-                userReference.Child(DataController.Instance.playerID).SetRawJsonValueAsync(json).ContinueWith(task =>
+                userReference.Child(PlayGamesPlatform.Instance.localUser.id).SetRawJsonValueAsync(json).ContinueWith(task =>
                 {
                     if (task.IsCompleted)
                     {
@@ -238,7 +252,7 @@ public class SetDataButton : MonoBehaviour
             }
             else
             {
-                userReference.Child(DataController.Instance.playerID).GetValueAsync().ContinueWith(task =>
+                userReference.Child(PlayGamesPlatform.Instance.localUser.id).GetValueAsync().ContinueWith(task =>
                 {
                     if (task.IsCompleted)
                     {
@@ -298,7 +312,7 @@ public class SetDataButton : MonoBehaviour
 
                         var json = JsonUtility.ToJson(user);
 
-                        userReference.Child(DataController.Instance.playerID).SetRawJsonValueAsync(json).ContinueWith(
+                        userReference.Child(PlayGamesPlatform.Instance.localUser.id).SetRawJsonValueAsync(json).ContinueWith(
                             task1 =>
                             {
                                 if (task1.IsCompleted)
@@ -348,7 +362,7 @@ public class SetDataButton : MonoBehaviour
         }
         else if (DataController.Instance.PlayerData.score > 3000)
         {
-            UpdateAIData(DataController.Instance.PlayerData.score, 5000);
+            UpdateAIData(DataController.Instance.PlayerData.score, 10000);
         }
     }
 
@@ -376,9 +390,9 @@ public class SetDataButton : MonoBehaviour
                     {   
                         var user = new PvpData
                         {
-                            score = DataController.Instance.PlayerData.score + 5,
+                            score = DataController.Instance.PlayerData.score + 10,
 
-                            skillIndex = Random.Range(0, 13),
+                            skillIndex = DataController.Instance.skillIndex,
                             costumeIndex = DataController.Instance.PlayerData.costumeIndex,
                             skinIndex = DataController.Instance.PlayerData.skinIndex,
 
@@ -387,7 +401,7 @@ public class SetDataButton : MonoBehaviour
                             criticalDamage = DataController.Instance.PlayerData.criticalDamage,
                             criticalPercent = DataController.Instance.PlayerData.criticalPercent,
 
-                            skillClickTime = DataController.Instance.PlayerData.skillClickTime,
+                            skillClickTime = Random.Range(0.6f, 1f),
 
                             skill_1_damage = DataController.Instance.PlayerData.skill_1_damage,
                             skill_2_damage = DataController.Instance.PlayerData.skill_2_damage,
@@ -400,9 +414,9 @@ public class SetDataButton : MonoBehaviour
 
 
                         // 이름 1에서 이름 2로 수정
-                        user.Hp += user.Hp * Random.Range(-10, 10) / 100;
-                        user.damage += user.damage * Random.Range(-10, 10) / 100;
-                        user.criticalDamage += user.criticalDamage * Random.Range(-10, 10) / 100;
+                        user.Hp += user.Hp * Random.Range(-20, 20) / 100;
+                        user.damage += user.damage * Random.Range(-20, 20) / 100;
+                        user.criticalDamage += user.criticalDamage * Random.Range(-20, 20) / 100;
 
                         DataController.Instance.AIData = user;
 

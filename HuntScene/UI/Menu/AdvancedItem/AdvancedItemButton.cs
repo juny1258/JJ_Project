@@ -18,17 +18,24 @@ public class AdvancedItemButton : MonoBehaviour
 
     private void Start()
     {
-        EventManager.GetAdvancedItemEvent += () =>
+        EventManager.GetAdvancedItemEvent += GetItem;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.GetAdvancedItemEvent -= GetItem;
+    }
+
+    private void GetItem()
+    {
+        if (DataController.Instance.advancedItemBoxLevel < 8)
         {
-            if (DataController.Instance.advancedItemBoxLevel < 8)
-            {
-                PriceText.text = price[DataController.Instance.advancedItemBoxLevel].ToString();   
-            }
-            else
-            {
-                PriceText.text = "MAX";
-            }
-        };
+            PriceText.text = price[DataController.Instance.advancedItemBoxLevel].ToString();   
+        }
+        else
+        {
+            PriceText.text = "MAX";
+        }
     }
 
     private void OnEnable()

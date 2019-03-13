@@ -34,7 +34,7 @@ public class DustSkillButton : MonoBehaviour
 		{
 			Instantiate(DustSkillObject, new Vector3(0, 0, 0), Quaternion.identity);
 			EventManager.Instance.ShackScreen(0.1f, 1f);
-			DataController.Instance.skill_4_cooltime = 180 - 9 * (DataController.Instance.collectionCoolTime / 5);
+			DataController.Instance.skill_4_cooltime = 60 - 3 * (DataController.Instance.collectionCoolTime / 5);
 			EventManager.Instance.PlaySkill();
 		}
 	}

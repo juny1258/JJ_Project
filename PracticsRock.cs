@@ -87,6 +87,8 @@ public class PracticsRock : MonoBehaviour
 
     public GameObject TutorialPanel;
 
+    public GameObject ClickText;
+
     private void Update()
     {
         if (HpSlider.value == 0 &&
@@ -107,6 +109,7 @@ public class PracticsRock : MonoBehaviour
                 PlayerPrefs.SetFloat("FirstBreakStone", 1);
                 Time.timeScale = 0;
                 TutorialPanel.SetActive(true);
+                ClickText.SetActive(true);
             }
         }
     }
@@ -132,8 +135,9 @@ public class PracticsRock : MonoBehaviour
                 gold.transform.SetParent(Stones);
                 var rand = Random.Range(-80f, 80f);
                 gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
-                DataController.Instance.goldQueue.Enqueue(DataController.Instance.enqueueGold);
-                if (DataController.Instance.rebirthLevel < 14)
+                DataController.Instance.goldQueue.Enqueue(DataController.Instance.enqueueGold *
+                                                          DataController.Instance.useGoldBuff);
+                if (DataController.Instance.rebirthLevel < 19)
                     HpSlider.value -= DataController.Instance.masterDamage;
 
                 break;
@@ -151,7 +155,7 @@ public class PracticsRock : MonoBehaviour
                 DataController.Instance.goldQueue.Enqueue(DataController.Instance.masterCriticalDamage / getGoldPer * 
                                                           DataController.Instance.collectionGoldRising *
                                                           DataController.Instance.useGoldBuff);
-                if (DataController.Instance.rebirthLevel < 14)
+                if (DataController.Instance.rebirthLevel < 19)
                     HpSlider.value -= DataController.Instance.masterCriticalDamage;
 
                 break;
@@ -168,7 +172,7 @@ public class PracticsRock : MonoBehaviour
 
     private IEnumerator Skill_1()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_1_damage;
         var i = 0;
         while (i < 10)
@@ -194,7 +198,7 @@ public class PracticsRock : MonoBehaviour
 
     private IEnumerator Skill_2()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_2_damage;
         var i = 0;
         while (i < 10)
@@ -220,7 +224,7 @@ public class PracticsRock : MonoBehaviour
 
     private IEnumerator DustSkill()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_4_damage;
         var i = 0;
         while (i < 3)
@@ -246,7 +250,7 @@ public class PracticsRock : MonoBehaviour
 
     private IEnumerator ExplosionSkill()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_5_damage;
         var i = 0;
         while (i < 10)
@@ -272,7 +276,7 @@ public class PracticsRock : MonoBehaviour
 
     private IEnumerator HolyExpllosion()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_6_damage;
         var i = 0;
         while (i < 16)

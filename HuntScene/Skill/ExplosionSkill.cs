@@ -34,7 +34,7 @@ public class ExplosionSkill : MonoBehaviour
     {
         if (DataController.Instance.skill_5_cooltime <= 0)
         {
-            DataController.Instance.skill_5_cooltime = 180 - 9 * (DataController.Instance.collectionCoolTime / 5);
+            DataController.Instance.skill_5_cooltime = 60 - 3 * (DataController.Instance.collectionCoolTime / 5);
             Instantiate(Meteor, new Vector3(-7.07f, 7.66f, 0), Quaternion.Euler(0, 0, -135));
             Invoke("DelaySkill", 0.6f);
             GetComponent<AudioSource>().Play();   

@@ -13,26 +13,33 @@ public class OpenGoldRisingPanel : MonoBehaviour
 
     private void Start()
     {
-        DataController.Instance.goldBuffPotion = 0;
+        
     }
 
     public void OnClick()
     {
-        if (DataController.Instance.useGoldBuff == 1)
+        if (!DataController.Instance.isMenuOpen)
         {
-            if (DataController.Instance.goldBuffPotion > 0)
+            if (DataController.Instance.useGoldBuff == 1)
             {
-                // 물약이 있을 때
-                GoldBuff2.SetActive(true);
+                if (DataController.Instance.goldBuffPotion > 0)
+                {
+                    // 물약이 있을 때
+                    GoldBuff2.SetActive(true);
+                }
+                else
+                {
+                    GoldBuff1.SetActive(true);
+                }
             }
             else
             {
-                GoldBuff1.SetActive(true);
+                NotificationManager.Instance.SetNotification("이미 사용중입니다.");
             }
         }
         else
         {
-            NotificationManager.Instance.SetNotification("이미 사용중입니다.");
+            NotificationManager.Instance.SetNotification("사냥중에는 메뉴를 열 수 없습니다.");
         }
     }
 

@@ -23,7 +23,7 @@ public class EventManager : MonoBehaviour {
 			return instance;
 		}
 	}
-	
+
 	public delegate void Event();
 
 	public delegate void EventWithFloat(float index);
@@ -71,10 +71,20 @@ public class EventManager : MonoBehaviour {
 	
 	public static event Event StartPvpEvent;
 	
+	public static event Event PvpAdsEvent;
+	
 	public static event EventWithInt EndPvpEvent;
 
 	public static event Event PlaySkillSoundEvent;
 	public static event Event PlaySkillSoundEvent2;
+	
+	public void PvpAds()
+	{
+		if (PvpAdsEvent != null)
+		{
+			PvpAdsEvent();
+		}
+	}
 	
 	public void PlaySkillSound()
 	{

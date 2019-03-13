@@ -12,7 +12,7 @@ public class GetItemButton : MonoBehaviour
 
     public void OnPurchaseItem()
     {
-        if (DataController.Instance.ruby >= 200)
+        if (DataController.Instance.ruby >= 100)
         {
             var random = new Random();
 
@@ -20,7 +20,7 @@ public class GetItemButton : MonoBehaviour
 
             if (PlayerPrefs.GetInt("CollectionItem_" + randInt, 0) < 20)
             {
-                DataController.Instance.ruby -= 200;
+                DataController.Instance.ruby -= 100;
                 // 뽑은 유물이 20개를 넘지 않았을 때
                 switch (randInt)
                 {
@@ -154,7 +154,7 @@ public class GetItemButton : MonoBehaviour
 
     public void OnPurchaseItem2()
     {
-        if (DataController.Instance.sapphire >= 100)
+        if (DataController.Instance.sapphire >= 50)
         {
             var random = new Random();
 
@@ -162,7 +162,7 @@ public class GetItemButton : MonoBehaviour
 
             if (PlayerPrefs.GetInt("CollectionItem_" + randInt, 0) < 20)
             {
-                DataController.Instance.sapphire -= 100;
+                DataController.Instance.sapphire -= 50;
                 // 뽑은 유물이 20개를 넘지 않았을 때
                 switch (randInt)
                 {

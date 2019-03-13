@@ -27,4 +27,5 @@ public class PvpData
 	public float skill_4_damage;
 	public float skill_5_damage;
 	public float skill_6_damage;
+	
 }

@@ -19,9 +19,9 @@ public class FaustHeart : MonoBehaviour
 	{
 		if (DataController.Instance.legendDevilStone == 0)
 		{
-			if (DataController.Instance.devilStone >= 10000)
+			if (DataController.Instance.devilStone >= 5000)
 			{
-				DataController.Instance.devilStone -= 10000;
+				DataController.Instance.devilStone -= 5000;
 
 				DataController.Instance.legendDevilStone = 1;
 				
@@ -41,13 +41,13 @@ public class FaustHeart : MonoBehaviour
 	{
 		if (DataController.Instance.legendDevilStone == 0)
 		{
-			InfoText.text = "환생레벨 비례 공격력 증가\n0% -> " + DataController.Instance.rebirthLevel +
+			InfoText.text = "초월레벨 비례 공격력 증가\n0% -> " + DataController.Instance.rebirthLevel +
 			                " x 300 = " + DataController.Instance.rebirthLevel * 300 + "%";
 			UpgradeInfo.text = "구매하기";
 		}
 		else
 		{
-			InfoText.text = "환생레벨 비례 공격력 증가\n" + DataController.Instance.rebirthLevel +
+			InfoText.text = "초월레벨 비례 공격력 증가\n" + DataController.Instance.rebirthLevel +
 			                " x 300 = " + DataController.Instance.rebirthLevel * 300 + "%";
 			UpgradeInfo.text = "구매완료";
 		}

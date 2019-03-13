@@ -13,23 +13,23 @@ public class RebirthOK : MonoBehaviour
 
     public int index;
 
-    private float[] rewardRebirthStone =
+    private int[] rewardRebirthStone =
     {
-        450, 700, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000,
-        9000, 10000, 11500, 13000
+        450, 700, 1000, 2000, 2500, 3000, 3500, 4000, 4500, 5000,
+        5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 10000
     };
 
     private int[] advancedRuby =
     {
         200, 300, 400, 500, 800, 1000, 1500, 2000, 2500, 3000,
-        3500, 4000, 4500, 5000
+        3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500
     };
 
     private void OnEnable()
     {
-        RewardText.text = "+ " + rewardRebirthStone[DataController.Instance.rebirthLevel-1]
+        RewardText.text = "+ " + (int)(rewardRebirthStone[DataController.Instance.rebirthLevel-1]
                           * (DataController.Instance.collectionRebirthRising +
-                             DataController.Instance.advancedRebirthPer);
+                             DataController.Instance.advancedRebirthPer));
 
         if (index == 1)
         {

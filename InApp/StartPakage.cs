@@ -28,6 +28,8 @@ public class StartPakage : MonoBehaviour
         
 		NotificationManager.Instance.SetNotification2("스타터 패키지 구매완료!!");
 		
+		DataController.Instance.inAppPurchase += 15000;
+		
 		Panel.SetActive(PlayerPrefs.GetFloat("NoAds", 0) == 1);
 	}
 }

@@ -21,17 +21,17 @@ public class BossButton : MonoBehaviour {
 	private void OnEnable()
 	{
 		NotClearPanel.SetActive(index > DataController.Instance.finalBossLevel);
-		
+
 		rubyText.text = "x" + global::BossSpwan.ruby[index];
 		sapphireText.text = "x" + global::BossSpwan.sapphire[index];
 
 		if (DataController.Instance.finalBossLevel > index)
 		{
-			rubyText.text = "x" + global::BossSpwan.ruby[DataController.Instance.finalBossLevel-1];
-			sapphireText.text = "x" + global::BossSpwan.sapphire[DataController.Instance.finalBossLevel-1];
+			rubyText.text = "x" + global::BossSpwan.ruby[DataController.Instance.finalBossLevel - 1];
+			sapphireText.text = "x" + global::BossSpwan.sapphire[DataController.Instance.finalBossLevel - 1];
 		}
 	}
-	
+
 	public void StartGame()
 	{
 		if (!DataController.Instance.isFight)
@@ -65,6 +65,11 @@ public class BossButton : MonoBehaviour {
 			{
 				if (DataController.Instance.skipCoupon >= 1)
 				{
+					if (DataController.Instance.skipCoupon >= 3)
+					{
+						DataController.Instance.couponTime = 1800;
+					}
+					
 					DataController.Instance.skipCoupon -= 1;
 					
 					if (DataController.Instance.finalBossLevel == DataController.Instance.bossLevel)

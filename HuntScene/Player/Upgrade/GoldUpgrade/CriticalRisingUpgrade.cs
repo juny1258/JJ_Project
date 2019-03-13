@@ -57,7 +57,7 @@ public class CriticalRisingUpgrade : MonoBehaviour, IPointerUpHandler, IPointerD
         }
         else
         {
-            NotificationManager.Instance.SetNotification("악의 기운에 가로막혀 강화할 수 없습니다.");
+            NotificationManager.Instance.SetNotification("결계석의 레벨을 눌러 초월기를 사용하세요.");
         }
     }
 

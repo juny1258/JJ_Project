@@ -85,7 +85,7 @@ public class MonsterManager : MonoBehaviour
 
     private IEnumerator Skill_1()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_1_damage;
         var i = 0;
         while (i < 10)
@@ -119,7 +119,7 @@ public class MonsterManager : MonoBehaviour
 
     private IEnumerator Skill_2()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_2_damage;
         var i = 0;
         while (i < 10)
@@ -153,7 +153,7 @@ public class MonsterManager : MonoBehaviour
 
     private IEnumerator DustSkill()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_4_damage;
         var i = 0;
         while (i < 3)
@@ -187,7 +187,7 @@ public class MonsterManager : MonoBehaviour
 
     private IEnumerator ExplosionSkill()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_5_damage;
         var i = 0;
         while (i < 10)
@@ -221,7 +221,7 @@ public class MonsterManager : MonoBehaviour
 
     private IEnumerator HolyExpllosion()
     {
-        var criticalDamage = DataController.Instance.masterCriticalDamage
+        var criticalDamage = DataController.Instance.masterDamage
                              * DataController.Instance.skill_6_damage;
         var i = 0;
         while (i < 16)

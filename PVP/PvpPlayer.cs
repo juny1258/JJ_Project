@@ -13,6 +13,8 @@ public class PvpPlayer : MonoBehaviour
     public Slider HpSlider;
     public Text HpText;
 
+    public Text DamageText;
+
     public Text ScoreText;
 
     private Vector3 TextPosition;
@@ -59,6 +61,7 @@ public class PvpPlayer : MonoBehaviour
         SetCostume();
         SetPlayerAvility(DataController.Instance.PlayerData.Hp);
         InvokeRepeating("InitObject", 0f, 0.2f);
+        StopAllCoroutines();
     }
 
     private void EndPVP(int i)
@@ -87,6 +90,11 @@ public class PvpPlayer : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        DamageText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.AIDamage);
+    }
+
     public void SetPlayerAvility(float hp)
     {
         UserName.text = DataController.Instance.PlayerData.userName;
@@ -101,39 +109,39 @@ public class PvpPlayer : MonoBehaviour
         
         if (DataController.Instance.PlayerData.score > 0 && DataController.Instance.PlayerData.score <= 1200)
         {
-            ScoreText.text = "랭크 : F\n점수 : " + DataController.Instance.PlayerData.score;
+            ScoreText.text = "랭크 : 브론즈\n점수 : " + DataController.Instance.PlayerData.score;
         }
         else if (DataController.Instance.PlayerData.score > 1200 && DataController.Instance.PlayerData.score <= 1400)
         {
-            ScoreText.text = "랭크 : E\n점수 : " + DataController.Instance.PlayerData.score;
+            ScoreText.text = "랭크 : 실버\n점수 : " + DataController.Instance.PlayerData.score;
         }
         else if (DataController.Instance.PlayerData.score > 1400 && DataController.Instance.PlayerData.score <= 1600)
         {
-            ScoreText.text = "랭크 : D\n점수 : " + DataController.Instance.PlayerData.score;
+            ScoreText.text = "랭크 : 골드\n점수 : " + DataController.Instance.PlayerData.score;
         }
         else if (DataController.Instance.PlayerData.score > 1600 && DataController.Instance.PlayerData.score <= 1800)
         {
-            ScoreText.text = "랭크 : F\n점수 : " + DataController.Instance.PlayerData.score;
+            ScoreText.text = "랭크 : 플레티넘\n점수 : " + DataController.Instance.PlayerData.score;
         }
         else if (DataController.Instance.PlayerData.score > 1800 && DataController.Instance.PlayerData.score <= 2100)
         {
-            ScoreText.text = "랭크 : F\n점수 : " + DataController.Instance.PlayerData.score;
+            ScoreText.text = "랭크 : 다이아\n점수 : " + DataController.Instance.PlayerData.score;
         }
         else if (DataController.Instance.PlayerData.score > 2100 && DataController.Instance.PlayerData.score <= 2400)
         {
-            ScoreText.text = "랭크 : F\n점수 : " + DataController.Instance.PlayerData.score;
+            ScoreText.text = "랭크 : 마스터\n점수 : " + DataController.Instance.PlayerData.score;
         }
         else if (DataController.Instance.PlayerData.score > 2400 && DataController.Instance.PlayerData.score <= 2700)
         {
-            ScoreText.text = "랭크 : F\n점수 : " + DataController.Instance.PlayerData.score;
+            ScoreText.text = "랭크 : 그랜드마스터\n점수 : " + DataController.Instance.PlayerData.score;
         }
         else if (DataController.Instance.PlayerData.score > 2700 && DataController.Instance.PlayerData.score <= 3000)
         {
-            ScoreText.text = "랭크 : F\n점수 : " + DataController.Instance.PlayerData.score;
+            ScoreText.text = "랭크 : 챌린저\n점수 : " + DataController.Instance.PlayerData.score;
         }
         else if (DataController.Instance.PlayerData.score > 3000)
         {
-            ScoreText.text = "랭크 : F\n점수 : " + DataController.Instance.PlayerData.score;
+            ScoreText.text = "랭크 : 위너\n점수 : " + DataController.Instance.PlayerData.score;
         }
     }
 
@@ -182,33 +190,19 @@ public class PvpPlayer : MonoBehaviour
 
     private IEnumerator Skill_1()
     {
-        var criticalDamage = DataController.Instance.AIData.criticalDamage
+        var criticalDamage = DataController.Instance.AIData.damage
                              * DataController.Instance.AIData.skill_1_damage;
         var i = 0;
         while (i < 10)
         {
-            NowHP -= criticalDamage;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
-
-            CombatTextManager.Instance.CreateText(TextPosition,
-                DataController.Instance.FormatGoldTwo(criticalDamage), true);
-
-            if (NowHP > 0)
+            if (!isGameEnd)
             {
-                HpSlider.value = NowHP;
-                HpText.text = DataController.Instance.FormatGoldTwo(NowHP) + "/" +
-                              DataController.Instance.FormatGoldTwo(MaxHP);
-            }
-            else
-            {
-                if (!isGameEnd)
-                {
-                    HpSlider.value = 0;
-                    HpText.text = "0/" +
-                                  DataController.Instance.FormatGoldTwo(MaxHP);
+                Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+
+                CombatTextManager.Instance.CreateText(TextPosition,
+                    DataController.Instance.FormatGoldTwo(criticalDamage), true);
                 
-                    EventManager.Instance.EndPvp(1);
-                }
+                DataController.Instance.AIDamage += criticalDamage;
             }
 
             i++;
@@ -219,33 +213,19 @@ public class PvpPlayer : MonoBehaviour
 
     private IEnumerator Skill_2()
     {
-        var criticalDamage = DataController.Instance.AIData.criticalDamage
+        var criticalDamage = DataController.Instance.AIData.damage
                              * DataController.Instance.AIData.skill_2_damage;
         var i = 0;
         while (i < 10)
         {
-            NowHP -= criticalDamage;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
-
-            CombatTextManager.Instance.CreateText(TextPosition,
-                DataController.Instance.FormatGoldTwo(criticalDamage), true);
-
-            if (NowHP > 0)
+            if (!isGameEnd)
             {
-                HpSlider.value = NowHP;
-                HpText.text = DataController.Instance.FormatGoldTwo(NowHP) + "/" +
-                              DataController.Instance.FormatGoldTwo(MaxHP);
-            }
-            else
-            {
-                if (!isGameEnd)
-                {
-                    HpSlider.value = 0;
-                    HpText.text = "0/" +
-                                  DataController.Instance.FormatGoldTwo(MaxHP);
+                Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+
+                CombatTextManager.Instance.CreateText(TextPosition,
+                    DataController.Instance.FormatGoldTwo(criticalDamage), true);
                 
-                    EventManager.Instance.EndPvp(1);
-                }
+                DataController.Instance.AIDamage += criticalDamage;
             }
 
             i++;
@@ -256,33 +236,19 @@ public class PvpPlayer : MonoBehaviour
 
     private IEnumerator DustSkill()
     {
-        var criticalDamage = DataController.Instance.AIData.criticalDamage
+        var criticalDamage = DataController.Instance.AIData.damage
                              * DataController.Instance.AIData.skill_4_damage;
         var i = 0;
         while (i < 3)
         {
-            NowHP -= criticalDamage;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
-
-            CombatTextManager.Instance.CreateText(TextPosition,
-                DataController.Instance.FormatGoldTwo(criticalDamage), true);
-
-            if (NowHP > 0)
+            if (!isGameEnd)
             {
-                HpSlider.value = NowHP;
-                HpText.text = DataController.Instance.FormatGoldTwo(NowHP) + "/" +
-                              DataController.Instance.FormatGoldTwo(MaxHP);
-            }
-            else
-            {
-                if (!isGameEnd)
-                {
-                    HpSlider.value = 0;
-                    HpText.text = "0/" +
-                                  DataController.Instance.FormatGoldTwo(MaxHP);
+                Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+
+                CombatTextManager.Instance.CreateText(TextPosition,
+                    DataController.Instance.FormatGoldTwo(criticalDamage), true);
                 
-                    EventManager.Instance.EndPvp(1);
-                }
+                DataController.Instance.AIDamage += criticalDamage;
             }
 
             i++;
@@ -293,33 +259,19 @@ public class PvpPlayer : MonoBehaviour
 
     private IEnumerator ExplosionSkill()
     {
-        var criticalDamage = DataController.Instance.AIData.criticalDamage
+        var criticalDamage = DataController.Instance.AIData.damage
                              * DataController.Instance.AIData.skill_5_damage;
         var i = 0;
         while (i < 10)
         {
-            NowHP -= criticalDamage;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
-
-            CombatTextManager.Instance.CreateText(TextPosition,
-                DataController.Instance.FormatGoldTwo(criticalDamage), true);
-
-            if (NowHP > 0)
+            if (!isGameEnd)
             {
-                HpSlider.value = NowHP;
-                HpText.text = DataController.Instance.FormatGoldTwo(NowHP) + "/" +
-                              DataController.Instance.FormatGoldTwo(MaxHP);
-            }
-            else
-            {
-                if (!isGameEnd)
-                {
-                    HpSlider.value = 0;
-                    HpText.text = "0/" +
-                                  DataController.Instance.FormatGoldTwo(MaxHP);
+                Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+
+                CombatTextManager.Instance.CreateText(TextPosition,
+                    DataController.Instance.FormatGoldTwo(criticalDamage), true);
                 
-                    EventManager.Instance.EndPvp(1);
-                }
+                DataController.Instance.AIDamage += criticalDamage;
             }
 
             i++;
@@ -330,33 +282,19 @@ public class PvpPlayer : MonoBehaviour
 
     private IEnumerator HolyExpllosion()
     {
-        var criticalDamage = DataController.Instance.AIData.criticalDamage
+        var criticalDamage = DataController.Instance.AIData.damage
                              * DataController.Instance.AIData.skill_6_damage;
         var i = 0;
         while (i < 16)
         {
-            NowHP -= criticalDamage;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
-
-            CombatTextManager.Instance.CreateText(TextPosition,
-                DataController.Instance.FormatGoldTwo(criticalDamage), true);
-
-            if (NowHP > 0)
+            if (!isGameEnd)
             {
-                HpSlider.value = NowHP;
-                HpText.text = DataController.Instance.FormatGoldTwo(NowHP) + "/" +
-                              DataController.Instance.FormatGoldTwo(MaxHP);
-            }
-            else
-            {
-                if (!isGameEnd)
-                {
-                    HpSlider.value = 0;
-                    HpText.text = "0/" +
-                                  DataController.Instance.FormatGoldTwo(MaxHP);
+                Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+
+                CombatTextManager.Instance.CreateText(TextPosition,
+                    DataController.Instance.FormatGoldTwo(criticalDamage), true);
                 
-                    EventManager.Instance.EndPvp(1);
-                }
+                DataController.Instance.AIDamage += criticalDamage;
             }
 
             i++;
@@ -369,54 +307,19 @@ public class PvpPlayer : MonoBehaviour
     {
         if (other.gameObject.tag == "Attack")
         {
-            NowHP -= DataController.Instance.AIData.damage;
+            DataController.Instance.AIDamage += DataController.Instance.AIData.damage;
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(DataController.Instance.AIData.damage), false);
-
-            if (NowHP > 0)
-            {
-                HpSlider.value = NowHP;
-                HpText.text = DataController.Instance.FormatGoldTwo(NowHP) + "/" +
-                              DataController.Instance.FormatGoldTwo(MaxHP);
-            }
-            else
-            {
-                if (!isGameEnd)
-                {
-                    HpSlider.value = 0;
-                    HpText.text = "0/" +
-                                  DataController.Instance.FormatGoldTwo(MaxHP);
-                
-                    EventManager.Instance.EndPvp(1);
-                }
-            }
+            
         }
         else if (other.gameObject.tag == "CriticalAttack")
         {
-            NowHP -= DataController.Instance.AIData.criticalDamage;
+            DataController.Instance.AIDamage += DataController.Instance.AIData.criticalDamage;
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(DataController.Instance.AIData.criticalDamage),
                 true);
-
-            if (NowHP > 0)
-            {
-                HpSlider.value = NowHP;
-                HpText.text = DataController.Instance.FormatGoldTwo(NowHP) + "/" +
-                              DataController.Instance.FormatGoldTwo(MaxHP);
-            }
-            else
-            {
-                if (!isGameEnd)
-                {
-                    HpSlider.value = 0;
-                    HpText.text = "0/" +
-                                  DataController.Instance.FormatGoldTwo(MaxHP);
-                
-                    EventManager.Instance.EndPvp(1);
-                }
-            }
         }
         else if (other.gameObject.tag == "Bat")
         {

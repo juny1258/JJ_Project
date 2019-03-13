@@ -23,36 +23,58 @@ public class DataController : MonoBehaviour
 
     private void Awake()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 30;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         if (Debug.isDebugBuild)
         {
-            gold = 9999999999999999999f;
-            ruby = 500000000;
-            sapphire = 2000000;
-            devilStone = 20000000;
-            rebirthStone = 10000;
-
-//            couponTime = 1;
+//            PlayerPrefs.DeleteAll();
+            damage = 50000000;
+            ruby = 10000000;
+            sapphire = 50000000000;
+            devilStone = 10000000;
         }
+        
+        
 
         Monsters = GameObject.Find("Monsters").GetComponent<Transform>();
 
         UpdateDamage();
         UpdateCritical();
     }
+
+    public bool isStatus;
+
+    public int huntCool = 0;
+    public int bossCool = 0;
+    public int skipCool = 0;
     
-    // PVP
-    public string playerID
+    public float recordFaustDamage
     {
-        get { return PlayerPrefs.GetString("PlayerID", ""); }
-        set { PlayerPrefs.SetString("PlayerID", value); }
+        get { return PlayerPrefs.GetFloat("RecordFaustDamage1", 0); }
+        set { PlayerPrefs.SetFloat("RecordFaustDamage1", value); }
+    }
+
+    public int inAppPurchase
+    {
+        get { return PlayerPrefs.GetInt("InAppPurchase", 0); }
+        set { PlayerPrefs.SetInt("InAppPurchase", value); }
     }
     
-    public PvpData PlayerData;
+    // PVP
+    public int pvpCount
+    {
+        get { return PlayerPrefs.GetInt("PvpCount", 10); }
+        set { PlayerPrefs.SetInt("PvpCount", value); }
+    }
 
-    public PvpData AIData;
+    public float PlayerDamage;
+
+    public float AIDamage;
+    
+    public PvpData PlayerData = new PvpData();
+
+    public PvpData AIData = new PvpData();
 
     public bool isPvpReady;
     
@@ -112,7 +134,7 @@ public class DataController : MonoBehaviour
     // 파우스트 도전 가능 횟수
     public int faustCount
     {
-        get { return PlayerPrefs.GetInt("FaustCount", 0); }
+        get { return PlayerPrefs.GetInt("FaustCount", 10); }
         set { PlayerPrefs.SetInt("FaustCount", value); }
     }
     
@@ -163,7 +185,7 @@ public class DataController : MonoBehaviour
         set { PlayerPrefs.SetInt("AdvancedItemBoxLevel", value); }
     }
 
-    public bool isFight;
+    public bool isFight = false;
 
     // 시간 측정
     public float lastAttendance
@@ -829,7 +851,8 @@ public class DataController : MonoBehaviour
     public float GetPlayerHP()
     {
         return (PlayerPrefs.GetFloat("PlayerHP", 200)
-                + PlayerPrefs.GetFloat("PlayerHP", 200) * rubyRisingHP)
+                + PlayerPrefs.GetFloat("PlayerHP", 200) * rubyRisingHP
+                + PlayerPrefs.GetFloat("PlayerHP", 200) * skinDamage)
                * (devilHp + collectionHp + advancedHp + 0.2f * masterCostumeIndex);
     }
 
@@ -863,12 +886,6 @@ public class DataController : MonoBehaviour
     {
         get { return PlayerPrefs.GetFloat("CriticalRising", 1.20f); }
         set { PlayerPrefs.SetFloat("CriticalRising", value); }
-    }
-
-    public float autoClick
-    {
-        get { return PlayerPrefs.GetFloat("AutoClick", 0); }
-        set { PlayerPrefs.SetFloat("AutoClick", value); }
     }
 
     // 스킬
@@ -982,20 +999,6 @@ public class DataController : MonoBehaviour
     }
 
     public bool isShadowSkill;
-
-    // 스테이지
-
-    public float risingMonsterDamage
-    {
-        get { return PlayerPrefs.GetFloat("RisingMonsterDamage", 0); }
-        set { PlayerPrefs.SetFloat("RisingMonsterDamage", value); }
-    }
-
-    public float risingMonsterHP
-    {
-        get { return PlayerPrefs.GetFloat("RisingMonsterHP", 0); }
-        set { PlayerPrefs.SetFloat("RisingMonsterHP", value); }
-    }
 
     private readonly string[] arrDecimal = {"", "만", "억", "조", "경", "해", "자", "양", "구", "간"};
 

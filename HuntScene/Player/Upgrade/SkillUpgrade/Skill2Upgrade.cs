@@ -26,6 +26,11 @@ public class Skill2Upgrade : MonoBehaviour
 
         EventManager.UpgradeSkillEvent += ViewNotPurchasePanel;
     }
+    
+    private void OnDestroy()
+    {
+        EventManager.UpgradeSkillEvent -= ViewNotPurchasePanel;
+    }
 
     public void UpgradeSkill()
     {
@@ -74,6 +79,6 @@ public class Skill2Upgrade : MonoBehaviour
 
     private void ViewNotPurchasePanel()
     {
-        NotPurchasePanel.SetActive(DataController.Instance.skill_1 < 3);
+        NotPurchasePanel.SetActive(DataController.Instance.skill_1 < 1);
     }
 }

@@ -29,6 +29,8 @@ public class SkinPakage : MonoBehaviour {
         
 		NotificationManager.Instance.SetNotification2("상단 메뉴에서 스킨을 바꿀 수 있습니다.");
 		
+		DataController.Instance.inAppPurchase += 80000;
+		
 		Panel.SetActive(PlayerPrefs.GetFloat("Skin_" + index, 0) == 1);
 	}
 }

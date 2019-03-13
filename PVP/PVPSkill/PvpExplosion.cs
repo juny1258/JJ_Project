@@ -14,19 +14,10 @@ public class PvpExplosion : MonoBehaviour
     public GameObject SkillEffect;
 
     private bool isClick;
-    private float skillTime;
 
     private void Start()
     {
-        Invoke("PlayAISkill", DataController.Instance.AIData.skillClickTime);
-    }
-
-    private void Update()
-    {
-        if (!isClick)
-        {
-            skillTime += Time.deltaTime;
-        }
+        Invoke("PlayAISkill", Random.Range(0.4f, 1));
     }
 
     public void PlaySkill()
@@ -40,8 +31,6 @@ public class PvpExplosion : MonoBehaviour
             Instantiate(Meteor, new Vector3(-20f, 20f, 0), Quaternion.Euler(0, 0, -135));
             Invoke("DelaySkill", 0.6f);
             EventManager.Instance.PlaySkillSound();
-
-            DataController.Instance.PlayerData.skillClickTime = skillTime;
         }
     }
 

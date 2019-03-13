@@ -21,9 +21,8 @@ public class RecordTime : MonoBehaviour {
 			PlayerPrefs.SetFloat("PlayTime", PlayerPrefs.GetFloat("PlayTime", 0) + 30000);
             
 			float highScore = PlayerPrefs.GetFloat("PlayTime", 0);
-			string leaderBoardId = "CgkI6PL7xdcQEAIQAg";
 
-			Social.ReportScore((long) highScore, leaderBoardId, success =>
+			Social.ReportScore((long) highScore, GPGSIds.leaderboard_3, success =>
 			{
 				if (success)
 				{
@@ -31,7 +30,7 @@ public class RecordTime : MonoBehaviour {
 				}
 			});
 			
-			Social.ReportScore((long) DataController.Instance.monsterKillCount, GPGSIds.leaderboard_3, success =>
+			Social.ReportScore((long) DataController.Instance.monsterKillCount, GPGSIds.leaderboard_4, success =>
 			{
 				if (success)
 				{
@@ -39,7 +38,7 @@ public class RecordTime : MonoBehaviour {
 				}
 			});
 			
-			Social.ReportScore((long) DataController.Instance.masterCriticalDamage, GPGSIds.leaderboard_7, success =>
+			Social.ReportScore((long) DataController.Instance.masterCriticalDamage, GPGSIds.leaderboard_2, success =>
 			{
 				if (success)
 				{

@@ -15,7 +15,7 @@ public class HuntButton : MonoBehaviour
 
     public Text rubyText;
     public Text sapphireText;
-
+    
     public int index;
 
     private void OnEnable()
@@ -27,8 +27,8 @@ public class HuntButton : MonoBehaviour
 
         if (DataController.Instance.finalHuntLevel > index)
         {
-            rubyText.text = "x" + global::MonsterSpwan.ruby[DataController.Instance.finalHuntLevel-1];
-            sapphireText.text = "x" + global::MonsterSpwan.sapphire[DataController.Instance.finalHuntLevel-1];
+            rubyText.text = "x" + global::MonsterSpwan.ruby[DataController.Instance.finalHuntLevel - 1];
+            sapphireText.text = "x" + global::MonsterSpwan.sapphire[DataController.Instance.finalHuntLevel - 1];
         }
     }
 
@@ -65,6 +65,10 @@ public class HuntButton : MonoBehaviour
             {
                 if (DataController.Instance.skipCoupon >= 1)
                 {
+                    if (DataController.Instance.skipCoupon >= 3)
+                    {
+                        DataController.Instance.couponTime = 1800;
+                    }
                     DataController.Instance.skipCoupon -= 1;
                     
                     if (DataController.Instance.finalHuntLevel == DataController.Instance.huntLevel)
@@ -77,7 +81,6 @@ public class HuntButton : MonoBehaviour
                         RewardManager.Instance.ShowRewardPanel(
                             global::MonsterSpwan.ruby[DataController.Instance.finalHuntLevel-1], global::MonsterSpwan.sapphire[DataController.Instance.finalHuntLevel-1]);
                     }
-                    
                     PlayerPrefs.SetFloat("HuntCoolTime_" + index, 300);
                     
                     NotClearPanel.SetActive(index > DataController.Instance.finalHuntLevel);

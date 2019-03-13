@@ -18,10 +18,10 @@ public class RebirthAnimation : MonoBehaviour
 
     public Transform Stones;
 
-    private float[] rewardRebirthStone =
+    private int[] rewardRebirthStone =
     {
-        450, 700, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000,
-        9000, 10000, 11500, 13000
+        450, 700, 1000, 2000, 2500, 3000, 3500, 4000, 4500, 5000,
+        5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 10000
     };
 
     private float delay = 0.5f;
@@ -43,6 +43,55 @@ public class RebirthAnimation : MonoBehaviour
 
     public void OnRebirthAnimation()
     {
+        DataController.Instance.rebirthStone +=
+            rewardRebirthStone[DataController.Instance.rebirthLevel - 1] * 
+            (DataController.Instance.collectionRebirthRising + 
+             DataController.Instance.advancedRebirthPer);
+
+        DataController.Instance.nowRebirthLevel++;
+        
+        DataController.Instance.UpdateDamage();
+        DataController.Instance.UpdateCritical();
+        
+        if (DataController.Instance.isAdvancedRebirth)
+        {
+            DataController.Instance.isAdvancedRebirth = false;
+        }
+        else
+        {
+            DataController.Instance.RebirthAvilityReset();
+        }
+        
+        foreach (Transform stone in Stones)
+        {
+            Destroy(stone.gameObject);
+        }
+        
+        DataController.Instance.goldQueue.Clear();
+
+        if (DataController.Instance.firstRebirth == 0)
+        {
+            if (Social.localUser.authenticated)
+            {
+                DataController.Instance.firstRebirth = 1;
+                Social.ReportProgress(GPGSIds.achievement_rebirth_success, 100f, isSuccess =>
+                {
+                });
+            }
+        }
+        
+        EventManager.Instance.Rebirth();
+        
+        for (var i = 0; i < 20; i++)
+        {
+            PlayerPrefs.SetFloat("HuntCoolTime_" + i, 0);
+        }
+
+        for (var i = 0; i < 20; i++)
+        {
+            PlayerPrefs.SetFloat("BossCoolTime_" + i, 0);
+        }
+        
         StartCoroutine("ShowLight");
         StartCoroutine(FadeOut());
     }
@@ -89,16 +138,6 @@ public class RebirthAnimation : MonoBehaviour
     {
         // TODO 환생 시 데이터 초기화 및 UI 세팅
 
-        DataController.Instance.rebirthStone +=
-            rewardRebirthStone[DataController.Instance.rebirthLevel - 1] * 
-            (DataController.Instance.collectionRebirthRising + 
-             DataController.Instance.advancedRebirthPer);
-
-        DataController.Instance.nowRebirthLevel++;
-        
-        DataController.Instance.UpdateDamage();
-        DataController.Instance.UpdateCritical();
-
         foreach (var light in Lights)
         {
             light.SetActive(false);
@@ -106,35 +145,6 @@ public class RebirthAnimation : MonoBehaviour
 
         Background.color = new Color(0, 0, 0, 0);
         GetComponent<Animator>().enabled = true;
-
-        if (DataController.Instance.isAdvancedRebirth)
-        {
-            DataController.Instance.isAdvancedRebirth = false;
-        }
-        else
-        {
-            DataController.Instance.RebirthAvilityReset();
-        }
-        
-        foreach (Transform stone in Stones)
-        {
-            Destroy(stone.gameObject);
-        }
-        
-        DataController.Instance.goldQueue.Clear();
-
-        if (DataController.Instance.firstRebirth == 0)
-        {
-            if (Social.localUser.authenticated)
-            {
-                DataController.Instance.firstRebirth = 1;
-                Social.ReportProgress(GPGSIds.achievement_rebirth_success, 100f, isSuccess =>
-                {
-                });
-            }
-        }
-        
-        EventManager.Instance.Rebirth();
     }
 
     private IEnumerator FadeOut()

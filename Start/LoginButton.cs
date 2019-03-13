@@ -7,13 +7,25 @@ public class LoginButton : MonoBehaviour {
 
     public void Login()
     {
-        PlayGamesPlatform.Activate();
-        Social.localUser.Authenticate(isSuccess =>
+        if (!Social.localUser.authenticated)
         {
-            if (!isSuccess)
+            PlayGamesPlatform.Activate();
+            Social.localUser.Authenticate(isSuccess =>
             {
-                NotificationManager.Instance.SetNotification("구글 플레이 게임 서비스 로그인 실패");
-            }
-        });
+                if (!isSuccess)
+                {
+                    NotificationManager.Instance.SetNotification("구글 플레이 게임 서비스 로그인 실패");
+                }
+            });   
+        }
+        else
+        {
+            NotificationManager.Instance.SetNotification2("로그인 성공!!");
+        }
+    }
+
+    public void UpdateButton()
+    {
+        Application.OpenURL("market://details?id=com.Juny.Devil");
     }
 }

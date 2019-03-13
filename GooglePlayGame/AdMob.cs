@@ -26,6 +26,7 @@ public class AdMob : MonoBehaviour
     public RewardBasedVideoAd CompensationAd;
     public RewardBasedVideoAd AutoClickAd;
     public RewardBasedVideoAd GoldRisingAd;
+    public RewardBasedVideoAd PvpAd;
 
     private bool isAdsReady;
 
@@ -36,20 +37,22 @@ public class AdMob : MonoBehaviour
         CompensationAd = RewardBasedVideoAd.Instance;
         AutoClickAd = RewardBasedVideoAd.Instance;
         GoldRisingAd = RewardBasedVideoAd.Instance;
+        PvpAd = RewardBasedVideoAd.Instance;
         
         RequestMenuClickAd();
         RequestCompensationAd();
         RequestAutoClickAd();
         RequestGoldRisingAd();
+        RequestPvpAd();
 
         _coroutine = ShowAds();
 
-        InvokeRepeating("IsReady", 0, 600);
+        InvokeRepeating("IsReady", 10, 600);
     }
 
     private void IsReady()
     {
-        isAdsReady = true;
+        isAdsReady = false;
     }
 
     /// <summary>
@@ -128,6 +131,24 @@ public class AdMob : MonoBehaviour
         GoldRisingAd.OnAdClosed += HandleOnGoldRisingAdAdClosed;
         GoldRisingAd.OnAdRewarded += HandleOnGoldRisingAdAdReward;
     }
+    
+    private void RequestPvpAd()
+    {
+        string adUnitId = string.Empty;
+
+#if UNITY_ANDROID
+        adUnitId = "ca-app-pub-8345080599263513/6465149814";
+#elif UNITY_IOS
+        adUnitId = ios_interstitialAdUnitId;
+#endif
+
+        AdRequest request = new AdRequest.Builder().Build();
+
+        PvpAd.LoadAd(request, adUnitId);
+
+        PvpAd.OnAdClosed += HandleOnPvpAdClosed;
+        PvpAd.OnAdRewarded += HandleOnPvpdReward;
+    }
 
     /// <summary>
     /// ///////////////////////////////////////////////////////////////////////////////////////////
@@ -171,6 +192,17 @@ public class AdMob : MonoBehaviour
             EventManager.Instance.StartGoldRising();
         }
     }
+    
+    private static void HandleOnPvpdReward(object sender, EventArgs args)
+    {
+        // 골드 버프
+        if (PlayerPrefs.GetFloat("AdIndex", 0) == 3)
+        {
+            DataController.Instance.pvpCount += 10;
+            NotificationManager.Instance.SetNotification2("pvp입장권 10개 증가!!");
+            EventManager.Instance.PvpAds();
+        }
+    }
 
     private void HandleOnCompensationAdAdClosed(object sender, EventArgs args)
     {
@@ -198,6 +230,16 @@ public class AdMob : MonoBehaviour
 
         GoldRisingAd.OnAdClosed -= HandleOnGoldRisingAdAdClosed;
         GoldRisingAd.OnAdRewarded -= HandleOnGoldRisingAdAdReward;
+
+        RequestGoldRisingAd();
+    }
+    
+    private void HandleOnPvpAdClosed(object sender, EventArgs args)
+    {
+        print("HandleOnInterstitialAdClosed event received.");
+
+        PvpAd.OnAdClosed -= HandleOnPvpAdClosed;
+        PvpAd.OnAdRewarded -= HandleOnPvpdReward;
 
         RequestGoldRisingAd();
     }
@@ -289,6 +331,26 @@ public class AdMob : MonoBehaviour
         else
         {
             EventManager.Instance.StartGoldRising();
+        }
+    }
+    
+    public void ShowPvpAd()
+    {
+        if (PlayerPrefs.GetFloat("NoAds", 0) == 0)
+        {
+            if (!PvpAd.IsLoaded())
+            {
+                RequestPvpAd();
+                return;
+            }
+
+            PvpAd.Show();
+        }
+        else
+        {
+            DataController.Instance.pvpCount += 10;
+            NotificationManager.Instance.SetNotification2("pvp입장권 10개 증가!!");
+            EventManager.Instance.PvpAds();
         }
     }
 }

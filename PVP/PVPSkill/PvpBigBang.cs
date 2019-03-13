@@ -10,31 +10,17 @@ public class PvpBigBang : MonoBehaviour
 
     public GameObject SkillEffect;
 
-    private bool isClick;
-    private float skillTime;
-
     private void Start()
     {
-        Invoke("PlayAISkill", DataController.Instance.AIData.skillClickTime);
-    }
-
-    private void Update()
-    {
-        if (!isClick)
-        {
-            skillTime += Time.deltaTime;
-        }
+        Invoke("PlayAISkill", Random.Range(0.4f, 1));
     }
 
     public void PlaySkill()
     {
-        isClick = true;
         Instantiate(PlayerSkill, new Vector3(0, 0, 0), Quaternion.identity);
         EventManager.Instance.UseSkill(6);
         EventManager.Instance.ShackScreen(0.1f, 1.5f);
         EventManager.Instance.PlaySkillSound2();
-
-        DataController.Instance.PlayerData.skillClickTime = skillTime;
 
         Instantiate(SkillEffect, transform.position, Quaternion.identity);
         Destroy(Panel);
@@ -42,7 +28,6 @@ public class PvpBigBang : MonoBehaviour
 
     private void PlayAISkill()
     {
-        isClick = true;
         Instantiate(PlayerSkill, new Vector3(0, 0, 0), new Quaternion(0, 180, 0, 0));
         EventManager.Instance.UseSkill(3);
         EventManager.Instance.ShackScreen(0.1f, 1.5f);

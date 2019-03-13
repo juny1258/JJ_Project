@@ -12,7 +12,7 @@ public class AttackShop : MonoBehaviour
 
     public int index;
 
-    private int[] plusDamage = {0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240};
+    private int[] plusDamage = {0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300};
 
     private void Start()
     {

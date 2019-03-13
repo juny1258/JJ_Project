@@ -46,27 +46,33 @@ public class AdvancedItem : MonoBehaviour
 
     private void Start()
     {
-        EventManager.GetAdvancedItemEvent += () =>
-        {
-            AvilityText1.text = names[index] + "(+" +
-                                PlayerPrefs.GetInt("AdvancedCollectionItem_" + index, 0) + ")";
-
-            AvilityText2.text = "공격력 + " + 5 * PlayerPrefs.GetInt("AdvancedCollectionItem_" + index, 0) + "%\n" +
-                                avilityStrings[index] +
-                                " + " + avilityRising[index] *
-                                PlayerPrefs.GetInt("AdvancedCollectionItem_" + index, 0) + "%";
-
-            if (PlayerPrefs.GetInt("AdvancedCollectionItem_" + index, 0) < 20)
-            {
-                Price.text = (50 * PlayerPrefs.GetInt("AdvancedCollectionItem_" + index, 0)).ToString();
-            }
-            else
-            {
-                Price.text = "MAX";
-            }
-        };
+        EventManager.GetAdvancedItemEvent += Setting;
     }
 
+    private void OnDestroy()
+    {
+        EventManager.GetAdvancedItemEvent -= Setting;
+    }
+
+    public void Setting()
+    {
+        AvilityText1.text = names[index] + "(+" +
+                            PlayerPrefs.GetInt("AdvancedCollectionItem_" + index, 0) + ")";
+
+        AvilityText2.text = "공격력 + " + 5 * PlayerPrefs.GetInt("AdvancedCollectionItem_" + index, 0) + "%\n" +
+                            avilityStrings[index] +
+                            " + " + avilityRising[index] *
+                            PlayerPrefs.GetInt("AdvancedCollectionItem_" + index, 0) + "%";
+
+        if (PlayerPrefs.GetInt("AdvancedCollectionItem_" + index, 0) < 20)
+        {
+            Price.text = (50 * PlayerPrefs.GetInt("AdvancedCollectionItem_" + index, 0)).ToString();
+        }
+        else
+        {
+            Price.text = "MAX";
+        }
+    }
     private void OnEnable()
     {
         AvilityText1.text = names[index] + "(+" +

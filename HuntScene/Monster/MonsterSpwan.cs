@@ -156,7 +156,7 @@ public class MonsterSpwan : MonoBehaviour
             }
 
 
-            PlayerPrefs.SetFloat("HuntCoolTime_" + DataController.Instance.huntLevel, 300);
+            PlayerPrefs.SetFloat("HuntCoolTime_" + DataController.Instance.huntLevel, 330);
         }
         else
         {
