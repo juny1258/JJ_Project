@@ -35,7 +35,14 @@ public class Merchant : MonoBehaviour {
 				{
 					PlayerPrefs.SetFloat("Merchant", 1);
 					DataController.Instance.ruby += 2000;
-					NotificationManager.Instance.SetNotification2("루비 2,000개가 지급되었습니다.");
+					if (Application.systemLanguage == SystemLanguage.Korean)
+					{
+						NotificationManager.Instance.SetNotification2("루비 2,000개가 지급되었습니다.");	
+					}
+					else
+					{
+						NotificationManager.Instance.SetNotification2("Get 2,000 Ruby!!");	
+					}
 					Panel.SetActive(false);
 				}
 			}

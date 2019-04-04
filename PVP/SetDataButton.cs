@@ -40,6 +40,14 @@ public class SetDataButton : MonoBehaviour
 
     private void Start()
     {
+        if (Application.systemLanguage == SystemLanguage.Japanese)
+        {
+            var textComponents = FindObjectsOfTypeAll(typeof(Text)) as Text[];
+            foreach (var textComponent in textComponents)
+            {
+                textComponent.font = Resources.Load<Font>("Font/Japan3");
+            }
+        }
         PlayerPrefs.SetFloat("StartGame", 1);
         
         InvokeRepeating("RecordTime", 5, 5);
@@ -144,7 +152,7 @@ public class SetDataButton : MonoBehaviour
         if (DataController.Instance.PlayerDamage - DataController.Instance.AIDamage > 0)
         {
             // 승리
-            InfoText.text = "승리!!";
+            InfoText.text = LocalManager.Instance.Victory;
             if (DataController.Instance.PlayerData.score < 10000)
             {
                 DataController.Instance.PlayerData.score += 5;
@@ -153,7 +161,14 @@ public class SetDataButton : MonoBehaviour
 
             var randInt = Random.Range(1, 3);
             DataController.Instance.ruby += randInt;
-            NotificationManager.Instance.SetNotification2("루비 " + randInt + "개 획득!!");
+            if (Application.systemLanguage == SystemLanguage.Korean)
+            {
+                NotificationManager.Instance.SetNotification2("루비 " + randInt + "개 획득!!");   
+            }
+            else
+            {
+                NotificationManager.Instance.SetNotification2("Get " + randInt + " Ruby!!");   
+            }
 
             userReference.Child(PlayGamesPlatform.Instance.localUser.id).SetRawJsonValueAsync(json).ContinueWith(task =>
             {
@@ -166,7 +181,7 @@ public class SetDataButton : MonoBehaviour
         else if(DataController.Instance.PlayerDamage - DataController.Instance.AIDamage < 0)
         {
             // 패배
-            InfoText.text = "패배";
+            InfoText.text = LocalManager.Instance.Lose;
             if (DataController.Instance.PlayerData.score > 5)
             {
                 DataController.Instance.PlayerData.score -= 5;
@@ -185,7 +200,7 @@ public class SetDataButton : MonoBehaviour
         else if (DataController.Instance.PlayerDamage - DataController.Instance.AIDamage == 0)
         {
             // 무승부
-            InfoText.text = "무승부";
+            InfoText.text = LocalManager.Instance.Draw;
             var json = JsonUtility.ToJson(DataController.Instance.PlayerData);
             userReference.Child(PlayGamesPlatform.Instance.localUser.id).SetRawJsonValueAsync(json).ContinueWith(task =>
             {

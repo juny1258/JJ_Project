@@ -18,7 +18,18 @@ public class FaustButton : MonoBehaviour
 
 	private void OnEnable()
 	{
-		GetComponentInChildren<Text>().text = "도전하기(" + DataController.Instance.faustCount + "/10)";
+		if (Application.systemLanguage == SystemLanguage.Korean)
+		{
+			GetComponentInChildren<Text>().text = "도전하기(" + DataController.Instance.faustCount + "/10)";
+		}
+		else if (Application.systemLanguage == SystemLanguage.Japanese)
+		{
+			GetComponentInChildren<Text>().text = "挑戦する(" + DataController.Instance.faustCount + "/10)";
+		}
+		else
+		{	
+			GetComponentInChildren<Text>().text = "Challenge(" + DataController.Instance.faustCount + "/10)";
+		}
 	}
 
 	public void StartGame()
@@ -33,7 +44,7 @@ public class FaustButton : MonoBehaviour
 			}
 			else
 			{
-				NotificationManager.Instance.SetNotification("도전 횟수가 부족합니다.");
+				NotificationManager.Instance.SetNotification(LocalManager.Instance.ChallengeCount);
 			}	
 		}
 	}

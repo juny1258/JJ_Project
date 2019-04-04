@@ -20,7 +20,7 @@ public class BestRank : MonoBehaviour
 
     private void Awake()
     {
-        userReference = FirebaseManager.Instance.Reference.Child("FaustRank1");
+        userReference = FirebaseManager.Instance.Reference.Child("FaustRank2");
     }
 
     private void OnEnable()
@@ -50,6 +50,10 @@ public class BestRank : MonoBehaviour
                                 Resources.Load("Player/Skin" + userData.skinIndex + "/Costume",
                                     typeof(Sprite)) as Sprite;
                         }
+                        
+                        print("결제 : " + userData.inAppPurchase);
+                        
+                        print("시간 : " + userData.playTime);
 
                         print(child.Key);
 

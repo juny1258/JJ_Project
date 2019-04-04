@@ -35,7 +35,7 @@ public class DamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     {
         if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel == 0)
         {
-            if (DataController.Instance.damageLevel <= 10000)
+            if (DataController.Instance.damageLevel <= 12000)
             {
                 if (DataController.Instance.gold >= DataController.Instance.damageCost)
                 {
@@ -57,13 +57,13 @@ public class DamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.LessGold);
                 }
             }   
         }
         else
         {
-            NotificationManager.Instance.SetNotification("결계석의 레벨을 눌러 초월기를 사용하세요.");
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.UseRebirth);
         }
     }
 
@@ -74,9 +74,9 @@ public class DamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     private void UpdateUI()
     {
-        if (DataController.Instance.damageLevel <= 10000)
+        if (DataController.Instance.damageLevel <= 12000)
         {
-            ProductName.text = "공격력[+" + (DataController.Instance.damageLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.Damage + "[+" + (DataController.Instance.damageLevel - 1) + "]";
             PriceText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.damageCost);
 
             UpgradeInfo.text = DataController.Instance.FormatGoldTwo(DataController.Instance.damage) + "\n-> " +
@@ -84,7 +84,7 @@ public class DamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         }
         else
         {
-            ProductName.text = "공격력[+" + (DataController.Instance.damageLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.Damage + "[+" + (DataController.Instance.damageLevel - 1) + "]";
             PriceText.text = "MAX";
 
             UpgradeInfo.text = DataController.Instance.FormatGoldTwo(DataController.Instance.damage);

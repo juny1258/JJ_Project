@@ -32,8 +32,6 @@ public class EventManager : MonoBehaviour {
 	public delegate void EventWithInt(int index);
 
 	public static event EventWithFloat MonsterAttackEvent;
-
-	public static event Event StartHuntEvent;
 	
 	public static event EventWithFloat2 ShackScreenEvent;
 
@@ -77,6 +75,16 @@ public class EventManager : MonoBehaviour {
 
 	public static event Event PlaySkillSoundEvent;
 	public static event Event PlaySkillSoundEvent2;
+
+	public static event Event SelectPetEvent;
+	
+	public void SelectPet()
+	{
+		if (SelectPetEvent != null)
+		{
+			SelectPetEvent();
+		}
+	}
 	
 	public void PvpAds()
 	{
@@ -123,14 +131,6 @@ public class EventManager : MonoBehaviour {
 		if (MonsterAttackEvent != null)
 		{
 			MonsterAttackEvent(damage);
-		}
-	}
-	
-	public void StartHunt()
-	{
-		if (StartHuntEvent != null)
-		{
-			StartHuntEvent();
 		}
 	}
 	

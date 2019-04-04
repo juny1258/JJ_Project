@@ -42,7 +42,14 @@ public class FaustObject : MonoBehaviour
 
     private void Awake()
     {
-        userReference = FirebaseManager.Instance.Reference.Child("FaustRank1");
+        if (Debug.isDebugBuild)
+        {
+            
+        }
+        else
+        {
+            userReference = FirebaseManager.Instance.Reference.Child("FaustRank2");   
+        }
     }
 
     private void OnEnable()
@@ -142,7 +149,7 @@ public class FaustObject : MonoBehaviour
             TextPosition.x += MovePosition.x;
             TextPosition.y += MovePosition.y;
             TextPosition.z += MovePosition.z;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -168,7 +175,7 @@ public class FaustObject : MonoBehaviour
             TextPosition.x += MovePosition.x;
             TextPosition.y += MovePosition.y;
             TextPosition.z += MovePosition.z;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -194,7 +201,7 @@ public class FaustObject : MonoBehaviour
             TextPosition.x += MovePosition.x;
             TextPosition.y += MovePosition.y;
             TextPosition.z += MovePosition.z;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -220,7 +227,7 @@ public class FaustObject : MonoBehaviour
             TextPosition.x += MovePosition.x;
             TextPosition.y += MovePosition.y;
             TextPosition.z += MovePosition.z;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -246,7 +253,7 @@ public class FaustObject : MonoBehaviour
             TextPosition.x += MovePosition.x;
             TextPosition.y += MovePosition.y;
             TextPosition.z += MovePosition.z;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -261,50 +268,67 @@ public class FaustObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Attack")
+        switch (other.gameObject.tag)
         {
-            TextPosition = transform.position;
-            TextPosition.x += MovePosition.x;
-            TextPosition.y += MovePosition.y;
-            TextPosition.z += MovePosition.z;
+            case "Attack":
+                TextPosition = transform.position;
+                TextPosition.x += MovePosition.x;
+                TextPosition.y += MovePosition.y;
+                TextPosition.z += MovePosition.z;
 
-            CombatTextManager.Instance.CreateText(TextPosition,
-                DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage
-                                                      * (DataController.Instance.collectionFaustDamage +
-                                                         DataController.Instance.advancedFaustDamage)), false);
+                CombatTextManager.Instance.CreateText(TextPosition,
+                    DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage
+                                                          * (DataController.Instance.collectionFaustDamage +
+                                                             DataController.Instance.advancedFaustDamage)), false);
 
-            damageReceived += DataController.Instance.masterDamage
-                              * (DataController.Instance.collectionFaustDamage +
-                                 DataController.Instance.advancedFaustDamage);
-        }
+                damageReceived += DataController.Instance.masterDamage
+                                  * (DataController.Instance.collectionFaustDamage +
+                                     DataController.Instance.advancedFaustDamage);
+                break;
+            case "CriticalAttack":
+                TextPosition = transform.position;
+                TextPosition.x += MovePosition.x;
+                TextPosition.y += MovePosition.y;
+                TextPosition.z += MovePosition.z;
 
-        if (other.gameObject.tag == "CriticalAttack")
-        {
-            TextPosition = transform.position;
-            TextPosition.x += MovePosition.x;
-            TextPosition.y += MovePosition.y;
-            TextPosition.z += MovePosition.z;
+                CombatTextManager.Instance.CreateText(TextPosition,
+                    DataController.Instance.FormatGoldTwo(DataController.Instance.masterCriticalDamage
+                                                          * (DataController.Instance.collectionFaustDamage +
+                                                             DataController.Instance.advancedFaustDamage)),
+                    true);
 
-            CombatTextManager.Instance.CreateText(TextPosition,
-                DataController.Instance.FormatGoldTwo(DataController.Instance.masterCriticalDamage
-                                                      * (DataController.Instance.collectionFaustDamage +
-                                                         DataController.Instance.advancedFaustDamage)),
-                true);
-
-            damageReceived += DataController.Instance.masterCriticalDamage
-                              * (DataController.Instance.collectionFaustDamage +
-                                 DataController.Instance.advancedFaustDamage);
-        }
-
-        if (other.gameObject.tag == "Bat")
-        {
-            StartCoroutine("Skill_1");
-        }
-
-        if (other.gameObject.tag == "FxTemporaire")
-        {
-            other.gameObject.GetComponent<BoxCollider>().enabled = false;
-            StartCoroutine("DustSkill");
+                damageReceived += DataController.Instance.masterCriticalDamage
+                                  * (DataController.Instance.collectionFaustDamage +
+                                     DataController.Instance.advancedFaustDamage);
+                break;
+            case "Bat":
+                StartCoroutine("Skill_1");
+                break;
+            case "FxTemporaire":
+                other.gameObject.GetComponent<BoxCollider>().enabled = false;
+                StartCoroutine("DustSkill");
+                break;
+            case "PetSkill1":
+                Destroy(other.gameObject);
+                StartCoroutine("Pet1");
+                break;
+            case "PetSkill2":
+                Destroy(other.gameObject);
+                StartCoroutine("Pet2");
+                break;
+            case "PetSkill3":
+                Destroy(other.gameObject);
+                StartCoroutine("Pet3");
+                break;
+            case "PetSkill4":
+                StartCoroutine("Pet4");
+                break;
+            case "PetSkill5":
+                StartCoroutine("Pet5");
+                break;
+            case "PetSkill6":
+                StartCoroutine("Pet6");
+                break;
         }
     }
 
@@ -333,15 +357,15 @@ public class FaustObject : MonoBehaviour
 
     private void EndGame()
     {
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 40; i++)
         {
-            if (damageReceived < 500000)
+            if (damageReceived < 1000000)
             {
                 rewardLevel = 0;
                 break;
             }
 
-            if (damageReceived > 500000 * Math.Pow(2, i))
+            if (damageReceived > 1000000 * Math.Pow(2, i))
             {
                 rewardLevel++;
             }
@@ -400,6 +424,14 @@ public class FaustObject : MonoBehaviour
 
         RewardManager.Instance.ShowBossRewardPanel(damageReceived, rewardLevel);
     }
+    
+    private void Effect()
+    {
+        if (PlayerPrefs.GetInt("IsEffect", 0) == 0)
+        {
+            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+        }
+    }
 
     private void RewardClick()
     {
@@ -413,5 +445,161 @@ public class FaustObject : MonoBehaviour
         BossBackground.SetActive(false);
         SealStone.SetActive(true);
         gameObject.SetActive(false);
+    }
+    
+    private IEnumerator Pet1()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_1_damage
+                             * (DataController.Instance.collectionFaustDamage +
+                                DataController.Instance.advancedFaustDamage);
+        var i = 0;
+        while (i < 3)
+        {
+            TextPosition = transform.position;
+            TextPosition.x += MovePosition.x;
+            TextPosition.y += MovePosition.y;
+            TextPosition.z += MovePosition.z;
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            damageReceived += criticalDamage;
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private IEnumerator Pet2()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_2_damage
+                             * (DataController.Instance.collectionFaustDamage +
+                                DataController.Instance.advancedFaustDamage);
+        var i = 0;
+        while (i < 6)
+        {
+            TextPosition = transform.position;
+            TextPosition.x += MovePosition.x;
+            TextPosition.y += MovePosition.y;
+            TextPosition.z += MovePosition.z;
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            damageReceived += criticalDamage;
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private IEnumerator Pet3()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_3_damage
+                             * (DataController.Instance.collectionFaustDamage +
+                                DataController.Instance.advancedFaustDamage);
+        var i = 0;
+        while (i < 5)
+        {
+            TextPosition = transform.position;
+            TextPosition.x += MovePosition.x;
+            TextPosition.y += MovePosition.y;
+            TextPosition.z += MovePosition.z;
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            damageReceived += criticalDamage;
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private IEnumerator Pet4()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_4_damage
+                             * (DataController.Instance.collectionFaustDamage +
+                                DataController.Instance.advancedFaustDamage);
+        var i = 0;
+        while (i < 10)
+        {
+            TextPosition = transform.position;
+            TextPosition.x += MovePosition.x;
+            TextPosition.y += MovePosition.y;
+            TextPosition.z += MovePosition.z;
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            damageReceived += criticalDamage;
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private IEnumerator Pet5()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_5_damage
+                             * (DataController.Instance.collectionFaustDamage +
+                                DataController.Instance.advancedFaustDamage);
+        var i = 0;
+        while (i < 5)
+        {
+            TextPosition = transform.position;
+            TextPosition.x += MovePosition.x;
+            TextPosition.y += MovePosition.y;
+            TextPosition.z += MovePosition.z;
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            damageReceived += criticalDamage;
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private IEnumerator Pet6()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_6_damage
+                             * (DataController.Instance.collectionFaustDamage +
+                                DataController.Instance.advancedFaustDamage);
+        var i = 0;
+        while (i < 5)
+        {
+            TextPosition = transform.position;
+            TextPosition.x += MovePosition.x;
+            TextPosition.y += MovePosition.y;
+            TextPosition.z += MovePosition.z;
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            damageReceived += criticalDamage;
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
     }
 }

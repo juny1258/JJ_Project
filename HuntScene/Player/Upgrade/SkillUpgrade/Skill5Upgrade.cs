@@ -33,7 +33,7 @@ public class Skill5Upgrade : MonoBehaviour
 
     public void UpgradeSkill()
     {
-        if (DataController.Instance.skill_5 < 20)
+        if (DataController.Instance.skill_5 < 25)
         {
             if (DataController.Instance.sapphire >= cost)
             {
@@ -49,28 +49,61 @@ public class Skill5Upgrade : MonoBehaviour
             }
             else
             {
-                NotificationManager.Instance.SetNotification("사파이어가 부족합니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.LessSapphire);
             }
         }
         else
         {
-            NotificationManager.Instance.SetNotification("더 이상 업그레이드 할 수 없습니다.");
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.NoUpgrade);
         }
     }
 
     private void UpdateUI()
     {
-        if (DataController.Instance.skill_5 < 20)
+        if (Application.systemLanguage == SystemLanguage.Korean)
         {
-            TitleText.text = "메테오[+" + DataController.Instance.skill_5 + "]";
-            InfoText.text = "공격력의 " + Math.Round(DataController.Instance.skill_5_damage * 100, 0) + "%로 10번 공격";
-            CostText.text = cost.ToString();
+            if (DataController.Instance.skill_5 < 25)
+            {
+                TitleText.text = "메테오[+" + DataController.Instance.skill_5 + "]";
+                InfoText.text = "공격력의 " + Math.Round(DataController.Instance.skill_5_damage * 100, 0) + "%로 10번 공격";
+                CostText.text = cost.ToString();
+            }
+            else
+            {
+                TitleText.text = "메테오[+" + DataController.Instance.skill_5 + "]";
+                InfoText.text = "공격력의 " + Math.Round(DataController.Instance.skill_5_damage * 100, 0) + "%로 10번 공격";
+                CostText.text = "MAX";
+            }
+        }
+        else if (Application.systemLanguage == SystemLanguage.Japanese)
+        {
+            if (DataController.Instance.skill_5 < 25)
+            {
+                TitleText.text = "メテオ[+" + DataController.Instance.skill_5 + "]";
+                InfoText.text = "攻撃力の " + Math.Round(DataController.Instance.skill_5_damage * 100, 0) + "%で10回攻撃";
+                CostText.text = cost.ToString();
+            }
+            else
+            {
+                TitleText.text = "メテオ[+" + DataController.Instance.skill_5 + "]";
+                InfoText.text = "攻撃力の " + Math.Round(DataController.Instance.skill_5_damage * 100, 0) + "%で10回攻撃";
+                CostText.text = "MAX";
+            }	
         }
         else
         {
-            TitleText.text = "메테오[+" + DataController.Instance.skill_5 + "]";
-            InfoText.text = "공격력의 " + Math.Round(DataController.Instance.skill_5_damage * 100, 0) + "%로 10번 공격";
-            CostText.text = "MAX";
+            if (DataController.Instance.skill_5 < 25)
+            {
+                TitleText.text = "Meteor[+" + DataController.Instance.skill_5 + "]";
+                InfoText.text = "10 attacks\n with " + Math.Round(DataController.Instance.skill_5_damage * 100, 0) + "% of damage";
+                CostText.text = cost.ToString();
+            }
+            else
+            {
+                TitleText.text = "Meteor[+" + DataController.Instance.skill_5 + "]";
+                InfoText.text = "10 attacks\n with " + Math.Round(DataController.Instance.skill_5_damage * 100, 0) + "% of damage";
+                CostText.text = "MAX";
+            }	
         }
     }
 

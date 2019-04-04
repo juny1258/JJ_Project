@@ -87,17 +87,25 @@ public class TimeManager : MonoBehaviour
                     if (rewardTime >= 5400)
                     {
                         // 1시간 반 이상 경과
-                        DataController.Instance.gold += DataController.Instance.masterDamage * 5400 / 3.8f *
-                                                        DataController.Instance.collectionGoldRising / 5;
-
                         DataController.Instance.compensationGold = DataController.Instance.masterDamage * 5400 / 3.8f *
                                                                    DataController.Instance.collectionGoldRising / 5;
+                        
+                        DataController.Instance.gold += DataController.Instance.compensationGold;
 
                         CompensationPanel.SetActive(true);
-                        CompensationText.text =
-                            DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage * 5400 / 3.8f *
-                                                                  DataController.Instance.collectionGoldRising / 5) +
-                            "G 획득!!";
+                        if (Application.systemLanguage == SystemLanguage.Korean)
+                        {
+                            CompensationText.text =
+                                DataController.Instance.FormatGoldTwo(DataController.Instance.compensationGold) +
+                                "G 획득!!";
+                        }
+                        else
+                        {
+                            CompensationText.text = "Get " +
+                                                    DataController.Instance.FormatGoldTwo(
+                                                        DataController.Instance.compensationGold) +
+                                                    " G!!";
+                        }
 
                         if (DataController.Instance.skipCoupon == 0)
                         {
@@ -118,20 +126,26 @@ public class TimeManager : MonoBehaviour
                     else
                     {
                         // 1시간 반 미만
-
-                        DataController.Instance.gold += DataController.Instance.masterDamage * rewardTime / 3.8f *
-                                                        DataController.Instance.collectionGoldRising / 5;
-
                         DataController.Instance.compensationGold =
                             DataController.Instance.masterDamage * rewardTime / 3.8f *
                             DataController.Instance.collectionGoldRising / 5;
 
+                        DataController.Instance.gold += DataController.Instance.compensationGold;
+
                         CompensationPanel.SetActive(true);
-                        CompensationText.text =
-                            DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage * rewardTime /
-                                                                  3.8f *
-                                                                  DataController.Instance.collectionGoldRising / 5) +
-                            "G 획득!!";
+                        if (Application.systemLanguage == SystemLanguage.Korean)
+                        {
+                            CompensationText.text =
+                                DataController.Instance.FormatGoldTwo(DataController.Instance.compensationGold) +
+                                "G 획득!!";
+                        }
+                        else
+                        {
+                            CompensationText.text = "Get " +
+                                                    DataController.Instance.FormatGoldTwo(
+                                                        DataController.Instance.compensationGold) +
+                                                    " G!!";
+                        }
 
                         if (rewardTime < 1800 && DataController.Instance.skipCoupon < 3)
                         {
@@ -164,22 +178,31 @@ public class TimeManager : MonoBehaviour
                 {
                     SetCoolTime(compensationTime);
 
+                    print(compensationTime);
+
                     // 당일 재접속
                     if (compensationTime >= 5400)
                     {
                         // 1시간 반 이상 경과
-
-                        DataController.Instance.gold += DataController.Instance.masterDamage * 5400 / 3.8f *
-                                                        DataController.Instance.collectionGoldRising / 5;
-
                         DataController.Instance.compensationGold = DataController.Instance.masterDamage * 5400 / 3.8f *
                                                                    DataController.Instance.collectionGoldRising / 5;
 
+                        DataController.Instance.gold += DataController.Instance.compensationGold;
+
                         CompensationPanel.SetActive(true);
-                        CompensationText.text =
-                            DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage * 5400 / 3.8f *
-                                                                  DataController.Instance.collectionGoldRising / 5) +
-                            "G 획득!!";
+                        if (Application.systemLanguage == SystemLanguage.Korean)
+                        {
+                            CompensationText.text =
+                                DataController.Instance.FormatGoldTwo(DataController.Instance.compensationGold) +
+                                "G 획득!!";
+                        }
+                        else
+                        {
+                            CompensationText.text = "Get " +
+                                                    DataController.Instance.FormatGoldTwo(
+                                                        DataController.Instance.compensationGold) +
+                                                    " G!!";
+                        }
 
                         if (DataController.Instance.skipCoupon == 0)
                         {
@@ -200,20 +223,26 @@ public class TimeManager : MonoBehaviour
                     else
                     {
                         // 1시간 반 미만 경과
-
-                        DataController.Instance.gold += DataController.Instance.masterDamage * compensationTime / 3.8f *
-                                                        DataController.Instance.collectionGoldRising / 5;
-
                         DataController.Instance.compensationGold =
                             DataController.Instance.masterDamage * compensationTime / 3.8f *
                             DataController.Instance.collectionGoldRising / 5;
 
+                        DataController.Instance.gold += DataController.Instance.compensationGold;
+
                         CompensationPanel.SetActive(true);
-                        CompensationText.text =
-                            DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage *
-                                                                  compensationTime / 3.8f *
-                                                                  DataController.Instance.collectionGoldRising / 5) +
-                            "G 획득!!";
+                        if (Application.systemLanguage == SystemLanguage.Korean)
+                        {
+                            CompensationText.text =
+                                DataController.Instance.FormatGoldTwo(DataController.Instance.compensationGold) +
+                                "G 획득!!";
+                        }
+                        else
+                        {
+                            CompensationText.text = 
+                                "Get " +   
+                                DataController.Instance.FormatGoldTwo(DataController.Instance.compensationGold) +
+                                                    " G!!";
+                        }
 
                         if (compensationTime < 1800 && DataController.Instance.skipCoupon < 3)
                         {
@@ -262,7 +291,6 @@ public class TimeManager : MonoBehaviour
 
     public void SetCoolTime(float time)
     {
-        time = 180;
         DataController.Instance.skill_1_cooltime -= time;
         DataController.Instance.skill_2_cooltime -= time;
         DataController.Instance.skill_3_cooltime -= time;
@@ -270,7 +298,7 @@ public class TimeManager : MonoBehaviour
         DataController.Instance.skill_5_cooltime -= time;
         DataController.Instance.skill_6_cooltime -= time;
 
-        for (var i = 0; i < 13; i++)
+        for (var i = 0; i < 14; i++)
         {
             if (PlayerPrefs.GetFloat("HuntCoolTime_" + i, 0) > 0)
             {
@@ -279,7 +307,7 @@ public class TimeManager : MonoBehaviour
             }
         }
 
-        for (var i = 0; i < 11; i++)
+        for (var i = 0; i < 12; i++)
         {
             if (PlayerPrefs.GetFloat("BossCoolTime_" + i, 0) > 0)
             {
@@ -325,12 +353,21 @@ public class TimeManager : MonoBehaviour
 
                 DataController.Instance.ruby += attendanceRuby[(int) DataController.Instance.attendanceIndex - 1];
 
-                NotificationManager.Instance.SetNotification(
-                    "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
+                if (Application.systemLanguage == SystemLanguage.Korean)
+                {
+                    NotificationManager.Instance.SetNotification(
+                        "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification(
+                        "Get " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + " Ruby!!");
+                }
 
                 AttendancePanel.SetActive(PlayerPrefs.GetInt("FirstOpenGame", 0) != 0);
 
                 DataController.Instance.faustCount = 10;
+                DataController.Instance.dungeonCount = 10;
                 DataController.Instance.pvpCount = 10;
             }
             else
@@ -348,11 +385,20 @@ public class TimeManager : MonoBehaviour
                         DataController.Instance.ruby +=
                             attendanceRuby[(int) DataController.Instance.attendanceIndex - 1];
 
-                        NotificationManager.Instance.SetNotification(
-                            "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
+                        if (Application.systemLanguage == SystemLanguage.Korean)
+                        {
+                            NotificationManager.Instance.SetNotification(
+                                "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
+                        }
+                        else
+                        {
+                            NotificationManager.Instance.SetNotification(
+                                "Get " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + " Ruby!!");
+                        }
 
                         AttendancePanel.SetActive(PlayerPrefs.GetInt("FirstOpenGame", 0) != 0);
                         DataController.Instance.faustCount = 10;
+                        DataController.Instance.dungeonCount = 10;
                         DataController.Instance.pvpCount = 10;
                     }
                     else
@@ -364,11 +410,20 @@ public class TimeManager : MonoBehaviour
                         DataController.Instance.ruby +=
                             attendanceRuby[(int) DataController.Instance.attendanceIndex - 1];
 
-                        NotificationManager.Instance.SetNotification(
-                            "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
+                        if (Application.systemLanguage == SystemLanguage.Korean)
+                        {
+                            NotificationManager.Instance.SetNotification(
+                                "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
+                        }
+                        else
+                        {
+                            NotificationManager.Instance.SetNotification(
+                                "Get " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + " Ruby!!");
+                        }
 
                         AttendancePanel.SetActive(PlayerPrefs.GetInt("FirstOpenGame", 0) != 0);
                         DataController.Instance.faustCount = 10;
+                        DataController.Instance.dungeonCount = 10;
                         DataController.Instance.pvpCount = 10;
                     }
                 }
@@ -385,11 +440,20 @@ public class TimeManager : MonoBehaviour
 
                     DataController.Instance.ruby += attendanceRuby[(int) DataController.Instance.attendanceIndex - 1];
 
-                    NotificationManager.Instance.SetNotification(
-                        "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
+                    if (Application.systemLanguage == SystemLanguage.Korean)
+                    {
+                        NotificationManager.Instance.SetNotification(
+                            "루비 " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + "개 획득!!");
+                    }
+                    else
+                    {
+                        NotificationManager.Instance.SetNotification(
+                            "Get " + attendanceRuby[(int) DataController.Instance.attendanceIndex - 1] + " Ruby!!");
+                    }
 
                     AttendancePanel.SetActive(PlayerPrefs.GetInt("FirstOpenGame", 0) != 0);
                     DataController.Instance.faustCount = 10;
+                    DataController.Instance.dungeonCount = 10;
                     DataController.Instance.pvpCount = 10;
                 }
             }

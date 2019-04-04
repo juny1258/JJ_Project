@@ -29,7 +29,7 @@ public class RubyDamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownH
 
     public void UpgradeButtonClick()
     {
-        if (DataController.Instance.rubyRisingDamageLevel < 300)
+        if (DataController.Instance.rubyRisingDamageLevel < 800)
         {
             if (DataController.Instance.ruby >= (DataController.Instance.rubyRisingDamageLevel + 1) * 10)
             {
@@ -46,16 +46,16 @@ public class RubyDamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownH
             }
             else
             {
-                NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.LessRuby);
             }
         }
     }
 
     private void UpdateUI()
     {
-        if (DataController.Instance.rubyRisingDamageLevel < 300)
+        if (DataController.Instance.rubyRisingDamageLevel < 800)
         {
-            ProductName.text = "공격력[+" + DataController.Instance.rubyRisingDamageLevel + "]";
+            ProductName.text = LocalManager.Instance.Damage + "[+" + DataController.Instance.rubyRisingDamageLevel + "]";
 
             PriceText.text =
                 DataController.Instance.FormatGoldTwo((DataController.Instance.rubyRisingDamageLevel + 1) * 10);
@@ -69,7 +69,7 @@ public class RubyDamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownH
         }
         else
         {
-            ProductName.text = "공격력[+" + DataController.Instance.rubyRisingDamageLevel + "]";
+            ProductName.text = LocalManager.Instance.Damage + "[+" + DataController.Instance.rubyRisingDamageLevel + "]";
 
             PriceText.text = "Max";
 

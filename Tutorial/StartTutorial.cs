@@ -37,7 +37,14 @@ public class StartTutorial : MonoBehaviour
         }
         else if (index == 2)
         {
-            NotificationManager.Instance.SetNotification2("사파이어 20개 지급!!");
+            if (Application.systemLanguage == SystemLanguage.Korean)
+            {
+                NotificationManager.Instance.SetNotification2("사파이어 20개 지급!!");   
+            }
+            else
+            {
+                NotificationManager.Instance.SetNotification2("Get 20 Sapphires!!");   
+            }
             DataController.Instance.sapphire += 20;
             GetComponentInChildren<Text>().text = "Start >>";
             Info3.SetActive(false);

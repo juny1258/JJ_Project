@@ -34,7 +34,7 @@ public class DevilDamage : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     public void UpgradeButtonClick()
     {
-        if (DataController.Instance.devilDamageLevel <= 100)
+        if (DataController.Instance.devilDamageLevel <= 150)
         {
             if (DataController.Instance.devilStone >= startCurrentCost * DataController.Instance.devilDamageLevel)
             {
@@ -51,16 +51,16 @@ public class DevilDamage : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
             }
             else
             {
-                NotificationManager.Instance.SetNotification("데빌스톤이 부족합니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.LessDevilstone);
             }
         }
     }
 
     private void UpdateUI()
     {
-        if (DataController.Instance.devilDamageLevel <= 100)
+        if (DataController.Instance.devilDamageLevel <= 150)
         {
-            ProductName.text = "공격력[+" + (DataController.Instance.devilDamageLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.Damage + "[+" + (DataController.Instance.devilDamageLevel - 1) + "]";
             PriceText.text = Math.Round(startCurrentCost * DataController.Instance.devilDamageLevel, 0).ToString();
 
             UpgradeInfo.text = Math.Round(DataController.Instance.devilDamage * 100, 0) + "% -> " +
@@ -69,7 +69,7 @@ public class DevilDamage : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
         }
         else
         {
-            ProductName.text = "공격력[+" + (DataController.Instance.devilDamageLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.Damage + "[+" + (DataController.Instance.devilDamageLevel - 1) + "]";
             PriceText.text = "MAX";
 
             UpgradeInfo.text = Math.Round(DataController.Instance.devilDamage * 100, 0) + "%";

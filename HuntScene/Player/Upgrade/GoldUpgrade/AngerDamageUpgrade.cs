@@ -52,13 +52,13 @@ public class AngerDamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDown
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.LessGold);
                 }
             }
         }
         else
         {
-            NotificationManager.Instance.SetNotification("결계석의 레벨을 눌러 초월기를 사용하세요.");
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.UseRebirth);
         }
     }
 
@@ -66,7 +66,7 @@ public class AngerDamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDown
     {
         if (DataController.Instance.angerDamageLevel < 51)
         {
-            ProductName.text = "분노 데미지[+" + (DataController.Instance.angerDamageLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.AngerDamage + "[+" + (DataController.Instance.angerDamageLevel - 1) + "]";
             PriceText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.angerDamageCost);
 
             UpgradeInfo.text = Math.Round(DataController.Instance.angerDamage, 2) * 100 + "% -> " +
@@ -74,7 +74,7 @@ public class AngerDamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDown
         }
         else
         {
-            ProductName.text = "분노 데미지[+" + (DataController.Instance.angerDamageLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.AngerDamage + "[+" + (DataController.Instance.angerDamageLevel - 1) + "]";
             PriceText.text = "Max";
 
             UpgradeInfo.text = Math.Round(DataController.Instance.angerDamage, 2) * 100 + "%";

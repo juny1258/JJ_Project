@@ -22,7 +22,7 @@ public class SkillPakage : MonoBehaviour
         DataController.Instance.sapphire += 4030;
         PlayerPrefs.SetFloat("IsSkillPurchase", 1);
 
-        NotificationManager.Instance.SetNotification2("스킬 패키지 구매완료!!");
+        NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetPackage[6]);
         
         DataController.Instance.inAppPurchase += 14000;
         

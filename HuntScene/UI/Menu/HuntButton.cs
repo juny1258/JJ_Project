@@ -44,7 +44,7 @@ public class HuntButton : MonoBehaviour
             }
             else
             {
-                NotificationManager.Instance.SetNotification("지금은 입장할 수 없습니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.NoEnter);
             }   
         }
     }
@@ -71,7 +71,7 @@ public class HuntButton : MonoBehaviour
                     }
                     DataController.Instance.skipCoupon -= 1;
                     
-                    if (DataController.Instance.finalHuntLevel == DataController.Instance.huntLevel)
+                    if (DataController.Instance.finalHuntLevel == index)
                     {
                         RewardManager.Instance.ShowRewardPanel(
                             global::MonsterSpwan.ruby[index], global::MonsterSpwan.sapphire[index]);
@@ -87,17 +87,17 @@ public class HuntButton : MonoBehaviour
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("소탕권이 부족합니다.");
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.LessScroll);
                 }
             }
             else
             {
-                NotificationManager.Instance.SetNotification("지금은 입장할 수 없습니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.NoEnter);
             }
         }
         else
         {
-            NotificationManager.Instance.SetNotification("클리어 후 소탕할 수 있습니다.");
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.AfterClear);
         }
     }
 }

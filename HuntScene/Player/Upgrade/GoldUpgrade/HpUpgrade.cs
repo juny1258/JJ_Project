@@ -35,7 +35,7 @@ public class HpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     {
         if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel == 0)
         {
-            if (DataController.Instance.hpLevel <= 2500)
+            if (DataController.Instance.hpLevel <= 5000)
             {
                 if (DataController.Instance.gold >= DataController.Instance.hpCost)
                 {
@@ -56,13 +56,13 @@ public class HpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.LessGold);
                 }
             }
         }
         else
         {
-            NotificationManager.Instance.SetNotification("결계석의 레벨을 눌러 초월기를 사용하세요.");
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.UseRebirth);
         }
     }
 
@@ -73,9 +73,9 @@ public class HpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     private void UpdateUI()
     {
-        if (DataController.Instance.hpLevel <= 2500)
+        if (DataController.Instance.hpLevel <= 5000)
         {
-            ProductName.text = "체력[+" + (DataController.Instance.hpLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.Hp + "[+" + (DataController.Instance.hpLevel - 1) + "]";
             PriceText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.hpCost);
 
             UpgradeInfo.text = DataController.Instance.FormatGoldTwo(DataController.Instance.playerHP) + "\n-> " +
@@ -83,7 +83,7 @@ public class HpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
         }
         else
         {
-            ProductName.text = "체력[+" + (DataController.Instance.hpLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.Hp + "[+" + (DataController.Instance.hpLevel - 1) + "]";
             PriceText.text = "MAX";
 
             UpgradeInfo.text = DataController.Instance.FormatGoldTwo(DataController.Instance.playerHP);

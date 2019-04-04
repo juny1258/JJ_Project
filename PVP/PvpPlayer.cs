@@ -106,42 +106,83 @@ public class PvpPlayer : MonoBehaviour
         HpText.text = DataController.Instance.FormatGoldTwo(NowHP) + "/" +
                       DataController.Instance.FormatGoldTwo(MaxHP);
 
-        
-        if (DataController.Instance.PlayerData.score > 0 && DataController.Instance.PlayerData.score <= 1200)
+        if (Application.systemLanguage == SystemLanguage.Korean)
         {
-            ScoreText.text = "랭크 : 브론즈\n점수 : " + DataController.Instance.PlayerData.score;
+            if (DataController.Instance.PlayerData.score > 0 && DataController.Instance.PlayerData.score <= 1200)
+            {
+                ScoreText.text = "랭크 : 브론즈\n점수 : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 1200 && DataController.Instance.PlayerData.score <= 1400)
+            {
+                ScoreText.text = "랭크 : 실버\n점수 : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 1400 && DataController.Instance.PlayerData.score <= 1600)
+            {
+                ScoreText.text = "랭크 : 골드\n점수 : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 1600 && DataController.Instance.PlayerData.score <= 1800)
+            {
+                ScoreText.text = "랭크 : 플레티넘\n점수 : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 1800 && DataController.Instance.PlayerData.score <= 2100)
+            {
+                ScoreText.text = "랭크 : 다이아\n점수 : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 2100 && DataController.Instance.PlayerData.score <= 2400)
+            {
+                ScoreText.text = "랭크 : 마스터\n점수 : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 2400 && DataController.Instance.PlayerData.score <= 2700)
+            {
+                ScoreText.text = "랭크 : 그랜드마스터\n점수 : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 2700 && DataController.Instance.PlayerData.score <= 3000)
+            {
+                ScoreText.text = "랭크 : 챌린저\n점수 : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 3000)
+            {
+                ScoreText.text = "랭크 : 위너\n점수 : " + DataController.Instance.PlayerData.score;
+            }
         }
-        else if (DataController.Instance.PlayerData.score > 1200 && DataController.Instance.PlayerData.score <= 1400)
+        else
         {
-            ScoreText.text = "랭크 : 실버\n점수 : " + DataController.Instance.PlayerData.score;
-        }
-        else if (DataController.Instance.PlayerData.score > 1400 && DataController.Instance.PlayerData.score <= 1600)
-        {
-            ScoreText.text = "랭크 : 골드\n점수 : " + DataController.Instance.PlayerData.score;
-        }
-        else if (DataController.Instance.PlayerData.score > 1600 && DataController.Instance.PlayerData.score <= 1800)
-        {
-            ScoreText.text = "랭크 : 플레티넘\n점수 : " + DataController.Instance.PlayerData.score;
-        }
-        else if (DataController.Instance.PlayerData.score > 1800 && DataController.Instance.PlayerData.score <= 2100)
-        {
-            ScoreText.text = "랭크 : 다이아\n점수 : " + DataController.Instance.PlayerData.score;
-        }
-        else if (DataController.Instance.PlayerData.score > 2100 && DataController.Instance.PlayerData.score <= 2400)
-        {
-            ScoreText.text = "랭크 : 마스터\n점수 : " + DataController.Instance.PlayerData.score;
-        }
-        else if (DataController.Instance.PlayerData.score > 2400 && DataController.Instance.PlayerData.score <= 2700)
-        {
-            ScoreText.text = "랭크 : 그랜드마스터\n점수 : " + DataController.Instance.PlayerData.score;
-        }
-        else if (DataController.Instance.PlayerData.score > 2700 && DataController.Instance.PlayerData.score <= 3000)
-        {
-            ScoreText.text = "랭크 : 챌린저\n점수 : " + DataController.Instance.PlayerData.score;
-        }
-        else if (DataController.Instance.PlayerData.score > 3000)
-        {
-            ScoreText.text = "랭크 : 위너\n점수 : " + DataController.Instance.PlayerData.score;
+            if (DataController.Instance.PlayerData.score > 0 && DataController.Instance.PlayerData.score <= 1200)
+            {
+                ScoreText.text = "Rank : F\nScore : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 1200 && DataController.Instance.PlayerData.score <= 1400)
+            {
+                ScoreText.text = "Rank : E\nScore : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 1400 && DataController.Instance.PlayerData.score <= 1600)
+            {
+                ScoreText.text = "Rank : D\nScore : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 1600 && DataController.Instance.PlayerData.score <= 1800)
+            {
+                ScoreText.text = "Rank : C\nScore : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 1800 && DataController.Instance.PlayerData.score <= 2100)
+            {
+                ScoreText.text = "Rank : B\nScore : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 2100 && DataController.Instance.PlayerData.score <= 2400)
+            {
+                ScoreText.text = "Rank : A\nScore : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 2400 && DataController.Instance.PlayerData.score <= 2700)
+            {
+                ScoreText.text = "Rank : S\nScore : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 2700 && DataController.Instance.PlayerData.score <= 3000)
+            {
+                ScoreText.text = "Rank : SS\nScore : " + DataController.Instance.PlayerData.score;
+            }
+            else if (DataController.Instance.PlayerData.score > 3000)
+            {
+                ScoreText.text = "Rank : SSS\nScore : " + DataController.Instance.PlayerData.score;
+            }
         }
     }
 

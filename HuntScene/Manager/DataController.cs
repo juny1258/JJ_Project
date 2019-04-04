@@ -29,19 +29,130 @@ public class DataController : MonoBehaviour
         if (Debug.isDebugBuild)
         {
 //            PlayerPrefs.DeleteAll();
-            damage = 50000000;
-            ruby = 10000000;
-            sapphire = 50000000000;
-            devilStone = 10000000;
+//            nowRebirthLevel = 11;
+//            rebirthLevel = 11;
+//            damage = 200000000f;
+//            gold = 2000000000000000000;
+//            ruby = 100;
+//            sapphire = 0;
+//            devilStone = 0;
+//            rebirthStone = 500000;
+//            PlayerPrefs.SetInt("AdvancedCollectionItem_3", 0);
+//            PlayerPrefs.SetInt("AdvancedCollectionItem_11", 0);
+//            advancedItemBoxLevel -= 2;
+//            advancedAutoTap = 2;
+
         }
-        
-        
 
         Monsters = GameObject.Find("Monsters").GetComponent<Transform>();
 
         UpdateDamage();
         UpdateCritical();
     }
+    
+    public float skinCriticalRising
+    {
+        get { return PlayerPrefs.GetFloat("SkinCriticalRising", 0); }
+        set { PlayerPrefs.SetFloat("SkinCriticalRising", value); }
+    }
+
+    public int dungeonRuby;
+    public int dungeonSapphire;
+    public int dungeonPetStone;
+    
+    public int petStone
+    {
+        get { return PlayerPrefs.GetInt("PetStone", 0); }
+        set { PlayerPrefs.SetInt("PetStone", value); }
+    }
+    
+    public int petIndex
+    {
+        get { return PlayerPrefs.GetInt("PetIndex", -1); }
+        set { PlayerPrefs.SetInt("PetIndex", value); }
+    }
+    
+    public int petSkill_1
+    {
+        get { return PlayerPrefs.GetInt("petSkill_1", -1); }
+        set { PlayerPrefs.SetInt("petSkill_1", value); }
+    }
+
+    public int petSkill_2
+    {
+        get { return PlayerPrefs.GetInt("petSkill_2", -1); }
+        set { PlayerPrefs.SetInt("petSkill_2", value); }
+    }
+
+    public int petSkill_3
+    {
+        get { return PlayerPrefs.GetInt("petSkill_3", -1); }
+        set { PlayerPrefs.SetInt("petSkill_3", value); }
+    }
+
+    public int petSkill_4
+    {
+        get { return PlayerPrefs.GetInt("petSkill_4", -1); }
+        set { PlayerPrefs.SetInt("petSkill_4", value); }
+    }
+
+    public int petSkill_5
+    {
+        get { return PlayerPrefs.GetInt("petSkill_5", -1); }
+        set { PlayerPrefs.SetInt("petSkill_5", value); }
+    }
+    
+    public int petSkill_6
+    {
+        get { return PlayerPrefs.GetInt("petSkill_6", -1); }
+        set { PlayerPrefs.SetInt("petSkill_6", value); }
+    }
+
+    public float pet_skill_1_damage
+    {
+        get { return PlayerPrefs.GetFloat("pet_skill_1_damage", 0.2f); }
+        set { PlayerPrefs.SetFloat("pet_skill_1_damage", value); }
+    }
+
+    public float pet_skill_2_damage
+    {
+        get { return PlayerPrefs.GetFloat("pet_skill_2_damage", 0.2f); }
+        set { PlayerPrefs.SetFloat("pet_skill_2_damage", value); }
+    }
+
+    public float pet_skill_3_damage
+    {
+        get { return PlayerPrefs.GetFloat("pet_skill_3_damage", 0.3f); }
+        set { PlayerPrefs.SetFloat("pet_skill_3_damage", value); }
+    }
+
+    public float pet_skill_4_damage
+    {
+        get { return PlayerPrefs.GetFloat("pet_skill_4_damage", 0.4f); }
+        set { PlayerPrefs.SetFloat("pet_skill_4_damage", value); }
+    }
+
+    public float pet_skill_5_damage
+    {
+        get { return PlayerPrefs.GetFloat("pet_skill_5_damage", 0.5f); }
+        set { PlayerPrefs.SetFloat("pet_skill_5_damage", value); }
+    }
+    
+    public float pet_skill_6_damage
+    {
+        get { return PlayerPrefs.GetFloat("pet_skill_6_damage", 0.6f); }
+        set { PlayerPrefs.SetFloat("pet_skill_6_damage", value); }
+    }
+
+    public bool isMove;
+
+    public int dungeonCount
+    {
+        get { return PlayerPrefs.GetInt("DungeonCount", 10); }
+        set { PlayerPrefs.SetInt("DungeonCount", value); }
+    }
+    
+    public bool isRebirth;
 
     public bool isStatus;
 
@@ -51,8 +162,8 @@ public class DataController : MonoBehaviour
     
     public float recordFaustDamage
     {
-        get { return PlayerPrefs.GetFloat("RecordFaustDamage1", 0); }
-        set { PlayerPrefs.SetFloat("RecordFaustDamage1", value); }
+        get { return PlayerPrefs.GetFloat("RecordFaustDamage3", 0); }
+        set { PlayerPrefs.SetFloat("RecordFaustDamage3", value); }
     }
 
     public int inAppPurchase
@@ -242,11 +353,7 @@ public class DataController : MonoBehaviour
     }
 
     // 던전
-    public int dungeonLevel
-    {
-        get { return PlayerPrefs.GetInt("DungeonLevel", 0); }
-        set { PlayerPrefs.SetInt("DungeonLevel", value); }
-    }
+    public int dungeonLevel;
 
     public int finalDungeonLevel
     {
@@ -269,6 +376,7 @@ public class DataController : MonoBehaviour
     public float compensationGold;
 
     public Queue<float> goldQueue = new Queue<float>();
+    public Queue<int> rubyQueue = new Queue<int>();
 
     public float getGold;
     public float getRuby;
@@ -835,7 +943,7 @@ public class DataController : MonoBehaviour
     {
         masterCriticalDamage = masterDamage *
                                (criticalRising + rubyCriticalRising + devilCriticalRising + collectionCriticalDamage +
-                                advancedCriticalRising);
+                                advancedCriticalRising + skinCriticalRising);
         
         enqueueCriticalGold = masterCriticalDamage / 3.8f *
                               collectionGoldRising *
@@ -1001,149 +1109,431 @@ public class DataController : MonoBehaviour
     public bool isShadowSkill;
 
     private readonly string[] arrDecimal = {"", "만", "억", "조", "경", "해", "자", "양", "구", "간"};
+    private readonly string[] arrDecimal3 = {"", "万", "億", "兆", "京", "垓", "𥝱", "穣", "溝", "澗"};
+    private readonly string[] arrDecimal2 = {"", "k", "m", "b", "kb", "mb", "bb", "kbb", "mbb", "bbb", "kbbb", "mbbb", "bbbb"};
 
     public string FormatGoldOne(float data)
     {
-        if (data == 0)
+        var displayNum = string.Empty;
+        
+        if (Application.systemLanguage == SystemLanguage.Korean)
         {
-            return "0";
-        }
-
-        if (data < 0)
-        {
-            data = -data;
-            var goldDouble = (double) data;
-            int stringLength;
-
-            if (goldDouble.ToString("#").Length % 4 != 0)
+            if (data == 0)
             {
-                stringLength = goldDouble.ToString("#").Length + 4 - goldDouble.ToString("#").Length % 4;
+                return "0";
+            }
+
+            if (data < 0)
+            {
+                data = -data;
+                var goldDouble = (double) data;
+                int stringLength;
+
+                if (goldDouble.ToString("#").Length % 4 != 0)
+                {
+                    stringLength = goldDouble.ToString("#").Length + 4 - goldDouble.ToString("#").Length % 4;
+                }
+                else
+                {
+                    stringLength = goldDouble.ToString("#").Length;
+                }
+
+                var sNum = goldDouble.ToString("#").PadLeft(stringLength);
+                var j = 0;
+
+                for (var i = 0; i < sNum.Length >> 2 && j < 1; i++)
+                {
+                    var part = sNum.Substring(i << 2, 4);
+                    var stringFormat = int.Parse(part);
+                    if (stringFormat == 0) continue;
+                    displayNum += stringFormat + arrDecimal[(sNum.Length >> 2) - i - 1];
+                    j++;
+                }
+
+                displayNum = "-" + displayNum;
             }
             else
             {
-                stringLength = goldDouble.ToString("#").Length;
-            }
+                var goldDouble = (double) data;
+                int stringLength;
 
-            var sNum = goldDouble.ToString("#").PadLeft(stringLength);
-            var displayNum = string.Empty;
-            var j = 0;
+                if (goldDouble.ToString("#").Length % 4 != 0)
+                {
+                    stringLength = goldDouble.ToString("#").Length + 4 - goldDouble.ToString("#").Length % 4;
+                }
+                else
+                {
+                    stringLength = goldDouble.ToString("#").Length;
+                }
 
-            for (var i = 0; i < sNum.Length >> 2 && j < 1; i++)
+                var sNum = goldDouble.ToString("#").PadLeft(stringLength);
+                var j = 0;
+
+                for (var i = 0; i < sNum.Length >> 2 && j < 1; i++)
+                {
+                    var part = sNum.Substring(i << 2, 4);
+                    var stringFormat = int.Parse(part);
+                    if (stringFormat == 0) continue;
+                    displayNum += stringFormat + arrDecimal[(sNum.Length >> 2) - i - 1];
+                    j++;
+                }
+            }   
+        }
+        else if (Application.systemLanguage == SystemLanguage.Japanese)
+        {
+            if (data == 0)
             {
-                var part = sNum.Substring(i << 2, 4);
-                var stringFormat = int.Parse(part);
-                if (stringFormat == 0) continue;
-                displayNum += stringFormat + arrDecimal[(sNum.Length >> 2) - i - 1];
-                j++;
+                return "0";
             }
 
-            return "-" + displayNum;
+            if (data < 0)
+            {
+                data = -data;
+                var goldDouble = (double) data;
+                int stringLength;
+
+                if (goldDouble.ToString("#").Length % 4 != 0)
+                {
+                    stringLength = goldDouble.ToString("#").Length + 4 - goldDouble.ToString("#").Length % 4;
+                }
+                else
+                {
+                    stringLength = goldDouble.ToString("#").Length;
+                }
+
+                var sNum = goldDouble.ToString("#").PadLeft(stringLength);
+                var j = 0;
+
+                for (var i = 0; i < sNum.Length >> 2 && j < 1; i++)
+                {
+                    var part = sNum.Substring(i << 2, 4);
+                    var stringFormat = int.Parse(part);
+                    if (stringFormat == 0) continue;
+                    displayNum += stringFormat + arrDecimal3[(sNum.Length >> 2) - i - 1];
+                    j++;
+                }
+
+                displayNum = "-" + displayNum;
+            }
+            else
+            {
+                var goldDouble = (double) data;
+                int stringLength;
+
+                if (goldDouble.ToString("#").Length % 4 != 0)
+                {
+                    stringLength = goldDouble.ToString("#").Length + 4 - goldDouble.ToString("#").Length % 4;
+                }
+                else
+                {
+                    stringLength = goldDouble.ToString("#").Length;
+                }
+
+                var sNum = goldDouble.ToString("#").PadLeft(stringLength);
+                var j = 0;
+
+                for (var i = 0; i < sNum.Length >> 2 && j < 1; i++)
+                {
+                    var part = sNum.Substring(i << 2, 4);
+                    var stringFormat = int.Parse(part);
+                    if (stringFormat == 0) continue;
+                    displayNum += stringFormat + arrDecimal3[(sNum.Length >> 2) - i - 1];
+                    j++;
+                }
+            }   
         }
         else
         {
-            var goldDouble = (double) data;
-            int stringLength;
-
-            if (goldDouble.ToString("#").Length % 4 != 0)
+            if (data == 0)
             {
-                stringLength = goldDouble.ToString("#").Length + 4 - goldDouble.ToString("#").Length % 4;
+                return "0";
+            }
+
+            if (data < 0)
+            {
+                data = -data;
+                var goldDouble = (double) data;
+                int stringLength;
+
+                if (goldDouble.ToString("#").Length % 3 != 0)
+                {
+                    stringLength = goldDouble.ToString("#").Length + 3 - goldDouble.ToString("#").Length % 3;
+                }
+                else
+                {
+                    stringLength = goldDouble.ToString("#").Length;
+                }
+
+                var sNum = goldDouble.ToString("#").PadLeft(stringLength);
+                var j = 0;
+
+                for (var i = 0; i < sNum.Length / 3 && j < 1; i++)
+                {
+                    var part = sNum.Substring(i * 3, 3);
+                    var stringFormat = int.Parse(part);
+                    if (stringFormat == 0) continue;
+                    displayNum += stringFormat + arrDecimal2[(sNum.Length / 3) - i - 1];
+                    j++;
+                }
+
+                displayNum = "-" + displayNum;
             }
             else
             {
-                stringLength = goldDouble.ToString("#").Length;
+                var goldDouble = (double) data;
+                int stringLength;
+
+                if (goldDouble.ToString("#").Length % 3 != 0)
+                {
+                    stringLength = goldDouble.ToString("#").Length + 3 - goldDouble.ToString("#").Length % 3;
+                }
+                else
+                {
+                    stringLength = goldDouble.ToString("#").Length;
+                }
+
+                var sNum = goldDouble.ToString("#").PadLeft(stringLength);
+                var j = 0;
+
+                for (var i = 0; i < sNum.Length / 3 && j < 1; i++)
+                {
+                    var part = sNum.Substring(i * 3, 3);
+                    var stringFormat = int.Parse(part);
+                    if (stringFormat == 0) continue;
+                    displayNum += stringFormat + arrDecimal2[(sNum.Length / 3) - i - 1];
+                    j++;
+                }
             }
-
-            var sNum = goldDouble.ToString("#").PadLeft(stringLength);
-            var displayNum = string.Empty;
-            var j = 0;
-
-            for (var i = 0; i < sNum.Length >> 2 && j < 1; i++)
-            {
-                var part = sNum.Substring(i << 2, 4);
-                var stringFormat = int.Parse(part);
-                if (stringFormat == 0) continue;
-                displayNum += stringFormat + arrDecimal[(sNum.Length >> 2) - i - 1];
-                j++;
-            }
-
-            return displayNum;
         }
+
+        return displayNum;
     }
 
     public string FormatGoldTwo(float data)
     {
-        if (data == 0)
+        var displayNum = string.Empty;
+        
+        if (Application.systemLanguage == SystemLanguage.Korean)
         {
-            return "0";
-        }
-
-        if (data < 0)
-        {
-            data = -data;
-            var goldDouble = (double) data;
-            int stringLength;
-
-            if (goldDouble.ToString("#").Length % 4 != 0)
+            if (data == 0)
             {
-                stringLength = goldDouble.ToString("#").Length + 4 - goldDouble.ToString("#").Length % 4;
+                return "0";
+            }
+
+            if (data < 0)
+            {
+                data = -data;
+                var goldDouble = (double) data;
+                int stringLength;
+
+                if (goldDouble.ToString("#").Length % 4 != 0)
+                {
+                    stringLength = goldDouble.ToString("#").Length + 4 - goldDouble.ToString("#").Length % 4;
+                }
+                else
+                {
+                    stringLength = goldDouble.ToString("#").Length;
+                }
+
+                var sNum = goldDouble.ToString("#").PadLeft(stringLength);
+                var j = 0;
+                for (var i = 0; i < sNum.Length >> 2 && j < 2; i++)
+                {
+                    j++;
+                    var part = sNum.Substring(i << 2, 4);
+                    var stringFormat = int.Parse(part);
+                    if (stringFormat == 0)
+                    {
+                        continue;
+                    }
+
+                    displayNum += stringFormat + arrDecimal[(sNum.Length >> 2) - i - 1];
+                    if (sNum.Length >> 2 - 1 != i) displayNum += " ";
+                }
+
+                displayNum = "-" + displayNum.TrimEnd();
             }
             else
             {
-                stringLength = goldDouble.ToString("#").Length;
-            }
+                var goldDouble = (double) data;
+                int stringLength;
 
-            var sNum = goldDouble.ToString("#").PadLeft(stringLength);
-            var displayNum = string.Empty;
-            var j = 0;
-            for (var i = 0; i < sNum.Length >> 2 && j < 2; i++)
-            {
-                j++;
-                var part = sNum.Substring(i << 2, 4);
-                var stringFormat = int.Parse(part);
-                if (stringFormat == 0)
+                if (goldDouble.ToString("#").Length % 4 != 0)
                 {
-                    continue;
+                    stringLength = goldDouble.ToString("#").Length + 4 - goldDouble.ToString("#").Length % 4;
+                }
+                else
+                {
+                    stringLength = goldDouble.ToString("#").Length;
                 }
 
-                displayNum += stringFormat + arrDecimal[(sNum.Length >> 2) - i - 1];
-                if (sNum.Length >> 2 - 1 != i) displayNum += " ";
+                var sNum = goldDouble.ToString("#").PadLeft(stringLength);
+                var j = 0;
+                for (var i = 0; i < sNum.Length >> 2 && j < 2; i++)
+                {
+                    j++;
+                    var part = sNum.Substring(i << 2, 4);
+                    var stringFormat = int.Parse(part);
+                    if (stringFormat == 0)
+                    {
+                        continue;
+                    }
+
+                    displayNum += stringFormat + arrDecimal[(sNum.Length >> 2) - i - 1];
+                    if (sNum.Length >> 2 - 1 != i) displayNum += " ";
+                }
+
+                displayNum = displayNum.TrimEnd();
+            }
+        }
+        else if (Application.systemLanguage == SystemLanguage.Japanese)
+        {
+            if (data == 0)
+            {
+                return "0";
             }
 
-            return "-" + displayNum.TrimEnd();
+            if (data < 0)
+            {
+                data = -data;
+                var goldDouble = (double) data;
+                int stringLength;
+
+                if (goldDouble.ToString("#").Length % 4 != 0)
+                {
+                    stringLength = goldDouble.ToString("#").Length + 4 - goldDouble.ToString("#").Length % 4;
+                }
+                else
+                {
+                    stringLength = goldDouble.ToString("#").Length;
+                }
+
+                var sNum = goldDouble.ToString("#").PadLeft(stringLength);
+                var j = 0;
+                for (var i = 0; i < sNum.Length >> 2 && j < 2; i++)
+                {
+                    j++;
+                    var part = sNum.Substring(i << 2, 4);
+                    var stringFormat = int.Parse(part);
+                    if (stringFormat == 0)
+                    {
+                        continue;
+                    }
+
+                    displayNum += stringFormat + arrDecimal3[(sNum.Length >> 2) - i - 1];
+                    if (sNum.Length >> 2 - 1 != i) displayNum += " ";
+                }
+
+                displayNum = "-" + displayNum.TrimEnd();
+            }
+            else
+            {
+                var goldDouble = (double) data;
+                int stringLength;
+
+                if (goldDouble.ToString("#").Length % 4 != 0)
+                {
+                    stringLength = goldDouble.ToString("#").Length + 4 - goldDouble.ToString("#").Length % 4;
+                }
+                else
+                {
+                    stringLength = goldDouble.ToString("#").Length;
+                }
+
+                var sNum = goldDouble.ToString("#").PadLeft(stringLength);
+                var j = 0;
+                for (var i = 0; i < sNum.Length >> 2 && j < 2; i++)
+                {
+                    j++;
+                    var part = sNum.Substring(i << 2, 4);
+                    var stringFormat = int.Parse(part);
+                    if (stringFormat == 0)
+                    {
+                        continue;
+                    }
+
+                    displayNum += stringFormat + arrDecimal3[(sNum.Length >> 2) - i - 1];
+                    if (sNum.Length >> 2 - 1 != i) displayNum += " ";
+                }
+
+                displayNum = displayNum.TrimEnd();
+            }
         }
         else
         {
-            var goldDouble = (double) data;
-            int stringLength;
-
-            if (goldDouble.ToString("#").Length % 4 != 0)
+            if (data == 0)
             {
-                stringLength = goldDouble.ToString("#").Length + 4 - goldDouble.ToString("#").Length % 4;
+                return "0";
+            }
+
+            if (data < 0)
+            {
+                data = -data;
+                var goldDouble = (double) data;
+                int stringLength;
+
+                if (goldDouble.ToString("#").Length % 3 != 0)
+                {
+                    stringLength = goldDouble.ToString("#").Length + 3 - goldDouble.ToString("#").Length % 3;
+                }
+                else
+                {
+                    stringLength = goldDouble.ToString("#").Length;
+                }
+
+                var sNum = goldDouble.ToString("#").PadLeft(stringLength);
+                var j = 0;
+                for (var i = 0; i < sNum.Length / 3 && j < 2; i++)
+                {
+                    j++;
+                    var part = sNum.Substring(i * 3, 3);
+                    var stringFormat = int.Parse(part);
+                    if (stringFormat == 0)
+                    {
+                        continue;
+                    }
+
+                    displayNum += stringFormat + arrDecimal2[(sNum.Length / 3) - i - 1];
+                    if (sNum.Length / 3 - 1 != i) displayNum += " ";
+                }
+
+                displayNum = "-" + displayNum.TrimEnd();
             }
             else
             {
-                stringLength = goldDouble.ToString("#").Length;
-            }
+                var goldDouble = (double) data;
+                int stringLength;
 
-            var sNum = goldDouble.ToString("#").PadLeft(stringLength);
-            var displayNum = string.Empty;
-            var j = 0;
-            for (var i = 0; i < sNum.Length >> 2 && j < 2; i++)
-            {
-                j++;
-                var part = sNum.Substring(i << 2, 4);
-                var stringFormat = int.Parse(part);
-                if (stringFormat == 0)
+                if (goldDouble.ToString("#").Length % 3 != 0)
                 {
-                    continue;
+                    stringLength = goldDouble.ToString("#").Length + 3 - goldDouble.ToString("#").Length % 3;
+                }
+                else
+                {
+                    stringLength = goldDouble.ToString("#").Length;
                 }
 
-                displayNum += stringFormat + arrDecimal[(sNum.Length >> 2) - i - 1];
-                if (sNum.Length >> 2 - 1 != i) displayNum += " ";
-            }
+                var sNum = goldDouble.ToString("#").PadLeft(stringLength);
+                var j = 0;
+                for (var i = 0; i < sNum.Length / 3 && j < 2; i++)
+                {
+                    j++;
+                    var part = sNum.Substring(i * 3, 3);
+                    var stringFormat = int.Parse(part);
+                    if (stringFormat == 0)
+                    {
+                        continue;
+                    }
 
-            return displayNum.TrimEnd();
+                    displayNum += stringFormat + arrDecimal2[(sNum.Length / 3) - i - 1];
+                    if (sNum.Length / 3 - 1 != i) displayNum += " ";
+                }
+
+                displayNum = displayNum.TrimEnd();
+            }
         }
+
+        return displayNum;
     }
 
     public float PurchaseGold(float data)

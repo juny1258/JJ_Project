@@ -7,13 +7,20 @@ public class MovePVP : MonoBehaviour {
 
 	public void MoveScene()
 	{
-		if (Social.localUser.authenticated)
+		if (DataController.Instance.isFight)
 		{
-			SceneManager.LoadScene(2);	
+			NotificationManager.Instance.SetNotification(LocalManager.Instance.NoMenu1);
 		}
 		else
 		{
-			NotificationManager.Instance.SetNotification("인터넷 연결을 확인하세요.");
+			if (Social.localUser.authenticated)
+			{
+				SceneManager.LoadScene(2);	
+			}
+			else
+			{
+				NotificationManager.Instance.SetNotification(LocalManager.Instance.Internet);
+			}	
 		}
 	}
 }

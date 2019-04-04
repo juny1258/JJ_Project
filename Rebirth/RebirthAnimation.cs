@@ -21,7 +21,8 @@ public class RebirthAnimation : MonoBehaviour
     private int[] rewardRebirthStone =
     {
         450, 700, 1000, 2000, 2500, 3000, 3500, 4000, 4500, 5000,
-        5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 10000
+        5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 10000, 10000,
+        10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000
     };
 
     private float delay = 0.5f;
@@ -43,15 +44,13 @@ public class RebirthAnimation : MonoBehaviour
 
     public void OnRebirthAnimation()
     {
+        DataController.Instance.isRebirth = true;
         DataController.Instance.rebirthStone +=
             rewardRebirthStone[DataController.Instance.rebirthLevel - 1] * 
             (DataController.Instance.collectionRebirthRising + 
              DataController.Instance.advancedRebirthPer);
 
         DataController.Instance.nowRebirthLevel++;
-        
-        DataController.Instance.UpdateDamage();
-        DataController.Instance.UpdateCritical();
         
         if (DataController.Instance.isAdvancedRebirth)
         {
@@ -61,6 +60,9 @@ public class RebirthAnimation : MonoBehaviour
         {
             DataController.Instance.RebirthAvilityReset();
         }
+        
+        DataController.Instance.UpdateDamage();
+        DataController.Instance.UpdateCritical();
         
         foreach (Transform stone in Stones)
         {
@@ -131,6 +133,7 @@ public class RebirthAnimation : MonoBehaviour
     private void Stop()
     {
         StopAllCoroutines();
+        DataController.Instance.isRebirth = false;
         Invoke("RemoveObject", 0.5f);
     }
 

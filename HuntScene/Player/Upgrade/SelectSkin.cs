@@ -40,7 +40,14 @@ public class SelectSkin : MonoBehaviour {
 			}
 			else
 			{
-				NotificationManager.Instance.SetNotification("스킨 구매 후 착용할 수 있습니다.");
+				if (Application.systemLanguage == SystemLanguage.Korean)
+				{
+					NotificationManager.Instance.SetNotification("스킨 구매 후 착용할 수 있습니다.");		
+				}
+				else
+				{
+					NotificationManager.Instance.SetNotification("You can wearing skin after buy it.");		
+				}
 			}
 		}
 		else

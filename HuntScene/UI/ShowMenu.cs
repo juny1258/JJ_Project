@@ -8,6 +8,13 @@ public class ShowMenu : MonoBehaviour
 
     public void OpenPanel()
     {
-        Panel.SetActive(true);
+        if (!DataController.Instance.isFight)
+        {
+            Panel.SetActive(true);   
+        }
+        else
+        {
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.NoMenu1);
+        }
     }
 }

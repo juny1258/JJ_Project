@@ -16,13 +16,35 @@ public class StartPvp : MonoBehaviour
         }
         else
         {
-            NotificationManager.Instance.SetNotification("로딩중... 잠시 후 시도하세요.");
+            if (Application.systemLanguage == SystemLanguage.Korean)
+            {
+                NotificationManager.Instance.SetNotification("로딩중... 잠시 후 시도하세요.");   
+            }
+            else if (Application.systemLanguage == SystemLanguage.Japanese)
+            {
+                NotificationManager.Instance.SetNotification("ロード中...しばらくしてお試しください。");   
+            }
+            else
+            {
+                NotificationManager.Instance.SetNotification("Loading... Please try in a moment.");   
+            }
         }
     }
 
     public void OnEndPvp()
     {
-        NotificationManager.Instance.SetNotification("나가는 중");
+        if (Application.systemLanguage == SystemLanguage.Korean)
+        {
+            NotificationManager.Instance.SetNotification("나가는 중");
+        }
+        else if (Application.systemLanguage == SystemLanguage.Japanese)
+        {
+            NotificationManager.Instance.SetNotification("いく中");   
+        }
+        else
+        {
+            NotificationManager.Instance.SetNotification("Please Wait");
+        }
         SceneManager.LoadScene(1);
     }
 }

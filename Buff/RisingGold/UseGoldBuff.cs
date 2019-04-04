@@ -18,7 +18,19 @@ public class UseGoldBuff : MonoBehaviour {
 
     private void OnEnable()
     {
-        InfoText.text = 180 + 30 * DataController.Instance.goldBuffLevel + "초 동안 결계석 획득량 1.5배";
+        if (Application.systemLanguage == SystemLanguage.Korean)
+        {
+            InfoText.text = 180 + 30 * DataController.Instance.goldBuffLevel + "초 동안 결계석 획득량 1.5배";
+        }
+        else if (Application.systemLanguage == SystemLanguage.Japanese)
+        {
+            InfoText.text = 180 + 30 * DataController.Instance.goldBuffLevel + "秒間結界石獲得量1.5倍";
+        }
+        else
+        {
+            InfoText.text = "Increase gold 150% for  " + (180 + 30 * DataController.Instance.goldBuffLevel) + "sec";
+        }
+        
         if (index == 0)
         {
             PotionCountText.text = DataController.Instance.goldBuffPotion.ToString();   

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Advertisements;
 
 public class ReceiveFlyingReward : MonoBehaviour
@@ -10,7 +8,7 @@ public class ReceiveFlyingReward : MonoBehaviour
 
 	public void OnReceive()
 	{
-		DataController.Instance.ruby += 3;
+		DataController.Instance.ruby += 10;
 		FlyRewardPanel.SetActive(false);
 		Time.timeScale = 1;
 	}
@@ -45,9 +43,9 @@ public class ReceiveFlyingReward : MonoBehaviour
 		else
 		{
 			// 광고 제거 후
-			DataController.Instance.ruby += 15;
+			DataController.Instance.ruby += 50;
 			FlyRewardPanel.SetActive(false);
-			Time.timeScale = 1;
+			Time.timeScale = 1;	
 		}
 	}
 	
@@ -57,7 +55,7 @@ public class ReceiveFlyingReward : MonoBehaviour
 		{
 			case ShowResult.Finished:
 				Debug.Log("The ad was successfully shown.");
-				DataController.Instance.ruby += 15;
+				DataController.Instance.ruby += 50;
 				FlyRewardPanel.SetActive(false);
 				Time.timeScale = 1;
 

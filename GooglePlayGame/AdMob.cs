@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using GoogleMobileAds.Api;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AdMob : MonoBehaviour
 {
@@ -26,24 +24,24 @@ public class AdMob : MonoBehaviour
     public RewardBasedVideoAd CompensationAd;
     public RewardBasedVideoAd AutoClickAd;
     public RewardBasedVideoAd GoldRisingAd;
-    public RewardBasedVideoAd PvpAd;
-
+    public RewardBasedVideoAd DungeonAd;
+    
     private bool isAdsReady;
-
-
+    
     private void Start()
     {
         MobileAds.Initialize("ca-app-pub-8345080599263513~3523715760");
+        
         CompensationAd = RewardBasedVideoAd.Instance;
         AutoClickAd = RewardBasedVideoAd.Instance;
         GoldRisingAd = RewardBasedVideoAd.Instance;
-        PvpAd = RewardBasedVideoAd.Instance;
+        DungeonAd = RewardBasedVideoAd.Instance;
         
         RequestMenuClickAd();
         RequestCompensationAd();
         RequestAutoClickAd();
         RequestGoldRisingAd();
-        RequestPvpAd();
+        RequestDungeonAd();
 
         _coroutine = ShowAds();
 
@@ -52,7 +50,7 @@ public class AdMob : MonoBehaviour
 
     private void IsReady()
     {
-        isAdsReady = false;
+        isAdsReady = true;
     }
 
     /// <summary>
@@ -132,7 +130,7 @@ public class AdMob : MonoBehaviour
         GoldRisingAd.OnAdRewarded += HandleOnGoldRisingAdAdReward;
     }
     
-    private void RequestPvpAd()
+    private void RequestDungeonAd()
     {
         string adUnitId = string.Empty;
 
@@ -144,10 +142,10 @@ public class AdMob : MonoBehaviour
 
         AdRequest request = new AdRequest.Builder().Build();
 
-        PvpAd.LoadAd(request, adUnitId);
+        DungeonAd.LoadAd(request, adUnitId);
 
-        PvpAd.OnAdClosed += HandleOnPvpAdClosed;
-        PvpAd.OnAdRewarded += HandleOnPvpdReward;
+        DungeonAd.OnAdClosed += HandleOnDungeonAdClosed;
+        DungeonAd.OnAdRewarded += HandleOnDungeondReward;
     }
 
     /// <summary>
@@ -170,7 +168,14 @@ public class AdMob : MonoBehaviour
     {
         if (PlayerPrefs.GetFloat("AdIndex", 0) == 0)
         {
-            NotificationManager.Instance.SetNotification2("비접속 보상 획득!!");
+            if (Application.systemLanguage == SystemLanguage.Korean)
+            {
+                NotificationManager.Instance.SetNotification2("비접속 보상 획득!!");   
+            }
+            else
+            {
+                NotificationManager.Instance.SetNotification2("Get compensation reward!!");   
+            }
             DataController.Instance.gold += DataController.Instance.compensationGold;   
         }
     }
@@ -193,14 +198,14 @@ public class AdMob : MonoBehaviour
         }
     }
     
-    private static void HandleOnPvpdReward(object sender, EventArgs args)
+    private static void HandleOnDungeondReward(object sender, EventArgs args)
     {
         // 골드 버프
         if (PlayerPrefs.GetFloat("AdIndex", 0) == 3)
         {
-            DataController.Instance.pvpCount += 10;
-            NotificationManager.Instance.SetNotification2("pvp입장권 10개 증가!!");
-            EventManager.Instance.PvpAds();
+            DataController.Instance.petStone += DataController.Instance.dungeonPetStone;
+            DataController.Instance.ruby +=  DataController.Instance.dungeonRuby;
+            DataController.Instance.sapphire +=  DataController.Instance.dungeonSapphire;
         }
     }
 
@@ -234,12 +239,12 @@ public class AdMob : MonoBehaviour
         RequestGoldRisingAd();
     }
     
-    private void HandleOnPvpAdClosed(object sender, EventArgs args)
+    private void HandleOnDungeonAdClosed(object sender, EventArgs args)
     {
         print("HandleOnInterstitialAdClosed event received.");
 
-        PvpAd.OnAdClosed -= HandleOnPvpAdClosed;
-        PvpAd.OnAdRewarded -= HandleOnPvpdReward;
+        DungeonAd.OnAdClosed -= HandleOnDungeonAdClosed;
+        DungeonAd.OnAdRewarded -= HandleOnDungeondReward;
 
         RequestGoldRisingAd();
     }
@@ -272,7 +277,14 @@ public class AdMob : MonoBehaviour
         }
         else
         {
-            NotificationManager.Instance.SetNotification2("비접속 보상 획득!!");
+            if (Application.systemLanguage == SystemLanguage.Korean)
+            {
+                NotificationManager.Instance.SetNotification2("비접속 보상 획득!!");   
+            }
+            else
+            {
+                NotificationManager.Instance.SetNotification2("Get compensation reward!!");   
+            }
             DataController.Instance.gold += DataController.Instance.compensationGold;
         }
     }
@@ -334,23 +346,23 @@ public class AdMob : MonoBehaviour
         }
     }
     
-    public void ShowPvpAd()
+    public void ShowDungeonAd()
     {
         if (PlayerPrefs.GetFloat("NoAds", 0) == 0)
         {
-            if (!PvpAd.IsLoaded())
+            if (!DungeonAd.IsLoaded())
             {
-                RequestPvpAd();
+                RequestDungeonAd();
                 return;
             }
 
-            PvpAd.Show();
+            DungeonAd.Show();
         }
         else
         {
-            DataController.Instance.pvpCount += 10;
-            NotificationManager.Instance.SetNotification2("pvp입장권 10개 증가!!");
-            EventManager.Instance.PvpAds();
+            DataController.Instance.petStone += DataController.Instance.dungeonPetStone;
+            DataController.Instance.ruby +=  DataController.Instance.dungeonRuby;
+            DataController.Instance.sapphire +=  DataController.Instance.dungeonSapphire;
         }
     }
 }

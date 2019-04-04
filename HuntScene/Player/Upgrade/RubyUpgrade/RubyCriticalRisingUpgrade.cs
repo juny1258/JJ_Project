@@ -29,7 +29,7 @@ public class RubyCriticalRisingUpgrade : MonoBehaviour, IPointerUpHandler, IPoin
 
     public void UpgradeButtonClick()
     {
-        if (DataController.Instance.rubyCriticalRisingLevel < 50)
+        if (DataController.Instance.rubyCriticalRisingLevel < 100)
         {
             if (DataController.Instance.ruby >= (DataController.Instance.rubyCriticalRisingLevel + 1) * 10)
             {
@@ -45,16 +45,16 @@ public class RubyCriticalRisingUpgrade : MonoBehaviour, IPointerUpHandler, IPoin
             }
             else
             {
-                NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.LessRuby);
             }
         }
     }
 
     private void UpdateUI()
     {
-        if (DataController.Instance.rubyCriticalRisingLevel < 50)
+        if (DataController.Instance.rubyCriticalRisingLevel < 100)
         {
-            ProductName.text = "추가 크리티컬 공격력[+" + DataController.Instance.rubyCriticalRisingLevel + "]";
+            ProductName.text = LocalManager.Instance.CriticalRising + "[+" + DataController.Instance.rubyCriticalRisingLevel + "]";
             PriceText.text = DataController.Instance.FormatGoldTwo((DataController.Instance.rubyCriticalRisingLevel + 1) * 10);
 
             UpgradeInfo.text = Math.Round(DataController.Instance.rubyCriticalRising * 100, 0) + "% -> " +
@@ -62,7 +62,7 @@ public class RubyCriticalRisingUpgrade : MonoBehaviour, IPointerUpHandler, IPoin
         }
         else
         {
-            ProductName.text = "추가 크리티컬 공격력[+" + DataController.Instance.rubyCriticalRisingLevel + "]";
+            ProductName.text = LocalManager.Instance.CriticalRising + "[+" + DataController.Instance.rubyCriticalRisingLevel + "]";
             PriceText.text = "Max";
 
             UpgradeInfo.text = Math.Round(DataController.Instance.rubyCriticalRising * 100, 0) + "%";

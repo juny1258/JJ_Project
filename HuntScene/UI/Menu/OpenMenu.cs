@@ -8,7 +8,7 @@ public class OpenMenu : MonoBehaviour
 	{
 		if (DataController.Instance.isFight)
 		{
-			NotificationManager.Instance.SetNotification("사냥중에는 메뉴를 열 수 없습니다.");
+			NotificationManager.Instance.SetNotification(LocalManager.Instance.NoMenu1);
 		}
 		else
 		{
@@ -21,11 +21,11 @@ public class OpenMenu : MonoBehaviour
 	{
 		if (DataController.Instance.isFight)
 		{
-			NotificationManager.Instance.SetNotification("사냥중에는 메뉴를 열 수 없습니다.");
+			NotificationManager.Instance.SetNotification(LocalManager.Instance.NoMenu1);
 		}
 		else if (DataController.Instance.isStatus)
 		{
-			NotificationManager.Instance.SetNotification("지금은 메뉴를 열 수 없습니다.");
+			NotificationManager.Instance.SetNotification(LocalManager.Instance.NoMenu2);
 		}
 		else
 		{

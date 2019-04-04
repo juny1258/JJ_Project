@@ -33,7 +33,7 @@ public class Skill3Upgrade : MonoBehaviour
 
     public void UpgradeSkill()
     {
-        if (DataController.Instance.skill_3 < 20)
+        if (DataController.Instance.skill_3 < 25)
         {
             if (DataController.Instance.sapphire >= cost)
             {
@@ -51,28 +51,61 @@ public class Skill3Upgrade : MonoBehaviour
             }
             else
             {
-                NotificationManager.Instance.SetNotification("사파이어가 부족합니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.LessSapphire);
             }
         }
         else
         {
-            NotificationManager.Instance.SetNotification("더 이상 업그레이드 할 수 없습니다.");
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.NoUpgrade);
         }
     }
 
     private void UpdateUI()
     {
-        if (DataController.Instance.skill_3 < 20)
+        if (Application.systemLanguage == SystemLanguage.Korean)
         {
-            TitleText.text = "쉐도우 파트너[+" + DataController.Instance.skill_3 + "]";
-            InfoText.text = "쉐도우 파트너가 " + Math.Round(DataController.Instance.skill_3_time, 1) + "초 지속";
-            CostText.text = cost.ToString();
+            if (DataController.Instance.skill_3 < 25)
+            {
+                TitleText.text = "쉐도우 파트너[+" + DataController.Instance.skill_3 + "]";
+                InfoText.text = "쉐도우 파트너가 " + Math.Round(DataController.Instance.skill_3_time, 1) + "초 지속";
+                CostText.text = cost.ToString();
+            }
+            else
+            {
+                TitleText.text = "쉐도우 파트너[+" + DataController.Instance.skill_3 + "]";
+                InfoText.text = "쉐도우 파트너가 " + Math.Round(DataController.Instance.skill_3_time, 1) + "초 지속";
+                CostText.text = "MAX";
+            }
+        }
+        else if (Application.systemLanguage == SystemLanguage.Japanese)
+        {
+            if (DataController.Instance.skill_3 < 25)
+            {
+                TitleText.text = "影分身の術[+" + DataController.Instance.skill_3 + "]";
+                InfoText.text = "影分身の術が " + Math.Round(DataController.Instance.skill_3_time, 1) + "秒持続";
+                CostText.text = cost.ToString();
+            }
+            else
+            {
+                TitleText.text = "影分身の術[+" + DataController.Instance.skill_3 + "]";
+                InfoText.text = "影分身の術が " + Math.Round(DataController.Instance.skill_3_time, 1) + "秒持続";
+                CostText.text = "MAX";
+            }
         }
         else
         {
-            TitleText.text = "쉐도우 파트너[+" + DataController.Instance.skill_3 + "]";
-            InfoText.text = "쉐도우 파트너가 " + Math.Round(DataController.Instance.skill_3_time, 1) + "초 지속";
-            CostText.text = "MAX";
+            if (DataController.Instance.skill_3 < 25)
+            {
+                TitleText.text = "Shadow Partner[+" + DataController.Instance.skill_3 + "]";
+                InfoText.text = "Shadow Partner\nlasts for " + Math.Round(DataController.Instance.skill_3_time, 1) + " seconds";
+                CostText.text = cost.ToString();
+            }
+            else
+            {
+                TitleText.text = "Shadow Partner[+" + DataController.Instance.skill_3 + "]";
+                InfoText.text = "Shadow Partner\nlasts for " + Math.Round(DataController.Instance.skill_3_time, 1) + " seconds";
+                CostText.text = "MAX";
+            }
         }
     }
 

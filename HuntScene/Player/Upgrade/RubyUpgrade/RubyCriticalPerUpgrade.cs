@@ -45,7 +45,7 @@ public class RubyCriticalPerUpgrade : MonoBehaviour, IPointerUpHandler, IPointer
             }
             else
             {
-                NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.LessRuby);
             }
         }
     }
@@ -54,7 +54,7 @@ public class RubyCriticalPerUpgrade : MonoBehaviour, IPointerUpHandler, IPointer
     {
         if (DataController.Instance.rubyCriticalPerLevel < 50)
         {
-            ProductName.text = "크리티컬 확률[+" + DataController.Instance.rubyCriticalPerLevel + "]";
+            ProductName.text = LocalManager.Instance.CriticalPer + "[+" + DataController.Instance.rubyCriticalPerLevel + "]";
 
             PriceText.text =
                 DataController.Instance.FormatGoldTwo((DataController.Instance.rubyCriticalPerLevel + 1) * 10);
@@ -66,7 +66,7 @@ public class RubyCriticalPerUpgrade : MonoBehaviour, IPointerUpHandler, IPointer
         }
         else
         {
-            ProductName.text = "크리티컬 확률[+" + DataController.Instance.rubyCriticalPerLevel + "]";
+            ProductName.text = LocalManager.Instance.CriticalPer + "[+" + DataController.Instance.rubyCriticalPerLevel + "]";
 
             PriceText.text = "Max";
 

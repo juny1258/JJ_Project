@@ -39,7 +39,7 @@ public class TapScreen : MonoBehaviour
 
     private void AutoClick()
     {
-        if (DataController.Instance.useAutoClick)
+        if (DataController.Instance.useAutoClick && !DataController.Instance.isMove)
         {
             InitObject();
         }
@@ -49,7 +49,7 @@ public class TapScreen : MonoBehaviour
     {
         while (true)
         {
-            if (!DataController.Instance.isTutorial)
+            if (!DataController.Instance.isTutorial && !DataController.Instance.isMove)
             {
                 InitObject();
             }
@@ -60,7 +60,7 @@ public class TapScreen : MonoBehaviour
 
     public void InitObject()
     {
-        if (isReady && !DataController.Instance.isMenuOpen)
+        if (isReady && !DataController.Instance.isMenuOpen && !DataController.Instance.isMove)
         {
             Audio.Play();
             isReady = false;
@@ -122,10 +122,6 @@ public class TapScreen : MonoBehaviour
 
             if (DataController.Instance.angerGauge >= 200)
             {
-                DataController.Instance.masterDamage *= DataController.Instance.angerDamage +
-                                                        DataController.Instance.rubyAngerDamage +
-                                                        DataController.Instance.collectionAngerDamage +
-                                                        DataController.Instance.advancedAngerDamage;
 
                 AngerSlider.maxValue = DataController.Instance.angerTime +
                                        DataController.Instance.angerTime *
@@ -139,14 +135,15 @@ public class TapScreen : MonoBehaviour
                                                      DataController.Instance.angerTime *
                                                      DataController.Instance.collectionAngerTime;
 
-                DataController.Instance.UpdateCritical();
-
                 AngerAudio.Play();
 
                 AngerBackgrond.SetActive(true);
                 AuraObject.SetActive(true);
                 EventManager.Instance.ShackScreen(0.15f, 0.5f);
                 DataController.Instance.isAnger = true;
+                
+                DataController.Instance.UpdateDamage();
+                DataController.Instance.UpdateCritical();
             }
 
             if (DataController.Instance.skinIndex == 0)
@@ -175,16 +172,12 @@ public class TapScreen : MonoBehaviour
             {
                 AngerSlider.maxValue = 200;
                 DataController.Instance.angerGauge = 0;
-                DataController.Instance.masterDamage /= DataController.Instance.angerDamage +
-                                                        DataController.Instance.rubyAngerDamage +
-                                                        DataController.Instance.collectionAngerDamage +
-                                                        DataController.Instance.advancedAngerDamage;
 
-
-                DataController.Instance.UpdateCritical();
                 AngerBackgrond.SetActive(false);
                 AuraObject.SetActive(false);
                 DataController.Instance.isAnger = false;
+                DataController.Instance.UpdateDamage();
+                DataController.Instance.UpdateCritical();
             }
         }
     }

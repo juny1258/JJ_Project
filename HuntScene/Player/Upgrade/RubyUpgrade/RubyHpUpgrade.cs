@@ -45,7 +45,7 @@ public class RubyHpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
             }
             else
             {
-                NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.LessRuby);
             }
         }
     }
@@ -54,7 +54,7 @@ public class RubyHpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     {
         if (DataController.Instance.rubyRisingHPLevel < 300)
         {
-            ProductName.text = "체력 증가[+" + DataController.Instance.rubyRisingHPLevel + "]";
+            ProductName.text = LocalManager.Instance.Hp + "[+" + DataController.Instance.rubyRisingHPLevel + "]";
 
             PriceText.text =
                 DataController.Instance.FormatGoldTwo((DataController.Instance.rubyRisingHPLevel + 1) * 10);
@@ -68,7 +68,7 @@ public class RubyHpUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         }
         else
         {
-            ProductName.text = "체력 증가[+" + DataController.Instance.rubyRisingHPLevel + "]";
+            ProductName.text = LocalManager.Instance.Hp + "[+" + DataController.Instance.rubyRisingHPLevel + "]";
 
             PriceText.text = "Max";
 

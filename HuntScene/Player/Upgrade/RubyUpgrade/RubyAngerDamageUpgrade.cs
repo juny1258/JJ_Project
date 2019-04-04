@@ -46,7 +46,7 @@ public class RubyAngerDamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointer
             }
             else
             {
-                NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.LessRuby);
             }
         }
     }
@@ -55,7 +55,7 @@ public class RubyAngerDamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointer
     {
         if (DataController.Instance.rubyAngerDamageLevel < 50)
         {
-            ProductName.text = "분노 데미지[+" + DataController.Instance.rubyAngerDamageLevel + "]";
+            ProductName.text = LocalManager.Instance.AngerDamage + "[+" + DataController.Instance.rubyAngerDamageLevel + "]";
 
             PriceText.text =
                 DataController.Instance.FormatGoldTwo((DataController.Instance.rubyAngerDamageLevel + 1) * 10);
@@ -67,7 +67,7 @@ public class RubyAngerDamageUpgrade : MonoBehaviour, IPointerUpHandler, IPointer
         }
         else
         {
-            ProductName.text = "분노 데미지[+" + DataController.Instance.rubyAngerDamageLevel + "]";
+            ProductName.text = LocalManager.Instance.AngerDamage + "[+" + DataController.Instance.rubyAngerDamageLevel + "]";
 
             PriceText.text = "Max";
 

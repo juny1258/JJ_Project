@@ -43,7 +43,7 @@ public class RubyAngerTimeUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDo
             }
             else
             {
-                NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.LessRuby);
             }
         }
     }
@@ -52,7 +52,7 @@ public class RubyAngerTimeUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDo
     {
         if (DataController.Instance.rubyAngerTimeLevel < 50)
         {
-            ProductName.text = "분노 지속시간[+" + DataController.Instance.rubyAngerTimeLevel + "]";
+            ProductName.text = LocalManager.Instance.AngerTime + "[+" + DataController.Instance.rubyAngerTimeLevel + "]";
 
             PriceText.text =
                 DataController.Instance.FormatGoldTwo((DataController.Instance.rubyAngerTimeLevel + 1) * 10);
@@ -64,7 +64,7 @@ public class RubyAngerTimeUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDo
         }
         else
         {
-            ProductName.text = "분노 지속시간[+" + DataController.Instance.rubyAngerTimeLevel + "]";
+            ProductName.text = LocalManager.Instance.AngerTime + "[+" + DataController.Instance.rubyAngerTimeLevel + "]";
 
             PriceText.text = "Max";
 

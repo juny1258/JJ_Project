@@ -34,12 +34,23 @@ public class OpenAutoPanel : MonoBehaviour
 			}
 			else
 			{
-				NotificationManager.Instance.SetNotification("이미 사용중입니다.");
+				if (Application.systemLanguage == SystemLanguage.Korean)
+				{
+					NotificationManager.Instance.SetNotification("이미 사용중입니다.");
+				}
+				else if (Application.systemLanguage == SystemLanguage.Japanese)
+				{
+					NotificationManager.Instance.SetNotification("すでに使用中です。");
+				}
+				else
+				{
+					NotificationManager.Instance.SetNotification("Already in use.");
+				}
 			}
 		}
 		else
 		{
-			NotificationManager.Instance.SetNotification("사냥중에는 메뉴를 열 수 없습니다.");
+			NotificationManager.Instance.SetNotification(LocalManager.Instance.NoMenu1);
 		}
 	}
 

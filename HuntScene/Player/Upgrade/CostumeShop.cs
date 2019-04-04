@@ -12,7 +12,10 @@ public class CostumeShop : MonoBehaviour {
 
 	public int index;
     
-	private int[] plusHp = {0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220};
+	private int[] plusHp =
+	{
+		0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300
+	};
 
 	private void Start()
 	{
@@ -26,7 +29,7 @@ public class CostumeShop : MonoBehaviour {
 
 	private void Select()
 	{
-		HpText.text = "체력 + " + plusHp[index] + "%";
+		HpText.text = LocalManager.Instance.Hp + " + " + plusHp[index] + "%";
             
 		SelectPanel.SetActive(DataController.Instance.costumeIndex == index);
             
@@ -35,7 +38,7 @@ public class CostumeShop : MonoBehaviour {
 
 	private void OnEnable()
 	{
-		HpText.text = "체력 + " + plusHp[index] + "%";
+		HpText.text = LocalManager.Instance.Hp + " + " + plusHp[index] + "%";
         
 		SelectPanel.SetActive(DataController.Instance.costumeIndex == index);
 

@@ -20,7 +20,18 @@ public class LoadSave : MonoBehaviour
 
     public void SaveButton()
     {
-        NotificationManager.Instance.SetNotification2("클라우드에 저장하는 중입니다\n잠시만 기다려주세요.");
+        if (Application.systemLanguage == SystemLanguage.Korean)
+        {
+            NotificationManager.Instance.SetNotification2("클라우드에 저장하는 중입니다. 잠시만 기다려주세요.");
+        }
+        else if (Application.systemLanguage == SystemLanguage.Japanese)
+        {
+            NotificationManager.Instance.SetNotification2("クラウドに保存しています。しばらくお待ちください。");
+        }
+        else
+        {
+            NotificationManager.Instance.SetNotification2("Saving... please wait.");
+        }
         SaveDataManager.Instance.xmlData = "";
 
         // 버프 데이터
@@ -171,6 +182,8 @@ public class LoadSave : MonoBehaviour
         SaveDataManager.Instance.GetFloat("skill_6_cooltime", 0);
 
         SaveDataManager.Instance.GetFloat("Merchant", 0);
+        SaveDataManager.Instance.GetFloat("Merchant2", 0);
+        SaveDataManager.Instance.GetFloat("Merchant3", 0);
         SaveDataManager.Instance.GetFloat("IsSkillPurchase", 0);
         SaveDataManager.Instance.GetFloat("Skin_1", 0);
         SaveDataManager.Instance.GetFloat("Skin_2", 0);
@@ -186,7 +199,7 @@ public class LoadSave : MonoBehaviour
             SaveDataManager.Instance.GetInt("CollectionItem_" + i, 0);
         }
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 16; i++)
         {
             SaveDataManager.Instance.GetInt("AdvancedCollectionItem_" + i, 0);
         }
@@ -201,8 +214,26 @@ public class LoadSave : MonoBehaviour
 
         SaveDataManager.Instance.GetFloat("NoAds", 0);
         SaveDataManager.Instance.GetFloat("PlayTime", 0);
-
-
+        
+        SaveDataManager.Instance.GetInt("DungeonCount", 0);
+        
+        SaveDataManager.Instance.GetFloat("pet_skill_1_damage", 0.2f);
+        SaveDataManager.Instance.GetFloat("pet_skill_2_damage", 0.2f);
+        SaveDataManager.Instance.GetFloat("pet_skill_3_damage", 0.3f);
+        SaveDataManager.Instance.GetFloat("pet_skill_4_damage", 0.4f);
+        SaveDataManager.Instance.GetFloat("pet_skill_5_damage", 0.5f);
+        
+        SaveDataManager.Instance.GetInt("petSkill_1", -1);
+        SaveDataManager.Instance.GetInt("petSkill_2", -1);
+        SaveDataManager.Instance.GetInt("petSkill_3", -1);
+        SaveDataManager.Instance.GetInt("petSkill_4", -1);
+        SaveDataManager.Instance.GetInt("petSkill_5", -1);
+        
+        SaveDataManager.Instance.GetInt("SkinCriticalRising", 0);
+        
+        SaveDataManager.Instance.GetInt("PetIndex", -1);
+        SaveDataManager.Instance.GetInt("PetStone", 0);
+        
         if (PlayGamesPlatform.Instance.localUser.id != "")
         {
             userReference.Child(PlayGamesPlatform.Instance.localUser.id)
@@ -211,11 +242,33 @@ public class LoadSave : MonoBehaviour
                 {
                     if (task.IsCompleted)
                     {
-                        NotificationManager.Instance.SetNotification2("데이터 저장 완료");
+                        if (Application.systemLanguage == SystemLanguage.Korean)
+                        {
+                            NotificationManager.Instance.SetNotification2("데이터 저장 완료");
+                        }
+                        else if (Application.systemLanguage == SystemLanguage.Japanese)
+                        {
+                            NotificationManager.Instance.SetNotification2("データの保存完了");
+                        }
+                        else
+                        {
+                            NotificationManager.Instance.SetNotification("Success!");
+                        }
                     }
                     else
                     {
-                        NotificationManager.Instance.SetNotification("인터넷 연결을 확인하세요.");
+                        if (Application.systemLanguage == SystemLanguage.Korean)
+                        {
+                            NotificationManager.Instance.SetNotification("인터넷 연결을 확인하세요.");
+                        }
+                        else if (Application.systemLanguage == SystemLanguage.Japanese)
+                        {
+                            NotificationManager.Instance.SetNotification("インターネット接続を確認してください。");
+                        }
+                        else
+                        {
+                            NotificationManager.Instance.SetNotification("Check your internet connection");
+                        }
                     }
                 });
         }
@@ -230,7 +283,19 @@ public class LoadSave : MonoBehaviour
         if (PlayGamesPlatform.Instance.localUser.id != "")
         {
             LoadSuccessPanel.SetActive(true);
-            LoadSuccessPanel.GetComponentInChildren<Text>().text = "데이터를 불러오는 중입니다\n잠시만 기다려주세요.";
+            if (Application.systemLanguage == SystemLanguage.Korean)
+            {
+                LoadSuccessPanel.GetComponentInChildren<Text>().text = "데이터를 불러오는 중입니다\n잠시만 기다려주세요.";
+            }
+            else if (Application.systemLanguage == SystemLanguage.Japanese)
+            {
+                LoadSuccessPanel.GetComponentInChildren<Text>().text = "データを読み込み中です\nしばらくお待ちください。";
+            }
+            else
+            {
+                LoadSuccessPanel.GetComponentInChildren<Text>().text = "Loading...";
+            }
+
             userReference.Child(PlayGamesPlatform.Instance.localUser.id).GetValueAsync().ContinueWith(task =>
             {
                 if (task.IsCompleted)
@@ -239,7 +304,19 @@ public class LoadSave : MonoBehaviour
                 }
                 else
                 {
-                    LoadSuccessPanel.GetComponentInChildren<Text>().text = "인터넷 연결을 확인하세요.";
+                    if (Application.systemLanguage == SystemLanguage.Korean)
+                    {
+                        LoadSuccessPanel.GetComponentInChildren<Text>().text = "인터넷 연결을 확인하세요.";
+                    }
+                    else if (Application.systemLanguage == SystemLanguage.Japanese)
+                    {
+                        LoadSuccessPanel.GetComponentInChildren<Text>().text = "インターネット接続を確認してください。";
+                    }
+                    else
+                    {
+                        LoadSuccessPanel.GetComponentInChildren<Text>().text = "Check your internet connection";
+                    }
+
                     LoadSuccessPanel.GetComponentInChildren<Button>().onClick.AddListener(() =>
                     {
                         Application.Quit();

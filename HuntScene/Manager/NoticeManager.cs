@@ -20,6 +20,28 @@ public class NoticeManager : MonoBehaviour
 		"루비로 강화한 능력치는 초월을 해도 능력치가 줄어들지 않습니다.",
 		"지금은 프리시즌입니다. PVP를 마음껏 즐겨주세요."
 	};
+	
+	private string[] noticeStrings2 =
+	{
+		"Press and hold the Reinforce button to reinforce continuously.",
+		"Even if you wear your previous projection body, your ability will not decrease.",
+		"You can get artifacts by clearing hunting grounds and boss steps with a low probability.",
+		"If you rebirth, you can upgrade your character as a source of strength",
+		"Skill can not damage the stones.",
+		"Stats reinforced with Ruby do not decrease their stats even if they pass.",
+		"Now is the pre-season. Please enjoy PVP."
+	};
+	
+	private string[] noticeStrings3 =
+	{
+		"強化ボタンをぎゅっと押すと、連続的に強化することができます。",
+		"以前投射體を着用しても能力値が減りません。",
+		"狩り場とボスをクリアすると少ない確率で遺物を得ることができます。",
+		"超越をする超越の石でキャラクターをアップグレードすることができます。",
+		"スキルは結界石にダメージを与えることができません。",
+		"ルビーで強化した能力値は超越しても能力値が減りません。",
+		"今はプレシーズンです。 PVPを存分にお楽しみください。"
+	};
 
 	private void Start()
 	{
@@ -28,7 +50,19 @@ public class NoticeManager : MonoBehaviour
 
 	private void SetNotice()
 	{
-		NoticeText.text = noticeStrings[Random.Range(0, noticeStrings.Length)];
-		NoticeAnimator.Play("NoticeAnimation", 0, 0);
+		if (Application.systemLanguage == SystemLanguage.Korean)
+		{
+			NoticeText.text = noticeStrings[Random.Range(0, noticeStrings.Length)];
+		}
+		else if (Application.systemLanguage == SystemLanguage.Japanese)
+		{
+			NoticeText.text = noticeStrings3[Random.Range(0, noticeStrings3.Length)];
+		}
+		else
+		{
+			NoticeText.text = noticeStrings2[Random.Range(0, noticeStrings2.Length)];
+		}
+		
+		NoticeAnimator.Play("NoticeAnimation", 0, 0);	
 	}
 }

@@ -69,9 +69,38 @@ public class RewardButton : MonoBehaviour
         RewardPanel.SetActive(false);
     }
 
+    public void DungeonOK()
+    {
+        DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
+        DataController.Instance.isFight = false;
+        EventManager.Instance.RewardClick();
+        
+        Invoke("SetMusic", 0.4f);
+        
+        RewardPanel.SetActive(false);
+    }
+
+    public void DungeonDouble()
+    {
+        
+        DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
+        
+        DataController.Instance.isFight = false;
+        
+        EventManager.Instance.RewardClick();
+        
+        Invoke("SetMusic", 0.4f);
+        
+        PlayerPrefs.SetFloat("AdIndex", 3);
+        AdMob.Instance.ShowDungeonAd();
+        
+        RewardPanel.SetActive(false);
+    }
+
     private void SetMusic()
     {
         BackgroundSound.clip = BackgroundClip;
         BackgroundSound.Play();
+        BackgroundSound.volume = 0.5f;
     }
 }

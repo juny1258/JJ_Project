@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DropGold : MonoBehaviour
 {
-
     private bool isGet;
 
     private void Update()

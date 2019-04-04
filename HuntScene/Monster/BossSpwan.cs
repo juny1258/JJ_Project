@@ -72,7 +72,6 @@ public class BossSpwan : MonoBehaviour
     public void EndGame()
     {
         index = 0;
-        EventManager.EndGameEvnet -= EndGame;
 
         foreach (Transform monster in MonsterBox)
         {
@@ -149,7 +148,7 @@ public class BossSpwan : MonoBehaviour
 
     private void OnDisable()
     {
-        EventManager.RewardClickEvent -= EndGame;
+        EventManager.EndGameEvnet -= EndGame;
         EventManager.RewardClickEvent -= RewardClick;
     }
 

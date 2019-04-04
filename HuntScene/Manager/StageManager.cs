@@ -11,7 +11,5 @@ public class StageManager : MonoBehaviour
 	private void Start()
 	{
 		StageText.text = "Stage " + DataController.Instance.nowStage;
-		
-		EventManager.Instance.StartHunt();
 	}
 }

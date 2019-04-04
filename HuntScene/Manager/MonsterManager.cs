@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,13 +20,17 @@ public class MonsterManager : MonoBehaviour
     private Vector3 TextPosition;
     private bool isAttack;
 
-    public void SetMonsterAvility(float hp, float damage)
-    {
+    public bool isBoss;
+
+    private IEnumerator attackCoroutine;
+
+    public void SetMonsterAvility(float hp, float damage) {
         MaxHP = hp;
         HpSlider.maxValue = MaxHP;
         HpSlider.value = HpSlider.maxValue;
         NowHP = HpSlider.maxValue;
         this.damage = damage;
+
     }
 
     private void Start()
@@ -37,6 +41,8 @@ public class MonsterManager : MonoBehaviour
 
         EventManager.UseSkillEvent += PlaySkill;
 
+
+        attackCoroutine = Attack();
 //        EventManager.OpenMenuEvent += OpenMenu;
     }
 
@@ -95,7 +101,7 @@ public class MonsterManager : MonoBehaviour
             TextPosition.y += MovePosition.y;
             TextPosition.z += MovePosition.z;
             NowHP -= criticalDamage;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -129,7 +135,7 @@ public class MonsterManager : MonoBehaviour
             TextPosition.y += MovePosition.y;
             TextPosition.z += MovePosition.z;
             NowHP -= criticalDamage;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -163,7 +169,7 @@ public class MonsterManager : MonoBehaviour
             TextPosition.y += MovePosition.y;
             TextPosition.z += MovePosition.z;
             NowHP -= criticalDamage;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -197,7 +203,7 @@ public class MonsterManager : MonoBehaviour
             TextPosition.y += MovePosition.y;
             TextPosition.z += MovePosition.z;
             NowHP -= criticalDamage;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -231,7 +237,7 @@ public class MonsterManager : MonoBehaviour
             TextPosition.y += MovePosition.y;
             TextPosition.z += MovePosition.z;
             NowHP -= criticalDamage;
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -253,64 +259,130 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
+    private IEnumerator KnockBack()
+    {
+        if (isBoss) yield break;
+        if (isAttack)
+        {
+            isAttack = false;
+            var lastPosition = transform.position;
+            var randFloat = Random.Range(0.03f, 0.05f);
+            var targetPosition =
+                new Vector3(transform.position.x + randFloat, transform.position.y + randFloat, transform.position.z);
+            StopCoroutine(attackCoroutine);
+
+            var progress = 0f;
+            while (progress < 1)
+            {
+                transform.position = Vector3.Lerp(lastPosition, targetPosition, progress);
+
+                progress += Time.deltaTime * 5;
+
+                yield return null;
+            }
+
+            GetComponent<Rigidbody>().AddForce(Vector3.left * speed);
+        }
+        else
+        {
+            var lastPosition = transform.position;
+            var randFloat = Random.Range(0.08f, 0.1f);
+            var targetPosition =
+                new Vector3(transform.position.x + randFloat, transform.position.y + randFloat, transform.position.z);
+            StopCoroutine(attackCoroutine);
+
+            var progress = 0f;
+            while (progress < 1)
+            {
+                transform.position = Vector3.Lerp(lastPosition, targetPosition, progress);
+
+                progress += Time.deltaTime * 5;
+
+                yield return null;
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Attack")
+        switch (other.gameObject.tag)
         {
-            TextPosition = transform.position;
-            TextPosition.x += MovePosition.x;
-            TextPosition.y += MovePosition.y;
-            TextPosition.z += MovePosition.z;
-            NowHP -= DataController.Instance.masterDamage;
+            case "Attack":
+                    TextPosition = transform.position;
+                    TextPosition.x += MovePosition.x;
+                    TextPosition.y += MovePosition.y;
+                    TextPosition.z += MovePosition.z;
+                    NowHP -= DataController.Instance.masterDamage;
 
-            CombatTextManager.Instance.CreateText(TextPosition,
-                DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage), false);
+                    CombatTextManager.Instance.CreateText(TextPosition,
+                        DataController.Instance.FormatGoldTwo(DataController.Instance.masterDamage), false);
 
-            if (NowHP > 0)
-            {
-                HpSlider.value = NowHP;
-            }
-            else
-            {
-                HpSlider.value = 0;
+                    if (NowHP > 0)
+                    {
+                        HpSlider.value = NowHP;
+                    }
+                    else
+                    {
+                        HpSlider.value = 0;
 
-                Destroy(gameObject);
-            }
-        }
+                        Destroy(gameObject);
+                    }
+                
 
-        if (other.gameObject.tag == "CriticalAttack")
-        {
-            TextPosition = transform.position;
-            TextPosition.x += MovePosition.x;
-            TextPosition.y += MovePosition.y;
-            TextPosition.z += MovePosition.z;
-            NowHP -= DataController.Instance.masterCriticalDamage;
+                break;
+            case "CriticalAttack":
 
-            CombatTextManager.Instance.CreateText(TextPosition,
-                DataController.Instance.FormatGoldTwo(DataController.Instance.masterCriticalDamage),
-                true);
+                    TextPosition = transform.position;
+                    TextPosition.x += MovePosition.x;
+                    TextPosition.y += MovePosition.y;
+                    TextPosition.z += MovePosition.z;
+                    NowHP -= DataController.Instance.masterCriticalDamage;
 
-            if (NowHP > 0)
-            {
-                HpSlider.value = NowHP;
-            }
-            else
-            {
-                HpSlider.value = 0;
+                    CombatTextManager.Instance.CreateText(TextPosition,
+                        DataController.Instance.FormatGoldTwo(DataController.Instance.masterCriticalDamage),
+                        true);
 
-                Destroy(gameObject);
-            }
-        }
+                    if (NowHP > 0)
+                    {
+                        HpSlider.value = NowHP;
+                    }
+                    else
+                    {
+                        HpSlider.value = 0;
 
-        if (other.gameObject.tag == "Bat")
-        {
-            StartCoroutine("Skill_1");
-        }
+                        Destroy(gameObject);
+                    }
+                
 
-        if (other.gameObject.tag == "FxTemporaire")
-        {
-            other.gameObject.GetComponent<BoxCollider>().enabled = false;
-            StartCoroutine("DustSkill");
+                break;
+            case "Bat":
+                StartCoroutine("Skill_1");
+                break;
+            case "FxTemporaire":
+                other.gameObject.GetComponent<BoxCollider>().enabled = false;
+                StartCoroutine("DustSkill");
+                break;
+            case "PetSkill1":
+                Destroy(other.gameObject);
+                StartCoroutine("Pet1");
+                break;
+            case "PetSkill2":
+                Destroy(other.gameObject);
+                StartCoroutine("Pet2");
+                break;
+            case "PetSkill3":
+                Destroy(other.gameObject);
+                StartCoroutine("Pet3");
+                break;
+            case "PetSkill4":
+                StartCoroutine("Pet4");
+                break;
+            case "PetSkill5":
+                StartCoroutine("Pet5");
+                break;
+            case "PetSkill6":
+                StartCoroutine("Pet6");
+                break;
         }
 
         if (other.gameObject.tag == "Player" && !isAttack)
@@ -318,8 +390,220 @@ public class MonsterManager : MonoBehaviour
             // 공격 애니메이션
             // 플레이어 공격
             isAttack = true;
-            StartCoroutine(Attack());
+            StartCoroutine(attackCoroutine);
             GetComponent<Rigidbody>().AddForce(Vector3.right * speed);
+        }
+    }
+
+    private IEnumerator Pet1()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_1_damage;
+        var i = 0;
+        while (i < 3)
+        {
+            TextPosition = transform.position;
+            TextPosition.x += MovePosition.x;
+            TextPosition.y += MovePosition.y;
+            TextPosition.z += MovePosition.z;
+            NowHP -= criticalDamage;
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            if (NowHP > 0)
+            {
+                HpSlider.value = NowHP;
+            }
+            else
+            {
+                HpSlider.value = 0;
+
+                Destroy(gameObject);
+            }
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+
+    private IEnumerator Pet2()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_2_damage;
+        var i = 0;
+        while (i < 6)
+        {
+            TextPosition = transform.position;
+            TextPosition.x += MovePosition.x;
+            TextPosition.y += MovePosition.y;
+            TextPosition.z += MovePosition.z;
+            NowHP -= criticalDamage;
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            if (NowHP > 0)
+            {
+                HpSlider.value = NowHP;
+            }
+            else
+            {
+                HpSlider.value = 0;
+
+                Destroy(gameObject);
+            }
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+
+    private IEnumerator Pet3()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_3_damage;
+        var i = 0;
+        while (i < 5)
+        {
+            TextPosition = transform.position;
+            TextPosition.x += MovePosition.x;
+            TextPosition.y += MovePosition.y;
+            TextPosition.z += MovePosition.z;
+            NowHP -= criticalDamage;
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            if (NowHP > 0)
+            {
+                HpSlider.value = NowHP;
+            }
+            else
+            {
+                HpSlider.value = 0;
+
+                Destroy(gameObject);
+            }
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+
+    private IEnumerator Pet4()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_4_damage;
+        var i = 0;
+        while (i < 10)
+        {
+            TextPosition = transform.position;
+            TextPosition.x += MovePosition.x;
+            TextPosition.y += MovePosition.y;
+            TextPosition.z += MovePosition.z;
+            NowHP -= criticalDamage;
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            if (NowHP > 0)
+            {
+                HpSlider.value = NowHP;
+            }
+            else
+            {
+                HpSlider.value = 0;
+
+                Destroy(gameObject);
+            }
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+
+    private IEnumerator Pet5()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_5_damage;
+        var i = 0;
+        while (i < 5)
+        {
+            TextPosition = transform.position;
+            TextPosition.x += MovePosition.x;
+            TextPosition.y += MovePosition.y;
+            TextPosition.z += MovePosition.z;
+            NowHP -= criticalDamage;
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            if (NowHP > 0)
+            {
+                HpSlider.value = NowHP;
+            }
+            else
+            {
+                HpSlider.value = 0;
+
+                Destroy(gameObject);
+            }
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private IEnumerator Pet6()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_6_damage;
+        var i = 0;
+        while (i < 5)
+        {
+            TextPosition = transform.position;
+            TextPosition.x += MovePosition.x;
+            TextPosition.y += MovePosition.y;
+            TextPosition.z += MovePosition.z;
+            NowHP -= criticalDamage;
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            if (NowHP > 0)
+            {
+                HpSlider.value = NowHP;
+            }
+            else
+            {
+                HpSlider.value = 0;
+
+                Destroy(gameObject);
+            }
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+
+    private void Effect()
+    {
+        if (PlayerPrefs.GetInt("IsEffect", 0) == 0)
+        {
+            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
         }
     }
 
@@ -331,8 +615,8 @@ public class MonsterManager : MonoBehaviour
             EventManager.Instance.MonsterAttack(damage);
             if (DataController.Instance.nowPlayerHP <= 0)
             {
-                StopAllCoroutines();
                 EventManager.Instance.EndGame();
+                StopAllCoroutines();
             }
 
             yield return new WaitForSeconds(1f);

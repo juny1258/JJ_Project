@@ -17,7 +17,7 @@ public class MenuManager : MonoBehaviour
             return _instance;
         }
     }
-    
+
     private AudioSource UIAudio;
     public AudioClip TapMenu;
 
@@ -35,98 +35,164 @@ public class MenuManager : MonoBehaviour
 
     public void OpenTab(int i1, int i2)
     {
-        PlaySound();
-        DataController.Instance.isMenuOpen = true;
-        MenuBackground.SetActive(true);
-        
-        foreach (var tab in Tab)
+        if (!DataController.Instance.isRebirth)
         {
-            tab.SetActive(false);
-        }
+            PlaySound();
+            DataController.Instance.isMenuOpen = true;
+            MenuBackground.SetActive(true);
 
-        foreach (var menu in Menu)
-        {
-            menu.SetActive(false);
-        }
-        
-        Menu[i1].SetActive(true);
-        
-        Tab[i2].SetActive(true);
-        SelectTab(i2);
-    } 
+            foreach (var tab in Tab)
+            {
+                tab.SetActive(false);
+            }
 
-    public void Open(int i)
-    {
-        PlaySound();
-        DataController.Instance.isMenuOpen = true;
-        MenuBackground.SetActive(true);
+            foreach (var menu in Menu)
+            {
+                menu.SetActive(false);
+            }
 
-        foreach (var tab in Tab)
-        {
-            tab.SetActive(false);
-        }
+            Menu[i1].SetActive(true);
 
-        foreach (var menu in Menu)
-        {
-            menu.SetActive(false);
-        }
-
-        Menu[i].SetActive(true);
-
-        if (i == 0)
-        {
-            Tab[1].SetActive(true);
-            SelectTab(1);
-        }
-        else if (i == 1)
-        {
-            Tab[5].SetActive(true);
-            SelectTab(5);
-        }
-        else if (i == 2)
-        {
-            Tab[8].SetActive(true);
-            SelectTab(8);
+            Tab[i2].SetActive(true);
+            SelectTab(i2);
         }
         else
         {
-            Tab[10].SetActive(true);
-            SelectTab(10);
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.IsRebirth);
         }
-        
-        AdMob.Instance.ShowMenuClickAd();
+    }
+
+    public void Open(int i)
+    {
+        if (!DataController.Instance.isRebirth)
+        {
+            PlaySound();
+
+            DataController.Instance.isMenuOpen = true;
+            MenuBackground.SetActive(true);
+
+            foreach (var tab in Tab)
+            {
+                tab.SetActive(false);
+            }
+
+            foreach (var menu in Menu)
+            {
+                menu.SetActive(false);
+            }
+
+            Menu[i].SetActive(true);
+
+            if (i == 0)
+            {
+                Tab[1].SetActive(true);
+                SelectTab(1);
+            }
+            else if (i == 1)
+            {
+                Tab[5].SetActive(true);
+                SelectTab(5);
+            }
+            else if (i == 2)
+            {
+                Tab[8].SetActive(true);
+                SelectTab(8);
+            }
+            else if (i == 3)
+            {
+                Tab[10].SetActive(true);
+                SelectTab(10);
+            }
+            else if (i == 4)
+            {
+                if (DataController.Instance.nowRebirthLevel >= 11)
+                {
+                    Tab[17].SetActive(true);
+                    SelectTab(17);
+                }
+                else
+                {
+                    DataController.Instance.isMenuOpen = false;
+                    MenuBackground.SetActive(false);
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.RebirthNoti2);
+                }
+            }
+
+            AdMob.Instance.ShowMenuClickAd();
+        }
+        else
+        {
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.IsRebirth);
+        }
     }
 
     public void Close()
     {
-        PlaySound();
-        DataController.Instance.isMenuOpen = false;
-        foreach (var tab in Tab)
+        if (!DataController.Instance.isRebirth)
         {
-            tab.SetActive(false);
-        }
+            PlaySound();
+            DataController.Instance.isMenuOpen = false;
+            foreach (var tab in Tab)
+            {
+                tab.SetActive(false);
+            }
 
-        foreach (var menu in Menu)
+            foreach (var menu in Menu)
+            {
+                menu.SetActive(false);
+            }
+
+            MenuBackground.SetActive(false);
+            AdMob.Instance.ShowMenuClickAd();
+        }
+        else
         {
-            menu.SetActive(false);
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.IsRebirth);
         }
-
-        MenuBackground.SetActive(false);
-        AdMob.Instance.ShowMenuClickAd();
     }
 
     public void MoveTab(int i)
     {
-        PlaySound();
-        foreach (var tab in Tab)
+        if (!DataController.Instance.isRebirth)
         {
-            tab.SetActive(false);
-        }
+            if (i == 16)
+            {
+                if (DataController.Instance.nowRebirthLevel >= 11)
+                {
+                    PlaySound();
+                    foreach (var tab in Tab)
+                    {
+                        tab.SetActive(false);
+                    }
 
-        Tab[i].SetActive(true);
-        SelectTab(i);
-        
-        AdMob.Instance.ShowMenuClickAd();
+                    Tab[i].SetActive(true);
+                    SelectTab(i);
+
+                    AdMob.Instance.ShowMenuClickAd();
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.RebirthNoti);
+                }
+            }
+            else
+            {
+                PlaySound();
+                foreach (var tab in Tab)
+                {
+                    tab.SetActive(false);
+                }
+
+                Tab[i].SetActive(true);
+                SelectTab(i);
+
+                AdMob.Instance.ShowMenuClickAd();
+            }
+        }
+        else
+        {
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.IsRebirth);
+        }
     }
 
     private void PlaySound()
@@ -137,13 +203,20 @@ public class MenuManager : MonoBehaviour
 
     private void SelectTab(int i)
     {
-        foreach (var tab in TabButton)
+        if (!DataController.Instance.isRebirth)
         {
-            ColorUtility.TryParseHtmlString("#802E2EFF", out TabColor);
-            tab.GetComponent<Image>().color = TabColor;
+            foreach (var tab in TabButton)
+            {
+                ColorUtility.TryParseHtmlString("#802E2EFF", out TabColor);
+                tab.GetComponent<Image>().color = TabColor;
+            }
+
+            ColorUtility.TryParseHtmlString("#AE3E41FF", out TabColor);
+            TabButton[i].GetComponent<Image>().color = TabColor;
         }
-        
-        ColorUtility.TryParseHtmlString("#AE3E41FF", out TabColor);
-        TabButton[i].GetComponent<Image>().color = TabColor;
+        else
+        {
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.IsRebirth);
+        }
     }
 }

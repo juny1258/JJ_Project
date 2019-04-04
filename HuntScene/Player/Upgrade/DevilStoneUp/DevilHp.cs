@@ -50,7 +50,7 @@ public class DevilHp : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 			}
 			else
 			{
-				NotificationManager.Instance.SetNotification("데빌스톤이 부족합니다.");
+				NotificationManager.Instance.SetNotification(LocalManager.Instance.LessDevilstone);
 			}
 		}
 	}
@@ -59,7 +59,7 @@ public class DevilHp : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 	{
 		if (DataController.Instance.devilHpLevel <= 100)
 		{
-			ProductName.text = "체력[+" + (DataController.Instance.devilHpLevel - 1) + "]";
+			ProductName.text = LocalManager.Instance.Hp + "[+" + (DataController.Instance.devilHpLevel - 1) + "]";
 			PriceText.text = Math.Round(startCurrentCost * DataController.Instance.devilHpLevel, 0).ToString();
 
 			UpgradeInfo.text = Math.Round((DataController.Instance.devilHp - 1) * 100, 0) + "% -> " +
@@ -68,7 +68,7 @@ public class DevilHp : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 		}
 		else
 		{
-			ProductName.text = "체력[+" + (DataController.Instance.devilHpLevel - 1) + "]";
+			ProductName.text = LocalManager.Instance.Hp + "[+" + (DataController.Instance.devilHpLevel - 1) + "]";
 			PriceText.text = "MAX";
 
 			UpgradeInfo.text = Math.Round((DataController.Instance.devilHp - 1) * 100, 0) + "%";

@@ -13,7 +13,7 @@ public class RebirthButton : MonoBehaviour
         if (!DataController.Instance.isFight)
         {
             // 레벨 조정 20
-            if (DataController.Instance.nowRebirthLevel < 19)
+            if (DataController.Instance.nowRebirthLevel < 25)
             {
                 if (DataController.Instance.rebirthLevel - DataController.Instance.nowRebirthLevel > 0)
                 {
@@ -22,12 +22,12 @@ public class RebirthButton : MonoBehaviour
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("아직 초월할 수 없습니다.");
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.RebirthYet);
                 }      
             }
             else
             {
-                NotificationManager.Instance.SetNotification("최고 레벨입니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.MaxLevel);
             }
         }
     }

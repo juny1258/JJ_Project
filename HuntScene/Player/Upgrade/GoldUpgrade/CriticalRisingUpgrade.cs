@@ -51,13 +51,13 @@ public class CriticalRisingUpgrade : MonoBehaviour, IPointerUpHandler, IPointerD
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.LessGold);
                 }
             }
         }
         else
         {
-            NotificationManager.Instance.SetNotification("결계석의 레벨을 눌러 초월기를 사용하세요.");
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.UseRebirth);
         }
     }
 
@@ -65,7 +65,7 @@ public class CriticalRisingUpgrade : MonoBehaviour, IPointerUpHandler, IPointerD
     {
         if (DataController.Instance.criticalRisingLevel < 61)
         {
-            ProductName.text = "크리티컬 공격력[+" + (DataController.Instance.criticalRisingLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.CriticalRising + "[+" + (DataController.Instance.criticalRisingLevel - 1) + "]";
             PriceText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.criticalRisingCost);
 
             UpgradeInfo.text = DataController.Instance.criticalRising * 100 + "% -> " +
@@ -73,7 +73,7 @@ public class CriticalRisingUpgrade : MonoBehaviour, IPointerUpHandler, IPointerD
         }
         else
         {
-            ProductName.text = "크리티컬 공격력[+" + (DataController.Instance.criticalRisingLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.CriticalRising + "[+" + (DataController.Instance.criticalRisingLevel - 1) + "]";
             PriceText.text = "Max";
 
             UpgradeInfo.text = Math.Round(DataController.Instance.criticalRising * 100) + "%";

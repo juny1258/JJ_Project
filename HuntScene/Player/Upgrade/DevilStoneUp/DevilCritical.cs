@@ -50,7 +50,7 @@ public class DevilCritical : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
             }
             else
             {
-                NotificationManager.Instance.SetNotification("데빌스톤이 부족합니다.");
+                NotificationManager.Instance.SetNotification(LocalManager.Instance.LessDevilstone);
             }
         }
     }
@@ -59,7 +59,7 @@ public class DevilCritical : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     {
         if (DataController.Instance.devilCriticalLevel < 41)
         {
-            ProductName.text = "크리티컬 확률[+" + (DataController.Instance.devilCriticalLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.CriticalPer + "[+" + (DataController.Instance.devilCriticalLevel - 1) + "]";
             PriceText.text = Math.Round(startCurrentCost * DataController.Instance.devilCriticalLevel, 1).ToString();
 
             UpgradeInfo.text = Math.Round(DataController.Instance.devilCritical, 1) + "% -> " +
@@ -67,7 +67,7 @@ public class DevilCritical : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         }
         else
         {
-            ProductName.text = "크리티컬 확률[+" + (DataController.Instance.devilCriticalLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.CriticalPer + "[+" + (DataController.Instance.devilCriticalLevel - 1) + "]";
             PriceText.text = "Max";
 
             UpgradeInfo.text = Math.Round(DataController.Instance.devilCritical, 1) + "%";

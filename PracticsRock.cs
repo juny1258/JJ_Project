@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PracticsRock : MonoBehaviour
 {
     public GameObject GoldObject;
+    public GameObject RubyObject;
 
     public GameObject Skill_1_Effect;
 
@@ -137,7 +138,7 @@ public class PracticsRock : MonoBehaviour
                 gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
                 DataController.Instance.goldQueue.Enqueue(DataController.Instance.enqueueGold *
                                                           DataController.Instance.useGoldBuff);
-                if (DataController.Instance.rebirthLevel < 19)
+                if (DataController.Instance.rebirthLevel < 25)
                     HpSlider.value -= DataController.Instance.masterDamage;
 
                 break;
@@ -155,7 +156,17 @@ public class PracticsRock : MonoBehaviour
                 DataController.Instance.goldQueue.Enqueue(DataController.Instance.masterCriticalDamage / getGoldPer * 
                                                           DataController.Instance.collectionGoldRising *
                                                           DataController.Instance.useGoldBuff);
-                if (DataController.Instance.rebirthLevel < 19)
+                rand = Random.Range(0, 100);
+                if (rand == 1)
+                {
+                    var ruby = Instantiate(RubyObject, GoldPosition, Quaternion.identity);
+                    ruby.transform.SetParent(Stones);
+                    rand = Random.Range(-80f, 80f);
+                    ruby.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
+                    DataController.Instance.rubyQueue.Enqueue(1);
+                }
+                
+                if (DataController.Instance.rebirthLevel < 25)
                     HpSlider.value -= DataController.Instance.masterCriticalDamage;
 
                 break;
@@ -167,6 +178,27 @@ public class PracticsRock : MonoBehaviour
                 other.gameObject.GetComponent<BoxCollider>().enabled = false;
                 StartCoroutine("DustSkill");
                 break;
+            case "PetSkill1":
+                Destroy(other.gameObject);
+                StartCoroutine("Pet1");
+                break;
+            case "PetSkill2":
+                Destroy(other.gameObject);
+                StartCoroutine("Pet2");
+                break;
+            case "PetSkill3":
+                Destroy(other.gameObject);
+                StartCoroutine("Pet3");
+                break;
+            case "PetSkill4":
+                StartCoroutine("Pet4");
+                break;
+            case "PetSkill5":
+                StartCoroutine("Pet5");
+                break;
+            case "PetSkill6":
+                StartCoroutine("Pet6");
+                break;
         }
     }
 
@@ -177,7 +209,7 @@ public class PracticsRock : MonoBehaviour
         var i = 0;
         while (i < 10)
         {
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -203,7 +235,7 @@ public class PracticsRock : MonoBehaviour
         var i = 0;
         while (i < 10)
         {
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -229,7 +261,7 @@ public class PracticsRock : MonoBehaviour
         var i = 0;
         while (i < 3)
         {
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -255,7 +287,7 @@ public class PracticsRock : MonoBehaviour
         var i = 0;
         while (i < 10)
         {
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -281,7 +313,7 @@ public class PracticsRock : MonoBehaviour
         var i = 0;
         while (i < 16)
         {
-            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
+            Effect();
 
             CombatTextManager.Instance.CreateText(TextPosition,
                 DataController.Instance.FormatGoldTwo(criticalDamage), true);
@@ -297,6 +329,188 @@ public class PracticsRock : MonoBehaviour
             i++;
 
             yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private IEnumerator Pet1()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_1_damage;
+        var i = 0;
+        while (i < 3)
+        {
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            var gold = Instantiate(GoldObject, GoldPosition, Quaternion.identity);
+            gold.transform.SetParent(Stones);
+            var rand = Random.Range(-80f, 80f);
+            gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
+            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer * 
+                                                      DataController.Instance.collectionGoldRising *
+                                                      DataController.Instance.useGoldBuff);
+            
+            if (DataController.Instance.rebirthLevel < 25)
+                HpSlider.value -= criticalDamage;
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private IEnumerator Pet2()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_2_damage;
+        var i = 0;
+        while (i < 6)
+        {
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            var gold = Instantiate(GoldObject, GoldPosition, Quaternion.identity);
+            gold.transform.SetParent(Stones);
+            var rand = Random.Range(-80f, 80f);
+            gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
+            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer * 
+                                                      DataController.Instance.collectionGoldRising *
+                                                      DataController.Instance.useGoldBuff);
+            
+            if (DataController.Instance.rebirthLevel < 25)
+                HpSlider.value -= criticalDamage;
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private IEnumerator Pet3()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_3_damage;
+        var i = 0;
+        while (i < 5)
+        {
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            var gold = Instantiate(GoldObject, GoldPosition, Quaternion.identity);
+            gold.transform.SetParent(Stones);
+            var rand = Random.Range(-80f, 80f);
+            gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
+            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer * 
+                                                      DataController.Instance.collectionGoldRising *
+                                                      DataController.Instance.useGoldBuff);
+            
+            if (DataController.Instance.rebirthLevel < 25)
+                HpSlider.value -= criticalDamage;
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private IEnumerator Pet4()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_4_damage;
+        var i = 0;
+        while (i < 10)
+        {
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            var gold = Instantiate(GoldObject, GoldPosition, Quaternion.identity);
+            gold.transform.SetParent(Stones);
+            var rand = Random.Range(-80f, 80f);
+            gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
+            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer * 
+                                                      DataController.Instance.collectionGoldRising *
+                                                      DataController.Instance.useGoldBuff);
+            
+            if (DataController.Instance.rebirthLevel < 25)
+                HpSlider.value -= criticalDamage;
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private IEnumerator Pet5()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_5_damage;
+        var i = 0;
+        while (i < 5)
+        {
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            var gold = Instantiate(GoldObject, GoldPosition, Quaternion.identity);
+            gold.transform.SetParent(Stones);
+            var rand = Random.Range(-80f, 80f);
+            gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
+            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer * 
+                                                      DataController.Instance.collectionGoldRising *
+                                                      DataController.Instance.useGoldBuff);
+            
+            if (DataController.Instance.rebirthLevel < 25)
+                HpSlider.value -= criticalDamage;
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private IEnumerator Pet6()
+    {
+        var criticalDamage = DataController.Instance.masterDamage
+                             * DataController.Instance.pet_skill_6_damage;
+        var i = 0;
+        while (i < 5)
+        {
+            Effect();
+
+            CombatTextManager.Instance.CreateText(TextPosition,
+                DataController.Instance.FormatGoldTwo(criticalDamage), true);
+
+            var gold = Instantiate(GoldObject, GoldPosition, Quaternion.identity);
+            gold.transform.SetParent(Stones);
+            var rand = Random.Range(-80f, 80f);
+            gold.GetComponent<Rigidbody>().AddForce(Vector3.right * rand);
+            DataController.Instance.goldQueue.Enqueue(criticalDamage / getGoldPer * 
+                                                      DataController.Instance.collectionGoldRising *
+                                                      DataController.Instance.useGoldBuff);
+            
+            if (DataController.Instance.rebirthLevel < 25)
+                HpSlider.value -= criticalDamage;
+
+            i++;
+
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+    
+    private void Effect()
+    {
+        if (PlayerPrefs.GetInt("IsEffect", 0) == 0)
+        {
+            Instantiate(Skill_1_Effect, transform.position, Quaternion.identity);
         }
     }
 }

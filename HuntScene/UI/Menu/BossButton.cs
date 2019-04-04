@@ -44,7 +44,7 @@ public class BossButton : MonoBehaviour {
 			}
 			else
 			{
-				NotificationManager.Instance.SetNotification("지금은 입장할 수 없습니다.");
+				NotificationManager.Instance.SetNotification(LocalManager.Instance.NoEnter);
 			}
 		}
 	}
@@ -72,7 +72,7 @@ public class BossButton : MonoBehaviour {
 					
 					DataController.Instance.skipCoupon -= 1;
 					
-					if (DataController.Instance.finalBossLevel == DataController.Instance.bossLevel)
+					if (DataController.Instance.finalBossLevel == index)
 					{
 						RewardManager.Instance.ShowRewardPanel(
 							global::BossSpwan.ruby[index], global::BossSpwan.sapphire[index]);
@@ -88,17 +88,17 @@ public class BossButton : MonoBehaviour {
 				}
 				else
 				{
-					NotificationManager.Instance.SetNotification("소탕권이 부족합니다.");
+					NotificationManager.Instance.SetNotification(LocalManager.Instance.LessScroll);
 				}		
 			}
 			else
 			{
-				NotificationManager.Instance.SetNotification("지금은 입장할 수 없습니다.");
+				NotificationManager.Instance.SetNotification(LocalManager.Instance.NoEnter);
 			}
 		}
 		else
 		{
-			NotificationManager.Instance.SetNotification("클리어 후 소탕할 수 있습니다.");
+			NotificationManager.Instance.SetNotification(LocalManager.Instance.AfterClear);
 		}
 	}
 }

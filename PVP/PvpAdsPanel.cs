@@ -25,7 +25,7 @@ public class PvpAdsPanel : MonoBehaviour
 	public void OnAdsClick()
 	{
 		PlayerPrefs.SetFloat("AdIndex", 3);
-		AdMob.Instance.ShowPvpAd();
+		AdMob.Instance.ShowDungeonAd();
 	}
 
 	public void OnCloseButton()

@@ -104,7 +104,19 @@ public class SaveDataManager : MonoBehaviour
         DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
 
         LoadDataPanel.SetActive(true);
-        LoadDataPanel.GetComponentInChildren<Text>().text = "데이터를 불러왔습니다.\n어플을 재시작 해주세요!";
+        if (Application.systemLanguage == SystemLanguage.Korean)
+        {
+            LoadDataPanel.GetComponentInChildren<Text>().text = "데이터를 불러왔습니다.\n어플을 재시작 해주세요!";
+        }
+        else if (Application.systemLanguage == SystemLanguage.Japanese)
+        {
+            LoadDataPanel.GetComponentInChildren<Text>().text = "データを取得しました。\nアプリを再起動してください！";
+        }
+        else
+        {
+            LoadDataPanel.GetComponentInChildren<Text>().text = "Success!\nPlease restart game.";
+        }
+
         LoadDataPanel.GetComponentInChildren<Button>().onClick.AddListener(() =>
         {
             Application.Quit();

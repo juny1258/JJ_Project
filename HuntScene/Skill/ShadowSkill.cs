@@ -73,7 +73,14 @@ public class ShadowSkill : MonoBehaviour
             }
             else
             {
-                NotificationManager.Instance.SetNotification("사냥터에서만 사용할 수 있습니다.");
+                if (Application.systemLanguage == SystemLanguage.Korean)
+                {
+                    NotificationManager.Instance.SetNotification("사냥터에서만 사용할 수 있습니다.");   
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification("Only available on hunting grounds.");
+                }
             }
         }
     }

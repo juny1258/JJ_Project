@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Firebase;
-using Firebase.Database;
-using Firebase.Unity.Editor;
+﻿using Firebase.Database;
+using Firebase.Messaging;
 using GooglePlayGames;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    
     public Text GoldView;
     public Text RubyView;
 
@@ -35,20 +34,40 @@ public class UIManager : MonoBehaviour
     public GameObject BanPanel;
 
     public GameObject QuitPanel;
+    
+    public GameObject RestartPanel;
+    
+    public GameObject[] PetObject;
 
     private DatabaseReference userReference;
+    
+//    public void OnMessageReceived(object sender, MessageReceivedEventArgs e) {
+//        NotificationManager.Instance.SetNotification2("루비 200개 획득!!");
+//        DataController.Instance.ruby += 200;
+//    }
 
     private void Awake()
     {
         if (Social.localUser.authenticated)
         {
-            userReference = FirebaseManager.Instance.Reference.Child("FaustRank1");
+            userReference = FirebaseManager.Instance.Reference.Child("FaustRank2");
         }
     }
 
     // Use this for initialization
     void Start()
     {
+//        FirebaseMessaging.MessageReceived += OnMessageReceived;
+        
+        if (Application.systemLanguage == SystemLanguage.Japanese)
+        {
+            var textComponents = FindObjectsOfTypeAll(typeof(Text)) as Text[];
+            foreach (var textComponent in textComponents)
+            {
+                textComponent.font = Resources.Load<Font>("Font/Japan3");
+            }
+        }
+
         // 첫 실행 시 튜토리얼 진행
         if (PlayerPrefs.GetInt("FirstOpenGame", 0) == 0)
         {
@@ -63,7 +82,48 @@ public class UIManager : MonoBehaviour
             {
                 PlayerPrefs.SetFloat("Merchant", 1);
                 DataController.Instance.ruby += 2000;
-                NotificationManager.Instance.SetNotification2("루비 2,000개가 지급되었습니다.");
+                if (Application.systemLanguage == SystemLanguage.Korean)
+                {
+                    NotificationManager.Instance.SetNotification2("루비 2,000개가 지급되었습니다.");	
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification2("Get 2,000 Ruby!!");	
+                }
+            }
+        }
+        
+        if (PlayerPrefs.GetFloat("Merchant2", 0) == 0)
+        {
+            if (AndroidUtil.IsAppInstalled("com.pancol.LifeIsGood"))
+            {
+                PlayerPrefs.SetFloat("Merchant2", 1);
+                DataController.Instance.ruby += 1000;
+                if (Application.systemLanguage == SystemLanguage.Korean)
+                {
+                    NotificationManager.Instance.SetNotification2("루비 1,000개가 지급되었습니다.");	
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification2("Get 1,000 Ruby!!");	
+                }
+            }
+        }
+        
+        if (PlayerPrefs.GetFloat("Merchant3", 0) == 0)
+        {
+            if (AndroidUtil.IsAppInstalled("game.Tylenol.CTDT"))
+            {
+                PlayerPrefs.SetFloat("Merchant3", 1);
+                DataController.Instance.ruby += 1000;
+                if (Application.systemLanguage == SystemLanguage.Korean)
+                {
+                    NotificationManager.Instance.SetNotification2("루비 1,000개가 지급되었습니다.");	
+                }
+                else
+                {
+                    NotificationManager.Instance.SetNotification2("Get 1,000 Ruby!!");	
+                }
             }
         }
 
@@ -99,6 +159,19 @@ public class UIManager : MonoBehaviour
                     }
                 });   
         }
+
+        if (DataController.Instance.petIndex > -1)
+        {
+            PetObject[DataController.Instance.petIndex].SetActive(true);
+        }
+
+
+        InvokeRepeating("InitKeepStart", 3600, 3600);
+    }
+
+    private void InitKeepStart()
+    {
+        RestartPanel.SetActive(true);
     }
 
     private void OnDestroy()

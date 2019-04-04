@@ -17,15 +17,27 @@ public class UseAutoClick : MonoBehaviour
 
     private void OnEnable()
     {
-        InfoText.text = 180 + 30 * DataController.Instance.autoClickLevel + "초 동안 자동으로 공격합니다.";
+        if (Application.systemLanguage == SystemLanguage.Korean)
+        {
+            InfoText.text = 180 + 30 * DataController.Instance.autoClickLevel + "초 동안 자동으로 공격합니다.";
+        }
+        else if (Application.systemLanguage == SystemLanguage.Japanese)
+        {
+            InfoText.text = 180 + 30 * DataController.Instance.autoClickLevel + "秒間、自動的に攻撃します。";
+        }
+        else
+        {
+            InfoText.text = "Automatic attack for " + (180 + 30 * DataController.Instance.autoClickLevel) + "sec";
+        }
+
         if (index == 0)
         {
-            PotionCountText.text = DataController.Instance.autoClickPotion.ToString();   
+            PotionCountText.text = DataController.Instance.autoClickPotion.ToString();
         }
-        
+
         AutoExpSlider.value = DataController.Instance.autoClickIndex;
         IndexText.text = DataController.Instance.autoClickIndex + "/10";
-        
+
         EventManager.StartAutoClickEvent += Reward;
     }
 
@@ -33,7 +45,7 @@ public class UseAutoClick : MonoBehaviour
     {
         // 물약 사용하고 자동공격
         DataController.Instance.autoClickPotion--;
-        
+
         StartAutoClick();
     }
 

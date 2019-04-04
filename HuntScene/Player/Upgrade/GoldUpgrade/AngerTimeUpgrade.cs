@@ -48,13 +48,13 @@ public class AngerTimeUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHa
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("결계석이 부족합니다.");
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.LessGold);
                 }
             }
         }
         else
         {
-            NotificationManager.Instance.SetNotification("결계석의 레벨을 눌러 초월기를 사용하세요.");
+            NotificationManager.Instance.SetNotification(LocalManager.Instance.UseRebirth);
         }
     }
 
@@ -62,18 +62,18 @@ public class AngerTimeUpgrade : MonoBehaviour, IPointerUpHandler, IPointerDownHa
     {
         if (DataController.Instance.angerTimeLevel < 51)
         {
-            ProductName.text = "분노 지속시간[+" + (DataController.Instance.angerTimeLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.AngerTime + "[+" + (DataController.Instance.angerTimeLevel - 1) + "]";
             PriceText.text = DataController.Instance.FormatGoldTwo(DataController.Instance.angerTimeCost);
 
-            UpgradeInfo.text = Math.Round(DataController.Instance.angerTime, 1) + "초 -> " +
-                               Math.Round(DataController.Instance.angerTime + 0.1f, 1) + "초";   
+            UpgradeInfo.text = Math.Round(DataController.Instance.angerTime, 1) + "s -> " +
+                               Math.Round(DataController.Instance.angerTime + 0.1f, 1) + "s";   
         }
         else
         {
-            ProductName.text = "분노 지속시간[+" + (DataController.Instance.angerTimeLevel - 1) + "]";
+            ProductName.text = LocalManager.Instance.AngerTime + "[+" + (DataController.Instance.angerTimeLevel - 1) + "]";
             PriceText.text = "Max";
 
-            UpgradeInfo.text = Math.Round(DataController.Instance.angerTime, 1) + "초";
+            UpgradeInfo.text = Math.Round(DataController.Instance.angerTime, 1) + "s";
         }
     }
 

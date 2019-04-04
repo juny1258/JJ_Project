@@ -26,7 +26,7 @@ public class StartPakage : MonoBehaviour
         
 		PlayerPrefs.SetFloat("NoAds", 1);
         
-		NotificationManager.Instance.SetNotification2("스타터 패키지 구매완료!!");
+		NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetPackage[5]);
 		
 		DataController.Instance.inAppPurchase += 15000;
 		

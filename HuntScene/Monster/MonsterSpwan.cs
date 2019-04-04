@@ -24,6 +24,8 @@ public class MonsterSpwan : MonoBehaviour
 
     private bool isBossSpwan;
 
+    private bool isGameDone;
+
     private float startHP = 5000;
 
     public static float gold = 500000;
@@ -45,12 +47,12 @@ public class MonsterSpwan : MonoBehaviour
         DataController.Instance.nowStage = 1;
         initMonsters = 0;
         isMonsterActive = false;
+        isGameDone = false;
         StageText.gameObject.SetActive(false);
         StageText.gameObject.SetActive(true);
         StageText.text = "Stage " + DataController.Instance.nowStage;
 
         StartCoroutine(SpwanMonster());
-        EventManager.StartHuntEvent += StartHunt;
         EventManager.EndGameEvnet += EndGame;
         EventManager.RewardClickEvent += RewardClick;
     }
@@ -74,13 +76,14 @@ public class MonsterSpwan : MonoBehaviour
 
     private void Update()
     {
-        if (isMonsterActive && DataController.Instance.Monsters.childCount == 0 && initMonsters == 8)
+        if (isMonsterActive && DataController.Instance.Monsters.childCount == 0 && initMonsters == 8
+            && !isGameDone)
         {
             if (DataController.Instance.nowStage < 3)
             {
                 DataController.Instance.nowStage++;
                 initMonsters = 0;
-                EventManager.Instance.StartHunt();
+                StartHunt();
                 isMonsterActive = false;
             }
             else
@@ -89,7 +92,7 @@ public class MonsterSpwan : MonoBehaviour
                 {
                     DataController.Instance.nowStage++;
                     initMonsters = 0;
-                    EventManager.Instance.StartHunt();
+                    StartHunt();
                     isMonsterActive = false;
                 }
             }
@@ -202,7 +205,6 @@ public class MonsterSpwan : MonoBehaviour
             {
                 break;
             }
-
             yield return new WaitForSeconds(0.8f);
         }
 
@@ -233,9 +235,7 @@ public class MonsterSpwan : MonoBehaviour
 
     public void EndGame()
     {
-        EventManager.StartHuntEvent -= StartHunt;
-        EventManager.EndGameEvnet -= EndGame;
-
+        isGameDone = true;
         StopAllCoroutines();
 
         foreach (Transform monster in MonsterBox)
@@ -263,10 +263,9 @@ public class MonsterSpwan : MonoBehaviour
 
     private void OnDisable()
     {
-        StopAllCoroutines();
-        EventManager.StartHuntEvent -= StartHunt;
         EventManager.EndGameEvnet -= EndGame;
         EventManager.RewardClickEvent -= RewardClick;
+        StopAllCoroutines();
     }
 
     public void StartStage()

@@ -43,7 +43,8 @@ public class Coupon : MonoBehaviour
 
                 DataController.Instance.UpdateDamage();
                 DataController.Instance.UpdateCritical();
-
+                DataController.Instance.nowPlayerHP = DataController.Instance.GetPlayerHP();
+                
                 PlayerPrefs.SetFloat("Skin_100", 1);
 
                 DataController.Instance.skinIndex = 100;
@@ -374,6 +375,108 @@ public class Coupon : MonoBehaviour
                                 DataController.Instance.finalBossLevel = 0;
 
                                 NotificationManager.Instance.SetNotification2("데이터 안정화 완료");
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        else if (InputText.text.Contains("petStone_"))
+        {
+            couponReference.GetValueAsync().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    NotificationManager.Instance.SetNotification(task.Exception.Message);
+                }
+                else if (task.IsCompleted)
+                {
+                    // success
+                    var dataSnapshot = task.Result;
+
+                    foreach (var coupon in dataSnapshot.Children)
+                    {
+                        if (coupon.Key.Contains(InputText.text))
+                        {
+                            if (int.Parse(coupon.Value.ToString()) > 0)
+                            {
+                                DataController.Instance.petStone += int.Parse(coupon.Value.ToString());
+                                NotificationManager.Instance.SetNotification2(
+                                    "영혼석 " + int.Parse(coupon.Value.ToString()) + "개 획득!!");
+
+                                coupon.Reference.SetValueAsync(0);
+                            }
+                            else
+                            {
+                                NotificationManager.Instance.SetNotification("이미 사용한 쿠폰입니다.");
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        else if (InputText.text.Contains("challenge_"))
+        {
+            couponReference.GetValueAsync().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    NotificationManager.Instance.SetNotification(task.Exception.Message);
+                }
+                else if (task.IsCompleted)
+                {
+                    // success
+                    var dataSnapshot = task.Result;
+
+                    foreach (var coupon in dataSnapshot.Children)
+                    {
+                        if (coupon.Key.Contains(InputText.text))
+                        {
+                            if (int.Parse(coupon.Value.ToString()) > 0)
+                            {
+                                DataController.Instance.faustCount = 10;
+                                DataController.Instance.dungeonCount = 10;
+                                NotificationManager.Instance.SetNotification2("도전 횟수 초기화 완료!!");
+
+                                coupon.Reference.SetValueAsync(0);
+                            }
+                            else
+                            {
+                                NotificationManager.Instance.SetNotification("이미 사용한 쿠폰입니다.");
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        else if (InputText.text.Contains("spritstone_"))
+        {
+            couponReference.GetValueAsync().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    NotificationManager.Instance.SetNotification(task.Exception.Message);
+                }
+                else if (task.IsCompleted)
+                {
+                    // success
+                    var dataSnapshot = task.Result;
+
+                    foreach (var coupon in dataSnapshot.Children)
+                    {
+                        if (coupon.Key.Contains(InputText.text))
+                        {
+                            if (int.Parse(coupon.Value.ToString()) > 0)
+                            {
+                                DataController.Instance.petStone += int.Parse(coupon.Value.ToString());
+                                NotificationManager.Instance.SetNotification2(
+                                    "영혼석 " + int.Parse(coupon.Value.ToString()) + "개 획득!!");
+
+                                coupon.Reference.SetValueAsync(0);
+                            }
+                            else
+                            {
+                                NotificationManager.Instance.SetNotification("이미 사용한 쿠폰입니다.");
                             }
                         }
                     }

@@ -22,13 +22,18 @@ public class SkillObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.gameObject.CompareTag("Monster"))
         {
-            Instantiate(FireAnimation, new Vector3(transform.position.x + 0.5f, transform.position.y, 0),
-                Quaternion.identity);
+            if (PlayerPrefs.GetInt("IsEffect", 0) == 0)
+            {
+                Instantiate(FireAnimation, new Vector3(transform.position.x + 0.5f, transform.position.y, 0),
+                    Quaternion.identity);
+            }
             Destroy(gameObject);
         }
-        else if (other.gameObject.CompareTag("Wall"))
+        else 
+        if (other.gameObject.CompareTag("Wall"))
         {
             Destroy(gameObject);
         }

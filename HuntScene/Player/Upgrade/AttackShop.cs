@@ -26,7 +26,7 @@ public class AttackShop : MonoBehaviour
 
     private void OnEnable()
     {
-        DamageText.text = "공격력 + " + plusDamage[index] + "%";
+        DamageText.text = LocalManager.Instance.Damage + " + " + plusDamage[index] + "%";
 
         SelectPanel.SetActive(DataController.Instance.skillIndex == index);
 
@@ -35,7 +35,7 @@ public class AttackShop : MonoBehaviour
 
     private void Select()
     {
-        DamageText.text = "공격력 + " + plusDamage[index] + "%";
+        DamageText.text = LocalManager.Instance.Damage + " + " + plusDamage[index] + "%";
 
         SelectPanel.SetActive(DataController.Instance.skillIndex == index);
 

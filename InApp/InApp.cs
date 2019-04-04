@@ -11,33 +11,33 @@ public class InApp : MonoBehaviour
         {
             case 0:
                 DataController.Instance.ruby += 400;
-                NotificationManager.Instance.SetNotification2("루비 400개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetRuby[0]);
 
                 DataController.Instance.inAppPurchase += 1000;
                 break;
             case 1:
                 DataController.Instance.ruby += 2400;
-                NotificationManager.Instance.SetNotification2("루비 2,400개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetRuby[1]);
                 
                 DataController.Instance.inAppPurchase += 5000;
                 break;
             case 2:
                 DataController.Instance.ruby += 5000;
-                NotificationManager.Instance.SetNotification2("루비 5,000개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetRuby[2]);
                 
                 
                 DataController.Instance.inAppPurchase += 10000;
                 break;
             case 3:
                 DataController.Instance.ruby += 28000;
-                NotificationManager.Instance.SetNotification2("루비 28,000개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetRuby[3]);
                 
                 
                 DataController.Instance.inAppPurchase += 49000;
                 break;
             case 4:
                 DataController.Instance.ruby += 60000;
-                NotificationManager.Instance.SetNotification2("루비 60,000개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetRuby[4]);
                 
                 DataController.Instance.inAppPurchase += 99000;
                 break;
@@ -50,31 +50,31 @@ public class InApp : MonoBehaviour
         {
             case 0:
                 DataController.Instance.sapphire += 200;
-                NotificationManager.Instance.SetNotification2("사파이어 200개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetSapphire[0]);
                 
                 DataController.Instance.inAppPurchase += 1000;
                 break;
             case 1:
                 DataController.Instance.sapphire += 1200;
-                NotificationManager.Instance.SetNotification2("사파이어 1,200개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetSapphire[1]);
                 
                 DataController.Instance.inAppPurchase += 5000;
                 break;
             case 2:
                 DataController.Instance.sapphire += 2500;
-                NotificationManager.Instance.SetNotification2("사파이어 2,500개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetSapphire[2]);
                 
                 DataController.Instance.inAppPurchase += 10000;
                 break;
             case 3:
                 DataController.Instance.sapphire += 14000;
-                NotificationManager.Instance.SetNotification2("사파이어 14,000개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetSapphire[3]);
                 
                 DataController.Instance.inAppPurchase += 49000;
                 break;
             case 4:
                 DataController.Instance.sapphire += 30000;
-                NotificationManager.Instance.SetNotification2("사파이어 30,000개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetSapphire[4]);
                 
                 DataController.Instance.inAppPurchase += 99000;
                 break;
@@ -87,25 +87,25 @@ public class InApp : MonoBehaviour
         {
             case 0:
                 DataController.Instance.skipCoupon += 5;
-                NotificationManager.Instance.SetNotification2("소탕권 5개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetScroll[0]);
                 
                 DataController.Instance.inAppPurchase += 1000;
                 break;
             case 1:
                 DataController.Instance.skipCoupon += 30;
-                NotificationManager.Instance.SetNotification2("소탕권 30개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetScroll[1]);
                 
                 DataController.Instance.inAppPurchase += 5000;
                 break;
             case 2:
                 DataController.Instance.skipCoupon += 65;
-                NotificationManager.Instance.SetNotification2("소탕권 65개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetScroll[2]);
                 
                 DataController.Instance.inAppPurchase += 10000;
                 break;
             case 3:
                 DataController.Instance.skipCoupon += 350;
-                NotificationManager.Instance.SetNotification2("소탕권 350개 획득!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetScroll[3]);
                 
                 DataController.Instance.inAppPurchase += 49000;
                 break;
@@ -121,11 +121,11 @@ public class InApp : MonoBehaviour
                 {
                     DataController.Instance.ruby -= 800;
                     DataController.Instance.goldBuffPotion += 5;
-                    NotificationManager.Instance.SetNotification2("결계 무력화 5개 획득!!");    
+                    NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetPotion[0]);
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.LessRuby);
                 }
                 break;
             case 1:
@@ -133,11 +133,11 @@ public class InApp : MonoBehaviour
                 {
                     DataController.Instance.ruby -= 4000;
                     DataController.Instance.goldBuffPotion += 30;
-                    NotificationManager.Instance.SetNotification2("결계 무력화 30개 획득!!");
+                    NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetPotion[1]);
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.LessRuby);
                 }
                 break;
             case 2:
@@ -145,11 +145,11 @@ public class InApp : MonoBehaviour
                 {
                     DataController.Instance.ruby -= 800;
                     DataController.Instance.autoClickPotion += 5;
-                    NotificationManager.Instance.SetNotification2("정령의 가호 5개 획득!!");
+                    NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetPotion[2]);
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.LessRuby);
                 }
                 break;
             case 3:
@@ -157,11 +157,11 @@ public class InApp : MonoBehaviour
                 {
                     DataController.Instance.ruby -= 4000;
                     DataController.Instance.autoClickPotion += 30;
-                    NotificationManager.Instance.SetNotification2("정령의 가호 30개 획득!!");
+                    NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetPotion[3]);
                 }
                 else
                 {
-                    NotificationManager.Instance.SetNotification("루비가 부족합니다.");
+                    NotificationManager.Instance.SetNotification(LocalManager.Instance.LessRuby);
                 }
                 break;
         }
@@ -175,7 +175,7 @@ public class InApp : MonoBehaviour
                 DataController.Instance.ruby += 2000;
                 DataController.Instance.sapphire += 1000;
                 DataController.Instance.devilStone += 1000;
-                NotificationManager.Instance.SetNotification2("악마 패키지1 구매완료!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetPackage[0]);
                 
                 DataController.Instance.inAppPurchase += 10000;
                 break;
@@ -183,7 +183,7 @@ public class InApp : MonoBehaviour
                 DataController.Instance.ruby += 7000;
                 DataController.Instance.sapphire += 3500;
                 DataController.Instance.devilStone += 3500;
-                NotificationManager.Instance.SetNotification2("악마 패키지2 구매완료!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetPackage[1]);
                 
                 DataController.Instance.inAppPurchase += 30000;
                 break;
@@ -191,7 +191,7 @@ public class InApp : MonoBehaviour
                 DataController.Instance.ruby += 20000;
                 DataController.Instance.sapphire += 10000;
                 DataController.Instance.devilStone += 10000;
-                NotificationManager.Instance.SetNotification2("악마 패키지3 구매완료!!");
+                NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetPackage[2]);
                 
                 DataController.Instance.inAppPurchase += 80000;
                 break;
@@ -204,7 +204,7 @@ public class InApp : MonoBehaviour
         DataController.Instance.goldBuffPotion += 20;
         DataController.Instance.ruby += 800;
         
-        NotificationManager.Instance.SetNotification2("물약 패키지 구매완료!!");
+        NotificationManager.Instance.SetNotification2(LocalManager.Instance.GetPackage[3]);
         
         DataController.Instance.inAppPurchase += 6000;
     }
